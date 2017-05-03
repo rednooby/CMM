@@ -1,19 +1,15 @@
 from django.shortcuts import render, redirect
-from . import urls
-#from .forms import JoinForm
-from . models import join
+from django.contrib.auth.forms import UserCreationForm
 
 # Create your views here.
-def login(request):
-	return render(request, 'login/login.html')
 
-def join_new(request):
+def signup(request):
 	if request.method == 'POST':
-		form = JoinForm(request.POST)
-		if form.is_valid(): #is_valid()함수는 유효성 검사. 즉 참일경우는 유효성검사 통과
- 							#clean, cleaned는 유효성검사, 값변경 둘다 수행
- 			join = form.save()
-			return redirect('login/login.html')
+		form = UserCreationForm(request.POST)
+		if form.is_valid():
+			form.save()
+			return redirect('signup_form.html')
 	else:
-		form = JoinForm()
-	return render(request, 'login/join.html',{'form' : form})
+		form = UserCreationForm()
+
+	return render(request, 'accounts/signup_form.html',{'form' : form})

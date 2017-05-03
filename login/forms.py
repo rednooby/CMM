@@ -1,53 +1,49 @@
-
 from django import forms
-from . models import join
-from django.contrib.auth import (
-    authenticate, get_user_model, password_validation,
-)
 
-class JoinForm(forms.Form):
-	email = forms.EmailField(widget=forms.TextInput({
-		'class': 'form-control',
-		'placeholder': '이메일'
-		}))
-	error_messages = {
-    'password_mismatch': _("The two password fields didn't match."),
+class UserCreationForm(forms.ModelForm):
+    """
+    A form that creates a user, with no privileges, from the given username and
+    password.
+    """
+    error_messages = {
+        'password_mismatch': _("입력하신 두개의 암호가 일치하지 않습니다."),
     }
-	passwd1 = forms.CharField(widget=forms.PasswordInput({
-		'class': 'form-control',
-		'placeholder': '패스워드'
-		}))
-	passwd2 = forms.CharField(widget=forms.PasswordInput({
-		'class': 'form-control',
-		'placeholder': '패스워드확인'
-		}))
-	nick = forms.CharField(widget=forms.TextInput({
-		'class': 'form-control',
-		'placeholder': '닉네임'
-		}))
-	birth = forms.DateField(widget=forms.DateInput({
-		'class': 'form-control',
-		'placeholder': '생년월일'
-		}))
-'''
+    password1 = forms.CharField(
+        label=_("Password"),
+        strip=False,
+        widget=forms.PasswordInput,
+    )
+    password2 = forms.CharField(
+        label=_("Password confirmation"),
+        widget=forms.PasswordInput,
+        strip=False,
+        help_text=_("이전 비밀번호와 동일하게 입력해 주세요"),
+    )
+
+    class Meta:
+        model = User
+        fields = ("username",)
+        field_classes = {'username': UsernameField}
+
+    def __init__(self, *args, **kwargs):
+        super(UserCreationForm, self).__init__(*args, **kwargs)
+        self.fields[self._meta.model.USERNAME_FIELD].widget.attrs.update({'autofocus': ''})
+
     def clean_password2(self):
-        passwd1 = self.cleaned_data.get("passwd1")
-        passwd2 = self.cleaned_data.get("passwd2")
-        if passwd1 and passwd2 and passwd1 != passwd2:
+        password1 = self.cleaned_data.get("password1")
+        password2 = self.cleaned_data.get("password2")
+        if password1 and password2 and password1 != password2:
             raise forms.ValidationError(
                 self.error_messages['password_mismatch'],
                 code='password_mismatch',
             )
-        self.instance.email = self.cleaned_data.get('email')
-        password_validation.validate_password(self.cleaned_data.get('passwd2'), self.instance)
-        return passwd2
-'''
-    
+        self.instance.username = self.cleaned_data.get('username')
+        password_validation.validate_password(self.cleaned_data.get('password2'), self.instance)
+        return password2
 
-
-	def save(self, commit=True):
-		Join = join(**self.cleaned_data)
-		if commit:
-			Join.save()
-		return Join
-		'''
+    def save(self, commit=True):
+        user = super(UserCreationForm, self).save(commit=False)
+        user.set_password(self.cleaned_data["password1"])
+        if commit:
+            user.save()
+        return user
