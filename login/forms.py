@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
-class Member(UserCreationForm): #모델폼으로 불러옴
+class CreateMember(UserCreationForm): #모델폼으로 사용할것임
     email = forms.EmailField(label = "Email")
     birth = forms.IntegerField(label = "Birthday")
 
