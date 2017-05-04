@@ -5,13 +5,13 @@ from django.contrib.auth.forms import UserCreationForm
 def login(request):
 	return render(request, 'login/login.html')
 
-def signup(request):
+def join(request):
 	if request.method == 'POST':
 		form = UserCreationForm(request.POST)
 		if form.is_valid():
 			form.save()
-			return redirect('signup_form.html')
+			return redirect('join.html')
 	else:
 		form = UserCreationForm()
 
-	return render(request, 'login/signup_form.html',{'form' : form})
+	return render(request, 'login/join.html',{'form' : form})
