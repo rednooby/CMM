@@ -22,7 +22,31 @@
   </nav>
 
 <!--바디 본문-->
-  <div class="py-5  section">
+  <div class="py-5 section text-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1 class="text-primary">회 원 정 보</h1>
+          <p class="lead">
+          <center>
+            <table>{{ form.as_table }}</table>
+          </center>
+          </p>
+          <button type="submit" class="btn btn-primary">완료</button>
+          <button type="submit" class="btn btn-primary">취소</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+</body>
+
+</html>
+
+<!--
+그전 html 형식
+<div class="py-5  section">
     <div class="container">
       <div class="row">
         <div class="col-md-4">
@@ -45,6 +69,4 @@
       </div>
     </div>
   </div>
-</body>
-
-</html>
+-->
