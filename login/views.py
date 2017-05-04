@@ -9,7 +9,7 @@ def login(request):
 def join(request):
 	if request.method == 'POST':
 		form = UserCreationForm(request.POST)
-		if form.is_valid():
+		if form.is_valid(): #유효성 검사 수행
 			form.save()
 			return redirect(login)
 	else:
