@@ -2,10 +2,41 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
-class UserCreationForm(forms.ModelForm): #모델폼으로 불러옴
+class Member(UserCreationForm): #모델폼으로 불러옴
+    email = forms.EmailField(label = "Email")
+    birth = forms.IntegerField(label = "Birthday")
+
+    class Meta:
+        model = User
+        fields = ("username", "email", "birth")
+
+    def __init__(self, *args, **kwargs):
+        super(UserCreationForm, self).__init__(*args, **kwargs)
+
+        for field in self.fields:
+            self.fields[field].help_text=None
+            self.fields[field].label=''
+
+        self.fields['username'].widget.attrs['placeholder'] = "닉네임"
+        self.fields['username'].widget.attrs['class'] = "form-control"
+        self.fields['password1'].widget.attrs['placeholder'] = "비밀번호"
+        self.fields['password1'].widget.attrs['class'] = "form-control"
+        self.fields['password2'].widget.attrs['placeholder'] = "비밀번호 확인"
+        self.fields['password2'].widget.attrs['class'] = "form-control"
+        self.fields['email'].widget.attrs['placeholder'] = "exampl@abc.com"
+        self.fields['email'].widget.attrs['id'] = "email"
+        self.fields['email'].widget.attrs['class'] = "form-control"
+        self.fields['birth'].widget.attrs['placeholder'] = "20170101"
+        self.fields['birth'].widget.attrs['class'] = "form-control"
 
 
-
+    ###저장###
+    def save(self, commit=True):
+        user = super(UserCreationForm, self).save(commit=False)
+        user.set_password(self.cleaned_data["password1"])#set_password를 통해 입력을 받는다
+        if commit:
+            user.save()
+        return user
 
 
 '''
