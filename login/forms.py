@@ -4,8 +4,8 @@ from django.contrib.auth.forms import UserCreationForm
 
 class CreateMember(UserCreationForm): #모델폼으로 사용할것임
     email = forms.EmailField(label = "Email")
-    birth = forms.IntegerField(label = "Birthday")
-
+    birth = forms.DateField(input_formats=['%d-%m-%Y', '%d/%m/%Y'])
+    #birth = forms.DateField(input_formats=['%d-%m-%Y', '%d/%m/%Y'])
     class Meta:
         model = User
         fields = ("username", "email", "birth")
