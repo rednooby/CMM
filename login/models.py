@@ -4,24 +4,26 @@ from django.contrib.auth.models import (
 )
  
 class MyUserManager(BaseUserManager):
-    def create_user(self, email, nickname, password=None):
+    def create_user(self, email, nickname, birth, password=None):
         if not email:
             raise ValueError('Users must have an email address')
  
         user = self.model(
             email=self.normalize_email(email),
             nickname=nickname,
+            birth=birth,
         )
  
         user.set_password(password)
         user.save(using=self._db)
         return user
  
-    def create_superuser(self, email, nickname, password):
+    def create_superuser(self, email, nickname,birth, password):
         user = self.create_user(
             email=email,
             password=password,
             nickname=nickname,
+            birth=birth,
         )
         user.is_admin = True
         user.save(using=self._db)
@@ -40,13 +42,20 @@ class MyUser(AbstractBaseUser):
         unique=False,
         default='unknown'
     )
+    birth = models.CharField(
+        verbose_name='birth',
+        max_length=50,
+        blank=False,
+        unique=False,
+        default='unknown'
+    )
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
  
     objects = MyUserManager()
  
     USERNAME_FIELD = 'email'    # When username is required, You must use this field!
-    REQUIRED_FIELDS = ['nickname']
+    REQUIRED_FIELDS = ['nickname','birth']
  
     def get_full_name(self):
         # The user is identified by their email address
