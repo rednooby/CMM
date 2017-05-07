@@ -40,14 +40,14 @@ class MyUser(AbstractBaseUser):
         max_length=20,
         blank=False,
         unique=False,
-        default='unknown'
+        default=''
     )
     birth = models.DateField(
         verbose_name='birth',
         max_length=50,
         blank=False,
         unique=False,
-        default='unknown'
+        default=''
     )
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)

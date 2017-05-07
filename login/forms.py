@@ -1,7 +1,7 @@
 from django import forms
 from .models import MyUser
 
-class UserCreationForm(forms.ModelForm):
+class UserCreationForm(forms.ModelForm): #모델폼 사용
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
@@ -10,19 +10,45 @@ class UserCreationForm(forms.ModelForm):
     class Meta:
         model = MyUser
         fields = ('email', 'nickname','birth')
- 
+
+    def __init__(self, *args, **kwargs):
+        super(UserCreationForm, self).__init__(*args, **kwargs)
+
+        for field in self.fields:
+            self.fields[field].help_text=None
+            self.fields[field].label=''
+
+        self.fields['nickname'].widget.attrs['placeholder'] = "닉네임"
+        self.fields['nickname'].widget.attrs['class'] = "form-control"
+        self.fields['password1'].widget.attrs['placeholder'] = "비밀번호"
+        self.fields['password1'].widget.attrs['class'] = "form-control"
+        self.fields['password2'].widget.attrs['placeholder'] = "비밀번호 확인"
+        self.fields['password2'].widget.attrs['class'] = "form-control"
+        self.fields['email'].widget.attrs['placeholder'] = "exampl@abc.com"
+        self.fields['email'].widget.attrs['class'] = "form-control"
+        self.fields['birth'].widget.attrs['placeholder'] = "2017-01-01"
+        self.fields['birth'].widget.attrs['class'] = "form-control"
+
+    
+    #패스워드 일치 유효성 검사
     def clean_password2(self):
         # Check that the two password entries match
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
         if password1 and password2 and password1 != password2:
-            raise forms.ValidationError("Passwords don't match")
+            raise forms.ValidationError("입력하신 패스워드가 맞지 않습니다.")
+
+        #단순한 패스워드 인지 유효성 검사
+        #password_validation.validate_password(self.cleaned_data.get('password2'), self.instance)
+        
         return password2
+
+
  
     def save(self, commit=True):
         # Save the provided password in hashed format
         user = super(UserCreationForm, self).save(commit=False)
-        user.set_password(self.cleaned_data["password1"])
+        user.set_password(self.cleaned_data["password1"])#패스워드는 항상 set_password로 입력받음
         if commit:
             user.save()
         return user
