@@ -32,17 +32,17 @@ class MyUserManager(BaseUserManager):
 class MyUser(AbstractBaseUser):
     email = models.EmailField(
         verbose_name='email',
-        max_length=255,
+        max_length=50,
         unique=True,
     )
     nickname = models.CharField(
         verbose_name='nickname',
-        max_length=50,
+        max_length=20,
         blank=False,
         unique=False,
         default='unknown'
     )
-    birth = models.CharField(
+    birth = models.DateField(
         verbose_name='birth',
         max_length=50,
         blank=False,
