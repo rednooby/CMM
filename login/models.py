@@ -40,14 +40,14 @@ class MyUser(AbstractBaseUser):
         max_length=20,
         blank=False,
         unique=False,
-        default=''
+        help_text='한글가능',
     )
     birth = models.DateField(
         verbose_name='birth',
         max_length=50,
         blank=False,
         unique=False,
-        default=''
+        help_text='반드시 양식을 지켜주세요',
     )
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)

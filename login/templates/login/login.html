@@ -32,9 +32,22 @@
         </div>
         <div class="col-md-4">
           <h1 class="pi-item">LOGIN</h1>
-          <form>
-            <fieldset class="form-group"> <label for="exampleInputEmail1">ID</label> <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Your ID"> </fieldset>
-            <fieldset class="form-group"> <label for="exampleInputEmail1">Password</label> <input type="pw" class="form-control" id="exampleInputEmail1" placeholder="Your Password"> </fieldset> <button type="submit" class="btn btn-primary">Sign up</button> <button type="submit" class="btn btn-primary">Sign in</button>
+          <form action="" method="post">
+          {% csrf_token %}
+            <table>
+              {{form.as_table}}
+            </table>
+            <!--
+            <fieldset class="form-group"> <label for="exampleInputEmail1">ID</label> 
+            {{ form.email }}
+            </fieldset>
+
+            <fieldset class="form-group"> <label for="exampleInputEmail1">Password</label> 
+            {{ form.password }}
+            </fieldset>
+            -->
+            <button type="submit" class="btn btn-primary">Sign up</button> 
+            <button type="submit" class="btn btn-primary">Sign in</button>
           </form>
         </div>
       </div>
