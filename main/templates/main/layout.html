@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<head>
+<title>{% block title %}{% endblock %}</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="https://pingendo.com/assets/bootstrap/bootstrap-4.0.0-alpha.6.css" type="text/css"> </head>
+
+<body>
+  <nav class="navbar navbar-expand-md navbar-light bg-faded">
+    <div class="container"> 
+      <!--메뉴버튼-->
+      <i class="d-block fa fa-list fa-2x bg-faded"></i> 
+      <!--버튼끝-->
+
+  <!--돈입력버튼-->
+  <div class="container"> 
+    <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+      <div class="collapse navbar-collapse">
+        
+        <ul class="navbar-nav mr-auto">
+          <!--입력 폼-->
+          <form class="form-inline my-2 my-lg-0">
+            <!--달력-->
+            <li class="nav-item">
+              <a class="nav-link" href="#"><input type="date" class="form-control"></a>
+            </li>
+            <!--달력끝-->
+
+            <!--금액 박스-->
+            <li class="nav-item"> 
+              <input type="text" class="form-control" placeholder="원">
+            </li>
+            <!--금액박스 끝-->
+
+            <!--라디오버튼-->
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <div class="radio"> 
+                    <label> 
+                      <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+                      현금
+                    </label> 
+                  </div> 
+                  <div class="radio"> 
+                    <label> 
+                      <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+                      카드
+                    </label> 
+                  </div> 
+                </a>
+              </li>
+            <!--라디오버튼 끝-->
+
+            <!--드롭다운메뉴-->
+            <div class="btn-group">
+                <button class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown"> Dropdown </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="#">Action</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#">Separated link</a>
+                </div>
+            </div>
+            <!--드롭다운메뉴 끝-->
+
+            <!--수정버튼-->
+            <a class="nav-link" href="#">
+              <i class="d-block mx-auto fa fa-pencil-square fa-3x"></i>
+            </a>
+            <!--수정버튼 끝-->
+
+            <li class="nav-item">
+              <a class="nav-link" href="#"> 
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Save</button>
+              </a>
+            </li>
+          </form>
+          <!--입력폼 끝-->
+        </ul>
+
+        <form class="form-inline my-2 my-lg-0">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Logout</button> 
+        </form>
+      </div>
+    </div>
+  </div>
+  <!--돈입력버튼 끝-->
+  </nav>
+  <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+  <script src="https://pingendo.com/assets/bootstrap/bootstrap-4.0.0-alpha.6.min.js"></script>
+  {% block content %} {% endblock %}
+</body>
+
+</html>
