@@ -28,7 +28,11 @@ class MyUserManager(BaseUserManager):
         user.is_admin = True
         user.save(using=self._db)
         return user
- 
+
+#원래 User모델은 AbstractUser라는 애를 상속받고 있음
+#AbstractUser이 더 큰 부모이기 떄문에 그녀석을 가져다가 쓸것임
+#AbstractUser에 대한 정보는 아래 페이지
+#https://github.com/django/django/blob/1.10.5/django/contrib/auth/models.py#L300
 class MyUser(AbstractBaseUser):
     email = models.EmailField(
         verbose_name='email',
@@ -83,3 +87,11 @@ class MyUser(AbstractBaseUser):
         "Is the user a member of staff?"
         # Simplest possible answer: All admins are staff
         return self.is_admin
+
+##로그아웃 유저를 표현할 파이썬 클래스 (NOT 모델)
+class AnonymouseUser:
+    id = None
+    pk = None
+    nickname = ''
+    is_staff = False
+    birth = ''

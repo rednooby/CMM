@@ -48,7 +48,7 @@ class UserCreationForm(forms.ModelForm): #모델폼 사용
     def save(self, commit=True):
         # Save the provided password in hashed format
         user = super(UserCreationForm, self).save(commit=False)
-        user.set_password(self.cleaned_data["password1"])#패스워드는 항상 set_password로 입력받음
+        user.set_password(self.cleaned_data["password1"])#패스워드는 항상 set_password로 입력받음(그래야 암호화를 해서 넘겨줌)
         if commit:
             user.save()
         return user

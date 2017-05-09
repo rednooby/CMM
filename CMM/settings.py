@@ -115,27 +115,42 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
 
-TEMPLATE_CONTEXT_PROCESSORS = (    "django.contrib.auth.context_processors.auth",    "django.core.context_processors.debug",    "django.core.context_processors.i18n",    "django.core.context_processors.media",    "django.core.context_processors.static",    "django.core.context_processors.tz",    "django.contrib.messages.context_processors.messages",    'django.core.context_processors.request',)
+#여기있는 값들을 템플릿으로 전달한다. 일일히 뷰를 왔다가는것 보다는 효율적임
+TEMPLATE_CONTEXT_PROCESSORS = (    
+    #https://github.com/django/django/blob/1.10.5/django/contrib/auth/context_processors.py#L49
+    "django.contrib.auth.context_processors.auth",     
+
+    "django.core.context_processors.debug",    
+    "django.core.context_processors.i18n",    
+    "django.core.context_processors.media",    
+    "django.core.context_processors.static",  
+    "django.core.context_processors.tz",    
+    "django.contrib.messages.context_processors.messages",    
+    'django.core.context_processors.request',
+    )
+
 
 #기본 로그인 페이지 URL을 지정
-#login_required 장식자 등에 의해서 사용
-LOGIN_URL = '/login/login/'
+#login_required 장식자 등에 의해서 사용 (views에 정의할것이고 로그아웃으면 아래 주소로 자동 이동)
+LOGIN_URL = '/login/login/' #로그인이 구현되어있는 경로 설정
 
-#로그인 완료 후에 next 인자가 지정되면 해당 URL로 페이지 이동
+'''
+#로그인 완료 후에 next 인자가 지정되면 해당 URL로 페이지 이동하지만
 #next 인자가 없으면 여기 URL로 이동
 LOGIN_REDIRECT_URL = '/login/join/'
 
+
 #로그아웃 완료 후에
-# - next_page 인자가 지정되면 next_page URL 로 페이지 이동
-# - next_page 인자가 없으면 LOGOUT_REDIRECT_URL이 지정되었을 경우 해당 URL로 이동
-# - next_page 인자가 지정되지 않고 LOGOUT_REDIRECT_URL이 None일 경우
+# - next_page 인자가 지정되면 next_page URL 로 페이지 이동 (GET인자를 지칭)
+# - next_page 인자가 없으면 LOGOUT_REDIRECT_URL이 지정되었을 경우 해당 URL로 이동 
+# - next_page 인자가 지정되지 않고 LOGOUT_REDIRECT_URL이 None일 경우(즉 둘다 아닐때)
 #   redirect를 수행하지 않고 'logon/logout.html' 템플릿을 렌더링
 LOGOUT_REDIRECT_URL = None
+'''
 
 #인증에 사용할 커스텀 User 모델 지정. '앱이름.모델명'
-AUTH_USER_MODEL = 'loging.MyUser'
+AUTH_USER_MODEL = 'login.MyUser'
