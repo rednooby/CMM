@@ -138,10 +138,10 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 #login_required 장식자 등에 의해서 사용 (views에 정의할것이고 로그아웃으면 아래 주소로 자동 이동)
 LOGIN_URL = '/login/login/' #로그인이 구현되어있는 경로 설정
 
-'''
+
 #로그인 완료 후에 next 인자가 지정되면 해당 URL로 페이지 이동하지만
 #next 인자가 없으면 여기 URL로 이동
-LOGIN_REDIRECT_URL = '/login/join/'
+LOGIN_REDIRECT_URL = '/join/'
 
 
 #로그아웃 완료 후에
@@ -150,7 +150,7 @@ LOGIN_REDIRECT_URL = '/login/join/'
 # - next_page 인자가 지정되지 않고 LOGOUT_REDIRECT_URL이 None일 경우(즉 둘다 아닐때)
 #   redirect를 수행하지 않고 'logon/logout.html' 템플릿을 렌더링
 LOGOUT_REDIRECT_URL = None
-'''
+
 
 #인증에 사용할 커스텀 User 모델 지정. '앱이름.모델명'
 AUTH_USER_MODEL = 'login.MyUser'
