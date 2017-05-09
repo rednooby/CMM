@@ -142,7 +142,7 @@ LOGIN_URL = '/login/login/' #로그인이 구현되어있는 경로 설정
 
 #로그인 완료 후에 next 인자가 지정되면 해당 URL로 페이지 이동하지만
 #next 인자가 없으면 여기 URL로 이동
-LOGIN_REDIRECT_URL = '/login/join/'
+LOGIN_REDIRECT_URL = '/'
 
 
 #로그아웃 완료 후에
