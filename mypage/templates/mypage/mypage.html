@@ -4,5 +4,41 @@
 {% endblock %}
 {% block content %}
 
-6
+  <div class="py-5  section">
+     <div class="container">
+       <div class="row">
+       <!--Left-->
+         <div class="col-md-6">
+           <h1 class="text-primary"><center>회원정보</center></h1>
+           <p class="lead">
+             <div class="form-group">
+               <label>이메일</label>
+               {{ login.MyUser.email }}
+             </div>
+             <div class="form-group">
+               <label>비밀번호</label>
+               <input type="password" class="form-control" placeholder="비밀번호">
+             </div>
+             <div class="form-group">
+               <label>비밀번호 확인</label>
+               <input type="password" class="form-control" placeholder="비밀번호 확인">
+             </div>
+             <div class="form-group">
+               <label>생년월일</label>
+               {{ MyUser.birth }}
+             </div>
+           </p>
+         </div>
+ 
+         <!--Right-->
+         <div class="col-md-6">
+           <h1 class="text-primary"><center>계좌정보</center></h1>
+           <p class="lead">
+             
+           </p>
+         </div>
+       </div>
+     </div>
+   </div>
+
 {% endblock %}
