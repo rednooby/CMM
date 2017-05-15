@@ -18,3 +18,6 @@ def join(request):
 		form = UserCreationForm()
 
 	return render(request, 'login/join.html',{'form' : form})
+
+def managment(request):
+	return render(request, 'login/mypage.html') 
