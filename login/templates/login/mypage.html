@@ -7,7 +7,56 @@
   <div class="py-5  section">
      <div class="container">
        <div class="row">
-       <!--Left-->
+         <!--Left-->
+         <div class="col-md-6" align="center">
+           <h1 class="text-primary"><center>회원정보</center></h1>
+           <p class="lead">
+             <table>
+             <tr>
+               <th>이메일</th>
+               <td>{{ user.email }}</td>
+             </tr>
+             <tr>
+               <th>생년월일</th>
+               <td>{{ user.birth }}</td>
+             </tr>
+             <tr>
+               <th>닉네임</th>
+               <td>{{ user.nickname }}</td>
+             </tr>
+             </table>
+           </p>
+           <button class="btn btn-outline-info my-2 my-sm-0" type="submit">회원정보 수정</button>
+           <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">회원탈퇴</button>
+         </div><!--End of Left-->
+ 
+         <!--Right-->
+         <div class="col-md-6" align="Left">
+           <h1 class="text-primary"><center>계좌정보</center></h1>
+           <p class=""></p>
+          <p class=""><i class="d-block mx-auto fa fa-2x fa-plus" onclick="add()"></i></p>
+          <div id="sortWrap">
+            <div data-order="0" id="as" style="display:none">
+              <input type="text" placeholder="은행명을 입력하세요">
+              <input type="text" placeholder="예금주를 입력하세요">
+              <input type="text" placeholder="계좌번호를 입력하세요">
+              <input type="text" placeholder="계좌정보를 입력하세요">
+              <i class="d-block mx-auto fa fa-2x fa-times" onclick="remove(this)"></i>
+              <p>
+          </div>
+         </div>
+       </div><!--end of Right-->
+
+     </div>
+   </div>
+
+{% endblock %}
+
+<!--
+  <div class="py-5  section">
+     <div class="container">
+       <div class="row">
+
          <div class="col-md-6">
            <h1 class="text-primary"><center>회원정보</center></h1>
            <p class="lead">
@@ -30,7 +79,7 @@
            </p>
          </div>
  
-         <!--Right-->
+
          <div class="col-md-6">
            <h1 class="text-primary"><center>계좌정보</center></h1>
            <p class="lead">
@@ -40,5 +89,4 @@
        </div>
      </div>
    </div>
-
-{% endblock %}
+-->

@@ -5,6 +5,52 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
   <link rel="stylesheet" href="https://pingendo.com/assets/bootstrap/bootstrap-4.0.0-alpha.6.css" type="text/css"> </head>
+  <!--계좌정보 사용 헤드 선언-->
+  <script type="text/javascript">
+    var count = 1;
+    function add(){
+        if (count >= 0){
+          var div = document.createElement('div');
+          div.innerHTML = document.getElementById('as').innerHTML;
+          document.getElementById('sortWrap').appendChild(div);
+                            
+        }else{
+          count = count -1; 
+  
+        }
+        count = count +1; 
+  
+    }
+    
+    function remove(obj){
+    
+    document.getElementById('sortWrap').removeChild(obj.parentNode);
+    
+    }
+  </script>
+  <script type="text/javascript">
+    var count = 1;
+    function addimg(){
+        if (count >= 0){
+          var div = document.createElement('div');
+          div.innerHTML = document.getElementById('az').innerHTML;
+          document.getElementById('sp').appendChild(div);
+                            
+        }else{
+          count = count -1; 
+  
+        }
+        count = count +1; 
+  
+    }
+    
+    function removeimg(obj){
+    
+    document.getElementById('sp').removeChild(obj.parentNode);
+    
+    }
+  </script>
+  <!--계좌정보 사용 헤드 선언 끝-->
 
 <body>
   <nav class="navbar navbar-expand-md navbar-light bg-faded">
