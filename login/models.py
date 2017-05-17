@@ -43,7 +43,7 @@ class MyUser(AbstractBaseUser):
         verbose_name='nickname',
         max_length=20,
         blank=False,
-        unique=False,
+        unique=True,
         help_text='한글가능',
     )
     birth = models.DateField(

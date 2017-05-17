@@ -53,6 +53,13 @@ class UserCreationForm(forms.ModelForm): #모델폼 사용
             user.save()
         return user
 
+
+
+
+
+
+
+
 '''
 ###20170504_Backup code before update_Change of 'def __init__'###
 class UserCreationForm(forms.ModelForm): #모델폼으로 불러옴
