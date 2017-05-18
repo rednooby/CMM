@@ -3,7 +3,8 @@
 	Edit Profile
 {% endblock %}
 {% block content %}
-
+<form action="" method="post">
+  {% csrf_token %}
   <div class="py-5  section">
      <div class="container">
        <div class="row">
@@ -14,19 +15,48 @@
              <table>
              <tr>
                <th>이메일</th>
-               <td>{{ user.email }}</td>
+               <td><label for="inputEmail3" class="col-sm-2 control-label">{{ user.email }}</label></td>
              </tr>
-             <tr>
                <th>생년월일</th>
-               <td>{{ user.birth }}</td>
+               <td><input type="text" class="form-control" value="{{ user.birth }}"></td>
              </tr>
              <tr>
                <th>닉네임</th>
-               <td>{{ user.nickname }}</td>
+               <td><input type="text" class="form-control" value="{{ user.nickname }}"></td>
              </tr>
              </table>
+             {% for error in form.non_field_errors %}
+            <div class="alert alert-danger">
+                {{ error }}
+            </div>
+          {% endfor %}
+          <!--필드 출력할 반복문-->
+          {% for field in form.visible_fields %}
+            <div class="form-group">
+              <!--필드들의 라벨 출력-->
+              {{ field.label_tag }} 
+
+              <div class="col-sm-10">
+                <!--필드들 출력-->
+                {{ field }}
+                <!--help_text가 있을경우에만 출력하자-->
+                {% if field.help_text %}
+                  <p class="help-block">{{ field.help_text }}</p>
+                {% endif %}
+
+                <!--필드자체 에러 메시지 출력-->
+                {% for error in field.errors %}
+                  <div class="alert alert-danger">
+                    {{ error }}
+                  </div>
+                {% endfor %}
+
+              </div>
+            </div> 
+          {% endfor %}
            </p>
-           <button class="btn btn-outline-info my-2 my-sm-0" onclick="EditProfileLink()">회원정보 수정</button>
+
+           <button class="btn btn-outline-info my-2 my-sm-0">회원정보 수정 완료</button>
            <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">회원탈퇴</button>
          </div><!--End of Left-->
  
@@ -49,9 +79,12 @@
 
      </div>
    </div>
-
+</form>
 {% endblock %}
 
+<!-- 버튼 링크 쓰고싶을때 쓰기
+<button class="btn btn-outline-info my-2 my-sm-0" onclick="EditProfileLink()">회원정보 수정 완료</button>
+-->
 <!--
   <div class="py-5  section">
      <div class="container">

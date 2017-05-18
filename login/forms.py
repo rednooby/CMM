@@ -1,6 +1,7 @@
 from django import forms
 from .models import MyUser
 
+
 class UserCreationForm(forms.ModelForm): #모델폼 사용
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
@@ -53,15 +54,15 @@ class UserCreationForm(forms.ModelForm): #모델폼 사용
             user.save()
         return user
 
-##패스워드 변경 폼##
 '''
-class PasswordChangeForm(SetPasswordForm):
+##패스워드 변경 폼##
+class PWChange(PasswordChangeForm):
     """
     A form that lets a user change their password by entering their old
     password.
     """
     error_messages = dict(SetPasswordForm.error_messages, **{
-        'password_incorrect': _("Your old password was entered incorrectly. Please enter it again."),
+        'password_incorrect': ("Your old password was entered incorrectly. Please enter it again."),
     })
     old_password = forms.CharField(
         label=_("Old password"),
