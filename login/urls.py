@@ -14,6 +14,6 @@ urlpatterns = [
     #에 def login을 보면 기본 request받고 기본 디렉토리가 내가 설정한 것과 다르기 때문에 kwargs를 사용해 임의 지정 함
     url(r'^$', auth_views.login, name='login', 
     	kwargs={'template_name': 'login/login.html'}),
-    #url(r'^update/', auth_views.password_change, name='password_change_done',
-    #	kwargs={'template_name': 'login/update.html'}),
+    url(r'^update/', auth_views.password_change, name='password_change_done',
+    	kwargs={'template_name': 'login/update.html'}),
 ]

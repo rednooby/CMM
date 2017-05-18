@@ -1,5 +1,6 @@
 from django import forms
 from .models import MyUser
+from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
 
 class UserCreationForm(forms.ModelForm): #모델폼 사용
@@ -54,36 +55,22 @@ class UserCreationForm(forms.ModelForm): #모델폼 사용
             user.save()
         return user
 
-'''
-##패스워드 변경 폼##
-class PWChange(PasswordChangeForm):
+class UserChangeForm(forms.ModelForm):
+    """A form for updating users. Includes all the fields on
+    the user, but replaces the password field with admin's
+    password hash display field.
     """
-    A form that lets a user change their password by entering their old
-    password.
-    """
-    error_messages = dict(SetPasswordForm.error_messages, **{
-        'password_incorrect': ("Your old password was entered incorrectly. Please enter it again."),
-    })
-    old_password = forms.CharField(
-        label=_("Old password"),
-        strip=False,
-        widget=forms.PasswordInput(attrs={'autofocus': ''}),
-    )
-
-    field_order = ['old_password', 'new_password1', 'new_password2']
-
-    def clean_old_password(self):
-        """
-        Validates that the old_password field is correct.
-        """
-        old_password = self.cleaned_data["old_password"]
-        if not self.user.check_password(old_password):
-            raise forms.ValidationError(
-                self.error_messages['password_incorrect'],
-                code='password_incorrect',
-            )
-        return old_password
-'''
+    password = ReadOnlyPasswordHashField()
+ 
+    class Meta:
+        model = MyUser
+        fields = ('email', 'password', 'nickname','birth', 'is_active', 'is_admin')
+ 
+    def clean_password(self):
+        # Regardless of what the user provides, return the initial value.
+        # This is done here, rather than on the field, because the
+        # field does not have access to the initial value
+        return self.initial["password"]
 
 
 
