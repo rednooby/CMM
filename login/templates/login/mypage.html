@@ -1,6 +1,6 @@
 {% extends "main/layout.html" %}
 {% block title %}
-	Edit Profile
+	Profile
 {% endblock %}
 
 {% block content %}
@@ -27,12 +27,9 @@
              </tr>
              </table>
            </p>
-
-           <button class="btn btn-outline-info my-2 my-sm-0">회원정보 수정</button>
-           <!--<button class="btn btn-outline-info my-2 my-sm-0" type="button" onclick="EditProfileLink()">패스워드 변경</button>-->
-           
-           <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#myModal" data-backdrop="false">비번변경</button>
-           <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">회원탈퇴</button>
+           <button class="btn btn-outline-info my-2 my-sm-0" type="button">회원정보 수정</button>
+           <button class="btn btn-outline-info my-2 my-sm-0" data-toggle="modal" data-target="#myModal" data-backdrop="false" type="button">비번변경</button>           
+           <button class="btn btn-outline-danger my-2 my-sm-0" type="button">회원탈퇴</button>
          </div><!--End of Left-->
  
          <!--Right-->
@@ -54,7 +51,6 @@
      </div>
    </div>
 </form>
-
 <!-- Modal -->
 <div class="modal fade" id="myModal" role="dialog" data-backdrop="false">
   <div class="modal-dialog">

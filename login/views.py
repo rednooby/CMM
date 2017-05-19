@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import UserCreationForm
+from .forms import UserCreationForm, UserChangeForm
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 #from django.contrib.auth.forms import UserCreationForm
@@ -8,10 +8,6 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 def login(request):
 	return render(request, 'login/login.html')
-
-@login_required
-def updateMember(request):
-	return render(request, 'login/update.html')
 
 def join(request):
 	print(request.user) #유저 로그에 남기기
@@ -28,3 +24,17 @@ def join(request):
 @login_required
 def managment(request):
 	return render(request, 'login/mypage.html') 
+
+
+def UserChangeForm(request):
+	user = request.user
+	form = updateMemberForm(request.POST)
+
+	if request.method == 'POST':
+		if form.is_valid():
+
+			user.birth = request.POST['birth']
+			user.nickname = request.POST['nickname']
+
+			user.save()
+			return redirect(settings.UPDATE_URL)

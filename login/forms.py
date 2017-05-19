@@ -55,6 +55,7 @@ class UserCreationForm(forms.ModelForm): #모델폼 사용
             user.save()
         return user
 
+#회원정보 수정#
 class UserChangeForm(forms.ModelForm):
     """A form for updating users. Includes all the fields on
     the user, but replaces the password field with admin's

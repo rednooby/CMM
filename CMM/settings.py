@@ -134,6 +134,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
     )
 
+UPDATE_URL = '/account/mypage'
 
 #기본 로그인 페이지 URL을 지정
 #login_required 장식자 등에 의해서 사용 (views에 정의할것이고 로그아웃으면 아래 주소로 자동 이동)
