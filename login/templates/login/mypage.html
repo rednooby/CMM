@@ -30,7 +30,8 @@
 
            <button class="btn btn-outline-info my-2 my-sm-0">회원정보 수정</button>
            <!--<button class="btn btn-outline-info my-2 my-sm-0" type="button" onclick="EditProfileLink()">패스워드 변경</button>-->
-           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" id="myBtn">비번변경</button>
+           
+           <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#myModal" data-backdrop="false">비번변경</button>
            <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">회원탈퇴</button>
          </div><!--End of Left-->
  
@@ -55,7 +56,7 @@
 </form>
 
 <!-- Modal -->
-<div class="modal fade" id="myModal" role="dialog">
+<div class="modal fade" id="myModal" role="dialog" data-backdrop="false">
   <div class="modal-dialog">
     <!--Modal content-->
     <div class="modal-content">
@@ -63,53 +64,59 @@
         <!--Close button-->
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <!--Modal title-->
-        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+        <h4 class="modal-title" id="myModalLabel">비밀번호 변경</h4>
       </div><!--End of modal-content-->
       <!--Modal body-->
       <div class="modal-body">
         <form action="" method="post">
           {% csrf_token %}
           <center>
-          <!--폼에 필드가 없을경우 에러메세지 출력-->
-          {% for error in form.non_field_errors %}
-            <div class="alert alert-danger">
-                {{ error }}
-            </div>
-          {% endfor %}
-          <!--필드 출력할 반복문-->
-          {% for field in form.visible_fields %}
-            <div class="form-group">
-              <!--필드들의 라벨 출력-->
-              {{ field.label_tag }} 
-
-              <div class="col-sm-10">
-                <!--필드들 출력-->
-                {{ field }}
-                <!--필드자체 에러 메시지 출력-->
-                {% for error in field.errors %}
-                  <div class="alert alert-danger">
-                    {{ error }}
-                  </div>
-                {% endfor %}
-
+            <!--폼에 필드가 없을경우 에러메세지 출력-->
+            {% for error in form.non_field_errors %}
+              <div class="alert alert-danger">
+                  {{ error }}
+                  <script>
+                    $(document).ready(function(){
+                        $("#myModal").modal("show");
+                    });
+                  </script>
               </div>
-            </div> 
-          {% endfor %}
+            {% endfor %}
+            <!--필드 출력할 반복문-->
+            {% for field in form.visible_fields %}
+              <div class="form-group">
+                <!--필드들의 라벨 출력-->
+                {{ field.label_tag }} 
+
+                <div class="col-sm-10">
+                  <!--필드들 출력-->
+                  {{ field }}
+                  <!--필드자체 에러 메시지 출력-->
+                  {% for error in field.errors %}
+                    <div class="alert alert-danger">
+                      {{ error }}
+                      <script>
+                        $(document).ready(function(){
+                            $("#myModal").modal("show");
+                        });
+                      </script>
+                    </div>
+                  {% endfor %}
+                </div>
+              </div> 
+            {% endfor %}
+            
           </center>
           </form>
-      </div>
+      </div><!--End of Modal-body-->
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="submit" class="btn btn-primary" id="myBtn">확인</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
       </div>
     </div>
   </div>
 </div>
-
-
-
 {% endblock %}
-
 
 <!--
   <div class="py-5  section">
