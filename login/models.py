@@ -97,23 +97,24 @@ class AnonymouseUser:
     birth = ''
 
 
-class actList(models.model):
-    actId = models.Foreignkey(MyUser)
-    actName = CharField(
+class actList(models.Model):
+    actId = models.ForeignKey(MyUser)
+    actName = models.CharField(
         max_length=50,
         verbose_name='actName',
         null=False,
         blank=False,
+        unique=True,
     )
-    actSummary = CharField(
+    actSummary = models.CharField(
         max_length=50,
-        verbose_name='actName',
+        verbose_name='actSumary',
         null=False,
         blank=False,
     )
-    actInfo = CharField(
+    actInfo = models.CharField(
         max_length=50,
-        verbose_name='actName',
+        verbose_name='actInfo',
         null=False,
         blank=False,
     )

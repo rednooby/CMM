@@ -30,6 +30,25 @@
            <button class="btn btn-outline-info my-2 my-sm-0" data-toggle="modal" data-target="#editModal" data-backdrop="false" type="button">정보수정</button> 
            <button class="btn btn-outline-info my-2 my-sm-0" data-toggle="modal" data-target="#myModal" data-backdrop="false" type="button">비번변경</button>           
            <button class="btn btn-outline-danger my-2 my-sm-0" type="button">회원탈퇴</button>
+
+          <hr>
+          <h1 class="text-primary"><center>계좌 목록</center></h1>
+           <p class="lead">
+             <table>
+             <tr>
+               <th>이메일</th>
+               <td><label for="inputEmail3" class="col-sm-12 control-label">{{ user.email }}</label></td>
+             </tr>
+               <th>생년월일</th>
+               <td><label for="inputText3" class="col-sm-12 control-label">{{ user.birth }}</label></td>
+             </tr>
+             <tr>
+               <th>닉네임</th>
+               <td><label for="inputText3" class="col-sm-12 control-label">{{ user.nickname }}</label></td>
+             </tr>
+             </table>
+           </p>
+           
          </div><!--End of Left-->
  
          <!--Right-->
