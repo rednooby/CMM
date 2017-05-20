@@ -95,3 +95,25 @@ class AnonymouseUser:
     nickname = ''
     is_staff = False
     birth = ''
+
+
+class actList(models.model):
+    actId = models.Foreignkey(MyUser)
+    actName = CharField(
+        max_length=50,
+        verbose_name='actName',
+        null=False,
+        blank=False,
+    )
+    actSummary = CharField(
+        max_length=50,
+        verbose_name='actName',
+        null=False,
+        blank=False,
+    )
+    actInfo = CharField(
+        max_length=50,
+        verbose_name='actName',
+        null=False,
+        blank=False,
+    )
