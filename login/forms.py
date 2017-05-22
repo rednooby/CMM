@@ -28,8 +28,8 @@ class UserCreationForm(forms.ModelForm): #모델폼 사용
         self.fields['password2'].widget.attrs['class'] = "form-control"
         self.fields['email'].widget.attrs['placeholder'] = "exampl@abc.com"
         self.fields['email'].widget.attrs['class'] = "form-control"
-        self.fields['birth'].widget.attrs['placeholder'] = "2017-01-01"
         self.fields['birth'].widget.attrs['class'] = "form-control"
+        self.fields['birth'].widget.attrs['intput type'] = "date"
 
     
     #패스워드 일치 유효성 검사
