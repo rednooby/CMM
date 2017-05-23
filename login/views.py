@@ -24,7 +24,7 @@ def join(request):
 
 @login_required
 def Managment(request):
-	qs = ActList.objects.all()
+	qs = ActList.objects.filter(actId__email=request.user.email)
 	print(qs)
 	return render(request, 'login/mypage.html', {
 		'Managment': qs,}) 

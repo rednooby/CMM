@@ -36,9 +36,6 @@
              <table>
              <tr>
                {% for ActList in Managment %}
-               #{{ActList.actId}}#
-
-               ${{user.email}}$
                 <td>
                 {{ ActList.actName }}
                 </td>
@@ -46,7 +43,6 @@
                 {{ ActList.actSummary }}
                 </td>
                </tr>
-
                {% endfor %}
              
              </table>

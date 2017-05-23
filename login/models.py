@@ -101,24 +101,22 @@ class ActList(models.Model):
     actId = models.ForeignKey(MyUser)
     actName = models.CharField(
         max_length=20,
-        verbose_name='actName',
+        verbose_name='act_name',
         null=False,
         blank=False,
         unique=True,
     )
     actSummary = models.CharField(
         max_length=50,
-        verbose_name='actSumary',
+        verbose_name='act_sumary',
         null=True,
         blank=False,
     )
     actInfo = models.TextField(
         max_length=50,
-        verbose_name='actInfo',
+        verbose_name='act_info',
         null=False,
         blank=True,
     )
     def __str__(self):
-       return self.actName
-    #def __str__(self):
-    #   return "'{}'의 '{}'".format(self.actId, self.actName)
+       return "'{}'의 '{}'".format(self.actId, self.actName)
