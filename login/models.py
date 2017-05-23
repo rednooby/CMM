@@ -100,7 +100,7 @@ class AnonymouseUser:
 class actList(models.Model):
     actId = models.ForeignKey(MyUser)
     actName = models.CharField(
-        max_length=50,
+        max_length=20,
         verbose_name='actName',
         null=False,
         blank=False,
@@ -109,12 +109,15 @@ class actList(models.Model):
     actSummary = models.CharField(
         max_length=50,
         verbose_name='actSumary',
-        null=False,
+        null=True,
         blank=False,
     )
-    actInfo = models.CharField(
+    actInfo = models.TextField(
         max_length=50,
         verbose_name='actInfo',
         null=False,
-        blank=False,
+        blank=True,
     )
+
+    def __str__(self):
+        return "'{}'의 '{}'".format(self.actId, self.actName)
