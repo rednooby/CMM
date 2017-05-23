@@ -29,7 +29,7 @@ class UserCreationForm(forms.ModelForm): #모델폼 사용
         self.fields['email'].widget.attrs['placeholder'] = "exampl@abc.com"
         self.fields['email'].widget.attrs['class'] = "form-control"
         self.fields['birth'].widget.attrs['class'] = "form-control"
-        self.fields['birth'].widget.attrs['intput type'] = "date"
+        self.fields['birth'].widget.attrs['input type'] = "date"
 
     
     #패스워드 일치 유효성 검사

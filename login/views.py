@@ -4,6 +4,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 #from django.contrib.auth.forms import UserCreationForm
 
+from .models import ActList, MyUser
 
 # Create your views here.
 def login(request):
@@ -22,8 +23,12 @@ def join(request):
 	return render(request, 'login/join.html',{'form' : form})
 
 @login_required
-def managment(request):
-	return render(request, 'login/mypage.html') 
+def Managment(request):
+	qs = ActList.objects.all()
+	print(qs)
+	return render(request, 'login/mypage.html', {
+		'Managment': qs,}) 
+	
 
 
 def UserChangeForm(request):

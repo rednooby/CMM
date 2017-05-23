@@ -97,7 +97,7 @@ class AnonymouseUser:
     birth = ''
 
 
-class actList(models.Model):
+class ActList(models.Model):
     actId = models.ForeignKey(MyUser)
     actName = models.CharField(
         max_length=20,
@@ -118,6 +118,7 @@ class actList(models.Model):
         null=False,
         blank=True,
     )
-
     def __str__(self):
-        return "'{}'의 '{}'".format(self.actId, self.actName)
+       return self.actName
+    #def __str__(self):
+    #   return "'{}'의 '{}'".format(self.actId, self.actName)

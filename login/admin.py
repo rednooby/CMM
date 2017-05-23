@@ -4,7 +4,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 #from django.contrib.auth import get_user_model
  
-from .models import MyUser, actList
+from .models import MyUser, ActList
 from .forms import UserCreationForm, UserChangeForm
  
  
@@ -41,4 +41,4 @@ admin.site.register(MyUser, UserAdmin)
 # unregister the Group model from admin.
 admin.site.unregister(Group)
 
-admin.site.register(actList)
+admin.site.register(ActList)
