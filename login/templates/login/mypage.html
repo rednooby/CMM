@@ -34,17 +34,12 @@
           <h1 class="text-primary"><center>계좌 목록</center></h1>
            <p class="lead">
              <table>
-             <tr>
-               {% for ActList in Managment %}
-                <td>
-                {{ ActList.actName }}
-                </td>
-                <td>
-                {{ ActList.actSummary }}
-                </td>
-               </tr>
-               {% endfor %}
-             
+               <tr>
+                {% for ActList in Managment %}
+                  <th>{{ ActList.actName }}</th>
+                  <td><label for="inputText3" class="col-sm-12 control-label">{{ ActList.actSummary }}</label></td>               
+                </tr>
+                {% endfor %}
              </table>
            </p>
            
