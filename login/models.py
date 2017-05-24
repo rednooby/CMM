@@ -120,3 +120,9 @@ class ActList(models.Model):
     )
     def __str__(self):
        return "'{}'의 '{}'".format(self.actId, self.actName)
+
+
+class Account(models.Model):
+    actName = models.ForeignKey(ActList)
+    
+
