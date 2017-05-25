@@ -31,35 +31,45 @@
            <button class="btn btn-outline-info my-2 my-sm-0" data-toggle="modal" data-target="#myModal" data-backdrop="false" type="button">비번변경</button>           
            <button class="btn btn-outline-danger my-2 my-sm-0" type="button">회원탈퇴</button>
           <hr>
+          <!--계좌 목록-->
           <h1 class="text-primary"><center>계좌 목록</center></h1>
            <p class="lead">
              <table>
                <tr>
                 {% for ActList in Managment %}
-                  <th>{{ ActList.actName }}</th>
+                  <th>
+                    <a href="{{ ActList.actName }}/">
+                      {{ ActList.actName }}
+                    </a>
+                  </th>
                   <td><label for="inputText3" class="col-sm-12 control-label">{{ ActList.actSummary }}</label></td>               
                 </tr>
                 {% endfor %}
              </table>
            </p>
-           
-         </div><!--End of Left-->
- 
-         <!--Right-->
-         <div class="col-md-6" align="Left">
-           <h1 class="text-primary"><center>계좌정보</center></h1>
-           <p class=""></p>
-          <p class=""><i class="d-block mx-auto fa fa-2x fa-plus" onclick="add()"></i></p>
+         
+         <!-- 계좌 추가 -->
+         <p class="" align="Left"><i class="d-block mx-auto fa fa-2x fa-plus" onclick="add()"></i></p>
           <div id="sortWrap">
             <div data-order="0" id="as" style="display:none">
               <input type="text" placeholder="은행명을 입력하세요">
               <input type="text" placeholder="예금주를 입력하세요">
               <input type="text" placeholder="계좌번호를 입력하세요">
               <input type="text" placeholder="계좌정보를 입력하세요">
-              <i class="d-block mx-auto fa fa-2x fa-times" onclick="remove(this)"></i>
-              <p>
-          </div>
+              <!-- 계좌 삭제 -->
+              <i class="d-block mx-auto fa fa-2x fa-times" onclick="remove(this)" align="right"></i>
+            </div>
          </div>
+
+         </div><!--End of Left-->
+ 
+        <!--==============================================================-->
+
+         <!--Right-->
+         <div class="col-md-6" align="Left">
+           <h1 class="text-primary"><center>계좌정보</center></h1>
+           <p class=""></p>
+          
        </div><!--end of Right-->
      </div>
    </div>

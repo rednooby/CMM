@@ -121,7 +121,7 @@ class ActList(models.Model):
     def __str__(self):
        return "'{}'의 '{}'".format(self.actId, self.actName)
 
-
+'''
 class Account(models.Model):
     actName = models.ForeignKey(ActList)
     actDate = models.DateField(
@@ -149,4 +149,4 @@ class Account(models.Model):
         verbose_name='카드'
         default=False,
         )    
-
+'''

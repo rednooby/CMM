@@ -10,6 +10,7 @@ from .models import ActList, MyUser
 def login(request):
 	return render(request, 'login/login.html')
 
+
 def join(request):
 	print(request.user) #유저 로그에 남기기
 	if request.method == 'POST':
@@ -22,13 +23,22 @@ def join(request):
 
 	return render(request, 'login/join.html',{'form' : form})
 
+
 @login_required
 def Managment(request):
 	qs = ActList.objects.filter(actId__email=request.user.email)
 	print(qs)
 	return render(request, 'login/mypage.html', {
 		'Managment': qs,}) 
-	
+
+
+##통장정보 출력##
+def AccountInfo(request, actName):
+	qs = ActList.objects.filter(actId__email=request.user.email, actName=actName)
+	print(actName)
+	return render(request, 'login/accountInfo.html',{
+		'AccountInfo': qs,
+		}) 
 
 
 def UserChangeForm(request):
