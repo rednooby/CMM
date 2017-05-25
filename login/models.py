@@ -101,20 +101,20 @@ class ActList(models.Model):
     actId = models.ForeignKey(MyUser)
     actName = models.CharField(
         max_length=20,
-        verbose_name='act_name',
+        verbose_name='통장 이름',
         null=False,
         blank=False,
         unique=True,
     )
     actSummary = models.CharField(
         max_length=50,
-        verbose_name='act_sumary',
+        verbose_name='한줄 설명',
         null=True,
         blank=False,
     )
     actInfo = models.TextField(
         max_length=50,
-        verbose_name='act_info',
+        verbose_name='통장 정보',
         null=False,
         blank=True,
     )
@@ -124,5 +124,29 @@ class ActList(models.Model):
 
 class Account(models.Model):
     actName = models.ForeignKey(ActList)
-    
+    actDate = models.DateField(
+        verbose_name='날짜',
+        null=False,
+        )
+    actIncome = models.BooleanField(
+        verbose_name='수입'
+        default=False,
+        )
+    actConsumption = models.BooleanField(
+        verbose_name='지출'
+        default=False,
+        )
+
+    actPrice = models.IntegerField(
+        verbose_name='금액',
+        max_length=10,
+        )
+    actCash = models.BooleanField(
+        verbose_name='현금'
+        default=False,
+        )
+    actCard = models.BooleanField(
+        verbose_name='카드'
+        default=False,
+        )    
 
