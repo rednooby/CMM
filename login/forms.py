@@ -1,6 +1,10 @@
 from django import forms
-from .models import MyUser
+from .models import MyUser, ActList
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
+
+
+#Form 처리: GET(입력폼을 보여줌), POST(데이터를 입력받아 유효성검증, 성공시 저장후 SUCCESS URL로 이동, 실패시 오류메시지와 입력폼을 다시 보여줌)
+#검증이 통과한 값들은 사전 타입으로 제공되며 그것이 Cleaned_data임
 
 
 class UserCreationForm(forms.ModelForm): #모델폼 사용
@@ -33,7 +37,7 @@ class UserCreationForm(forms.ModelForm): #모델폼 사용
 
     
     #패스워드 일치 유효성 검사
-    def clean_password2(self):
+    def clean_password2(self):#clean멤버 함수를 통한 유효성+값변경까지. validator은 유효성검사만
         # Check that the two password entries match
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
@@ -46,11 +50,13 @@ class UserCreationForm(forms.ModelForm): #모델폼 사용
         return password2
 
 
- 
+    
     def save(self, commit=True):
         # Save the provided password in hashed format
         user = super(UserCreationForm, self).save(commit=False)
         user.set_password(self.cleaned_data["password1"])#패스워드는 항상 set_password로 입력받음(그래야 암호화를 해서 넘겨줌)
+        #유효성 검사를 마치고 데이터를 넘겨줄떈 cleaned_data로 넘겨줌
+        
         if commit:
             user.save()
         return user
@@ -73,6 +79,40 @@ class UserChangeForm(forms.ModelForm):
         # field does not have access to the initial value
         return self.initial["password"]
 
+
+class ActListForm(forms.Form):
+    ActNum = forms.CharField(
+
+        )
+    ActName = forms.CharField(
+
+        )
+    ActSummary = forms.CharField(
+
+        )
+    ActInfo = forms.CharField(
+        widget=forms.Textarea
+        )
+
+
+'''
+    class Meta:
+        model = ActList
+        fields = ('ActNum', 'ActName','ActSummary','ActInfo')
+
+    for field in self.fields:
+            self.fields[field].help_text=None
+            self.fields[field].label=''
+
+        self.fields['ActNum'].widget.attrs['placeholder'] = "계좌번호"
+        self.fields['ActNum'].widget.attrs['class'] = "form-control"
+        self.fields['ActName'].widget.attrs['placeholder'] = "계좌명"
+        self.fields['ActName'].widget.attrs['class'] = "form-control"
+        self.fields['ActSummary'].widget.attrs['placeholder'] = "한줄정보(주로 은행, 예금주 기재)"
+        self.fields['ActSummary'].widget.attrs['class'] = "form-control"
+        self.fields['ActInfo'].widget.attrs['placeholder'] = "계좌 상세정보"
+        self.fields['ActInfo'].widget.attrs['class'] = "form-control"
+'''
 
 
 

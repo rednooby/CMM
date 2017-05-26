@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 #from django.contrib.auth.forms import UserCreationForm
 
 from .models import ActList, MyUser
+from .forms import ActListForm
 
 # Create your views here.
 def login(request):
@@ -26,20 +27,34 @@ def join(request):
 
 @login_required
 def Managment(request):
+	if request.method == 'POST':
+		form = ActListForm(request.POST) #파일이 있으면 request.FILES도 추가
+		if form.is_valid():#여기서 폼의 역할은 끝남
+			form.cleaned_data #검증을 끝마친 데이터를 form으로
+			
+			val = ActList(**self.cleaned_data)#검증 마친 데이터를 val로
+			val.save()#결국은 저장
+
+			return redirect('login/mypage.html')
+			#return redirect(val)
+	else:
+		form = ActListForm()#GET으로 들어오면 Forms.py의 ActListForm을 출력
+
+	##자신의 계좌만 필터링##	
 	qs = ActList.objects.filter(actId__email=request.user.email)
-	print(qs)
-	return render(request, 'login/mypage.html', {
-		'Managment': qs,}) 
+	#print(qs) #쿼리셋 검증
+
+	return render(request, 'login/mypage.html', {'Managment': qs, 'form': form}) 
 
 
 @login_required
 ##통장정보 출력##
-def AccountInfo(request, actName):
+def account_info(request, actName):
 	qs = ActList.objects.filter(actId__email=request.user.email, actName=actName)
 	print()
 
-	return render(request, 'login/accountInfo.html',{
-		'AccountInfo': qs,
+	return render(request, 'login/account_info.html',{
+		'account_info': qs,
 		}) 
 
 

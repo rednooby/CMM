@@ -1,4 +1,5 @@
 from django.db import models
+from .validators import number_validator
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
@@ -105,6 +106,7 @@ class ActList(models.Model):
         null=False,
         blank=False,
         unique=True,
+        validators=[number_validator],
     )
     actName = models.CharField(
         max_length=20,
@@ -128,6 +130,8 @@ class ActList(models.Model):
        return "'{}'의 '{}'".format(self.actId, self.actName)
 
 '''
+#선택은 choices 사용
+#https://nomade.kr/vod/django/27/ 참고 23:39
 class Account(models.Model):
     actName = models.ForeignKey(ActList)
     actDate = models.DateField(

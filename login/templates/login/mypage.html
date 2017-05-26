@@ -52,14 +52,29 @@
          <p class="" align="Left"><i class="d-block mx-auto fa fa-2x fa-plus" onclick="add()"></i></p>
           <div id="sortWrap">
             <div data-order="0" id="as" style="display:none">
-              <input type="text" placeholder="은행명을 입력하세요">
-              <input type="text" placeholder="예금주를 입력하세요">
-              <input type="text" placeholder="계좌번호를 입력하세요">
-              <input type="text" placeholder="계좌정보를 입력하세요">
-              <!-- 계좌 삭제 -->
-              <i class="d-block mx-auto fa fa-2x fa-times" onclick="remove(this)" align="right"></i>
+              <form action="" method="post" class="form-group">
+                {% csrf_token %}
+                <table>
+                <div class="form-control">
+                  {{ form.ActNum }}
+                  {{ form.ActName }}
+                  {{ form.ActSummary }}
+                  {{ form.ActInfo }}
+                </div>
+                </table>
+
+
+                <!-- UI했던 박스들
+                  <input type="text" placeholder="은행명을 입력하세요">
+                  <input type="text" placeholder="예금주를 입력하세요">
+                  <input type="text" placeholder="계좌번호를 입력하세요">
+                  <input type="text" placeholder="계좌정보를 입력하세요">
+                -->
+                  <!-- 계좌 삭제 -->
+                  <i class="d-block mx-auto fa fa-2x fa-times" onclick="remove(this)" align="right"></i>
+              </form>
             </div>
-         </div>
+          </div>
 
          </div><!--End of Left-->
  
@@ -69,7 +84,7 @@
          <div class="col-md-6" align="Left">
            <h1 class="text-primary"><center>계좌정보</center></h1>
            <p class=""></p>
-              {% for ActList in AccountInfo %}
+              {% for ActList in account_info %}
 
                 {{ ActList.actNum }}
                 {{ ActList.actName }}
