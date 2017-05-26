@@ -1,5 +1,5 @@
 from django.db import models
-from .validators import number_validator
+#from .validators import number_validator
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
@@ -106,7 +106,7 @@ class ActList(models.Model):
         null=False,
         blank=False,
         unique=True,
-        validators=[number_validator],
+        #validators=[number_validator],
     )
     actName = models.CharField(
         max_length=20,

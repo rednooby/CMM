@@ -80,7 +80,30 @@ class UserChangeForm(forms.ModelForm):
         return self.initial["password"]
 
 
-class ActListForm(forms.Form):
+class ActListForm(forms.ModelForm):
+    class Meta:
+        model = ActList
+        fields = ('actNum', 'actName','actSummary','actInfo')
+
+    def __init__(self, *args, **kwargs):
+        super(ActListForm, self).__init__(*args, **kwargs)
+
+        for field in self.fields:
+            self.fields[field].help_text=None
+            self.fields[field].label=None
+
+        self.fields['actNum'].widget.attrs['placeholder'] = "계좌번호"
+        self.fields['actNum'].widget.attrs['class'] = "form-control"
+        self.fields['actNum'].widget.attrs['type'] = "text"
+        self.fields['actName'].widget.attrs['placeholder'] = "통장이름"
+        self.fields['actName'].widget.attrs['class'] = "form-control"
+        self.fields['actSummary'].widget.attrs['placeholder'] = "한줄메모"
+        self.fields['actSummary'].widget.attrs['class'] = "form-control"
+        self.fields['actInfo'].widget.attrs['placeholder'] = "통장설명"
+        self.fields['actInfo'].widget.attrs['class'] = "form-control"
+
+
+    '''
     ActNum = forms.CharField(
 
         )
@@ -93,7 +116,7 @@ class ActListForm(forms.Form):
     ActInfo = forms.CharField(
         widget=forms.Textarea
         )
-
+    '''
 
 '''
     class Meta:

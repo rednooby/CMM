@@ -9,7 +9,9 @@ clean은 특정 form에서 1회성 유효성 검사를 할때 (해당 폼에서�
 		필드값을 변경할 필요가 있을때 (validator은 변경 불가능하며 값의 조건만 체크)
 '''
 
+'''
 ##계좌번호 숫자와 -만 사용하게 하는 유효성
 def number_validator():
 	if not re.match((r'^[0-9]$'),(r'^[-]')):
 		raise ValidationError('숫자와 -만 입력 가능합니다.')
+'''

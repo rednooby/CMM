@@ -30,10 +30,11 @@ def Managment(request):
 	if request.method == 'POST':
 		form = ActListForm(request.POST) #파일이 있으면 request.FILES도 추가
 		if form.is_valid():#여기서 폼의 역할은 끝남
-			form.cleaned_data #검증을 끝마친 데이터를 form으로
+			form.save()
+			#form.cleaned_data #검증을 끝마친 데이터를 form으로
 			
-			val = ActList(**self.cleaned_data)#검증 마친 데이터를 val로
-			val.save()#결국은 저장
+			#val = ActList(**self.cleaned_data)#검증 마친 데이터를 val로
+			#val.save()#결국은 저장
 
 			return redirect('login/mypage.html')
 			#return redirect(val)
@@ -42,7 +43,7 @@ def Managment(request):
 
 	##자신의 계좌만 필터링##	
 	qs = ActList.objects.filter(actId__email=request.user.email)
-	#print(qs) #쿼리셋 검증
+	print(actId) #쿼리셋 검증
 
 	return render(request, 'login/mypage.html', {'Managment': qs, 'form': form}) 
 

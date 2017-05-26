@@ -27,45 +27,46 @@
       <div class="row">
         <div class="col-md-12">
           <h1 class="text-primary">회 원 가 입</h1>
-          <p class="lead">
+          <p class="lead"><!--회원가입에서 줄 살짝 내려줌-->
           <form action="" method="post">
-          {% csrf_token %}
-          <center>
-          <!--폼에 필드가 없을경우 에러메세지 출력-->
-          {% for error in form.non_field_errors %}
-            <div class="alert alert-danger">
-                {{ error }}
-            </div>
-          {% endfor %}
-          <!--필드 출력할 반복문-->
-          {% for field in form.visible_fields %}
-            <div class="form-group">
-              <!--필드들의 라벨 출력-->
-              {{ field.label_tag }} 
-
-              <div class="col-sm-10">
-                <!--필드들 출력-->
-                {{ field }}
-                <!--help_text가 있을경우에만 출력하자-->
-                {% if field.help_text %}
-                  <p class="help-block">{{ field.help_text }}</p>
-                {% endif %}
-
-                <!--필드자체 에러 메시지 출력-->
-                {% for error in field.errors %}
-                  <div class="alert alert-danger">
-                    {{ error }}
-                  </div>
-                {% endfor %}
-
+            {% csrf_token %}
+            <center>
+            <!--폼에 필드가 없을경우 에러메세지 출력-->
+            {% for error in form.non_field_errors %}
+              <div class="alert alert-danger">
+                  {{ error }}
               </div>
-            </div> 
-          {% endfor %}
-          </center>
+            {% endfor %}
+            <!--필드 출력할 반복문-->
+            {% for field in form.visible_fields %}
+              <div class="form-group">
+                <!--필드들의 라벨 출력-->
+                {{ field.label_tag }} 
+
+                <div class="col-sm-10">
+                  <!--필드들 출력-->
+                  {{ field }}
+                  <!--help_text가 있을경우에만 출력하자-->
+                  {% if field.help_text %}
+                    <p class="help-block">{{ field.help_text }}</p>
+                  {% endif %}
+
+                  <!--필드자체 에러 메시지 출력-->
+                  {% for error in field.errors %}
+                    <div class="alert alert-danger">
+                      {{ error }}
+                    </div>
+                  {% endfor %}
+
+                </div>
+              </div> 
+            {% endfor %}
+            </center>
+          
           </p>
           <button type="submit" class="btn btn-primary">완료</button>
           <button type="submit" class="btn btn-primary">취소</button>
-
+          </form>
         </div>
       </div>
     </div>
