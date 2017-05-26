@@ -69,7 +69,15 @@
          <div class="col-md-6" align="Left">
            <h1 class="text-primary"><center>계좌정보</center></h1>
            <p class=""></p>
-          
+              {% for ActList in AccountInfo %}
+
+                {{ ActList.actNum }}
+                {{ ActList.actName }}
+                {{ ActList.actSummary }}
+                {{ ActList.actInfo }}
+
+              {% endfor %}
+
        </div><!--end of Right-->
      </div>
    </div>

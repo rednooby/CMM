@@ -32,10 +32,12 @@ def Managment(request):
 		'Managment': qs,}) 
 
 
+@login_required
 ##통장정보 출력##
 def AccountInfo(request, actName):
 	qs = ActList.objects.filter(actId__email=request.user.email, actName=actName)
-	print(actName)
+	print()
+
 	return render(request, 'login/accountInfo.html',{
 		'AccountInfo': qs,
 		}) 

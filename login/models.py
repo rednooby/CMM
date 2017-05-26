@@ -99,22 +99,28 @@ class AnonymouseUser:
 
 class ActList(models.Model):
     actId = models.ForeignKey(MyUser)
-    actName = models.CharField(
-        max_length=20,
-        verbose_name='통장 이름',
+    actNum = models.CharField(
+        max_length=15,
+        verbose_name='계좌번호',
         null=False,
         blank=False,
         unique=True,
     )
+    actName = models.CharField(
+        max_length=20,
+        verbose_name='통장이름',
+        null=False,
+        blank=False,
+    )
     actSummary = models.CharField(
         max_length=50,
-        verbose_name='한줄 설명',
+        verbose_name='한줄설명',
         null=True,
         blank=False,
     )
     actInfo = models.TextField(
         max_length=50,
-        verbose_name='통장 정보',
+        verbose_name='통장정보',
         null=False,
         blank=True,
     )
