@@ -43,7 +43,7 @@ def Managment(request):
 
 	##자신의 계좌만 필터링##	
 	qs = ActList.objects.filter(actId__email=request.user.email)
-	print(actId) #쿼리셋 검증
+	#print(actId) #쿼리셋 검증
 
 	return render(request, 'login/mypage.html', {'Managment': qs, 'form': form}) 
 

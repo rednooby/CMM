@@ -83,7 +83,7 @@ class UserChangeForm(forms.ModelForm):
 class ActListForm(forms.ModelForm):
     class Meta:
         model = ActList
-        fields = ('actNum', 'actName','actSummary','actInfo')
+        fields = ('act_id','actNum', 'actName','actSummary','actInfo')
 
     def __init__(self, *args, **kwargs):
         super(ActListForm, self).__init__(*args, **kwargs)
@@ -92,6 +92,7 @@ class ActListForm(forms.ModelForm):
             self.fields[field].help_text=None
             self.fields[field].label=None
 
+        #self.fields['actId'].widget.attrs['input type'] = "hidden"
         self.fields['actNum'].widget.attrs['placeholder'] = "계좌번호"
         self.fields['actNum'].widget.attrs['class'] = "form-control"
         self.fields['actNum'].widget.attrs['type'] = "text"
@@ -101,6 +102,14 @@ class ActListForm(forms.ModelForm):
         self.fields['actSummary'].widget.attrs['class'] = "form-control"
         self.fields['actInfo'].widget.attrs['placeholder'] = "통장설명"
         self.fields['actInfo'].widget.attrs['class'] = "form-control"
+
+    def save(self, commit=True):
+    # Save the provided password in hashed format
+        ActList = super(ActListForm, self).save(commit=False)
+        
+        if commit:
+            ActList.save()
+        return ActList
 
 
     '''
