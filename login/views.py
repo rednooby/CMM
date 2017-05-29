@@ -30,13 +30,15 @@ def Managment(request):
 	if request.method == 'POST':
 		form = ActListForm(request.POST) #파일이 있으면 request.FILES도 추가
 		if form.is_valid():#여기서 폼의 역할은 끝남
-			form.save()
+			act_list = form.save(commit=False)
+			act_list.act = request.user
+			act_list.save()
 			#form.cleaned_data #검증을 끝마친 데이터를 form으로
 			
 			#val = ActList(**self.cleaned_data)#검증 마친 데이터를 val로
 			#val.save()#결국은 저장
 
-			return redirect('login/mypage.html')
+			return redirect('Managment')
 			#return redirect(val)
 	else:
 		form = ActListForm()#GET으로 들어오면 Forms.py의 ActListForm을 출력
@@ -50,8 +52,8 @@ def Managment(request):
 
 @login_required
 ##통장정보 출력##
-def account_info(request, actName):
-	qs = ActList.objects.filter(act__email=request.user.email, actName=actName)
+def account_info(request, act_name):
+	qs = ActList.objects.filter(act__email=request.user.email, act_name=act_name)
 	print()
 
 	return render(request, 'login/account_info.html',{

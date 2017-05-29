@@ -8,10 +8,10 @@ urlpatterns = [
     url(r'^join/$', views.join, name='join'),
     url(r'^mypage/$', views.Managment, name='Managment'),
     
-    url(r'^mypage/$', auth_views.password_change, name='password_change_done',
+    url(r'^mypage/PWC$', auth_views.password_change, name='password_change_done',
     	kwargs={'template_name': 'login/mypage.html'}),
 
-    url(r'^mypage/(?P<actName>.+)/$', views.account_info),
+    url(r'^mypage/(?P<act_name>.+)/$', views.account_info),
     
 
     #https://github.com/django/django/blob/1.10.6/django/contrib/auth/views.py#L62

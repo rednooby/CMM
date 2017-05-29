@@ -32,17 +32,22 @@
            <button class="btn btn-outline-danger my-2 my-sm-0" type="button">회원탈퇴</button>
           <hr>
           <!--계좌 목록-->
-          <h1 class="text-primary"><center>계좌 목록</center></h1>
+          <h1 class="text-primary">
+            <center>
+              계좌 목록
+            </center>
+          </h1>
            <p class="lead">
              <table>
                <tr>
                 {% for ActList in Managment %}
                   <th>
-                    <a href="{{ ActList.actName }}/">
-                      {{ ActList.actName }}
+                  
+                    <a href="{{ ActList.act_name }}/">
+                      <h3>{{ ActList.act_name }}</h3>
                     </a>
                   </th>
-                  <td><label for="inputText3" class="col-sm-12 control-label">{{ ActList.actSummary }}</label></td>               
+                  <td><label for="inputText3" class="col-sm-12 control-label">{{ ActList.act_summary }}</label></td>          
                 </tr>
                 {% endfor %}
              </table>
@@ -52,6 +57,7 @@
          <p class="" align="Left"><i class="d-block mx-auto fa fa-2x fa-plus" onclick="add()"></i></p>
           <div id="sortWrap">
             <div data-order="0" id="as" style="display:none">
+            <i class="d-block mx-auto fa fa-2x fa-times" onclick="remove(this)" align="Right"></i>
               <form action="" method="post">
                 {% csrf_token %}
                 <div class="col-sm-10">
@@ -61,9 +67,10 @@
                     </div>
                   {% endfor %}
                 </div>
-               <button class="btn-outline-info" type="submit">추가</button>   
+               <button class="btn btn-outline-info my-2 my-sm-0" type="submit" pull-right>추가</button>
               </form>
-              <i class="d-block mx-auto fa fa-2x fa-times" onclick="remove(this)"></i>
+              
+              
             </div>
           </div>
 
@@ -77,10 +84,10 @@
            <p class=""></p>
               {% for ActList in account_info %}
 
-                {{ ActList.actNum }}
-                {{ ActList.actName }}
-                {{ ActList.actSummary }}
-                {{ ActList.actInfo }}
+                {{ ActList.act_num }}
+                {{ ActList.act_name }}
+                {{ ActList.act_summary }}
+                {{ ActList.act_info }}
 
               {% endfor %}
 

@@ -100,35 +100,34 @@ class AnonymouseUser:
 
 class ActList(models.Model):
     act = models.ForeignKey(MyUser)
-    actNum = models.CharField(
+    act_num = models.CharField(
         max_length=15,
         verbose_name='계좌번호',
         null=False,
         blank=False,
         unique=True,
-        primary_key=True,
         #validators=[number_validator],
     )
-    actName = models.CharField(
+    act_name = models.CharField(
         max_length=20,
         verbose_name='통장이름',
         null=False,
         blank=False,
     )
-    actSummary = models.CharField(
+    act_summary = models.CharField(
         max_length=50,
         verbose_name='한줄설명',
         null=True,
         blank=False,
     )
-    actInfo = models.TextField(
+    act_info = models.TextField(
         max_length=50,
         verbose_name='통장정보',
         null=False,
         blank=True,
     )
     def __str__(self):
-       return "'{}'의 '{}'".format(self.actId, self.actName)
+       return "'{}'의 '{}'".format(self.act, self.act_name)
 
 '''
 #선택은 choices 사용
