@@ -42,8 +42,8 @@ def Managment(request):
 		form = ActListForm()#GET으로 들어오면 Forms.py의 ActListForm을 출력
 
 	##자신의 계좌만 필터링##	
-	qs = ActList.objects.filter(actId__email=request.user.email)
-	#print(actId) #쿼리셋 검증
+	qs = ActList.objects.filter(act__email=request.user.email)
+	#print(act) #쿼리셋 검증
 
 	return render(request, 'login/mypage.html', {'Managment': qs, 'form': form}) 
 
@@ -51,7 +51,7 @@ def Managment(request):
 @login_required
 ##통장정보 출력##
 def account_info(request, actName):
-	qs = ActList.objects.filter(actId__email=request.user.email, actName=actName)
+	qs = ActList.objects.filter(act__email=request.user.email, actName=actName)
 	print()
 
 	return render(request, 'login/account_info.html',{

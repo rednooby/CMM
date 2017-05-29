@@ -83,7 +83,7 @@ class UserChangeForm(forms.ModelForm):
 class ActListForm(forms.ModelForm):
     class Meta:
         model = ActList
-        fields = ('act_id','actNum', 'actName','actSummary','actInfo')
+        fields = ('actNum', 'actName','actSummary','actInfo')
 
     def __init__(self, *args, **kwargs):
         super(ActListForm, self).__init__(*args, **kwargs)

@@ -99,13 +99,14 @@ class AnonymouseUser:
 
 
 class ActList(models.Model):
-    actId = models.ForeignKey(MyUser)
+    act = models.ForeignKey(MyUser)
     actNum = models.CharField(
         max_length=15,
         verbose_name='계좌번호',
         null=False,
         blank=False,
         unique=True,
+        primary_key=True,
         #validators=[number_validator],
     )
     actName = models.CharField(

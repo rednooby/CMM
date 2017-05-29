@@ -39,8 +39,6 @@
                 {% for ActList in Managment %}
                   <th>
                     <a href="{{ ActList.actName }}/">
-                      {{ ActList.actId }}
-
                       {{ ActList.actName }}
                     </a>
                   </th>
@@ -56,9 +54,6 @@
             <div data-order="0" id="as" style="display:none">
               <form action="" method="post">
                 {% csrf_token %}
-                {% for ActList in Management %}
-                  {{ ActList.actId }}
-                {% endfor %}
                 <div class="col-sm-10">
                   {% for field in form.visible_fields %}
                     <div class="form-group"><!--필드들끼리 간격유지-->
