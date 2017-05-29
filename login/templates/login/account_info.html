@@ -1,8 +1,17 @@
-{% for ActList in account_info %}
+{% extends "login/mypage_layout.html" %}
 
-{{ ActList.act_num }}
-{{ ActList.act_name }}
-{{ ActList.act_summary }}
-{{ ActList.act_info }}
+{% block content %}
 
-{% endfor %}
+ 
+<h1 class="text-primary"><center>계좌정보</center></h1>
+<p class=""></p>
+  {% for ActList in account_info %}
+
+    {{ ActList.act_num }}
+    {{ ActList.act_name }}
+    {{ ActList.act_summary }}
+    {{ ActList.act_info }}
+
+  {% endfor %}
+
+{% endblock %}
