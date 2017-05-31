@@ -3,7 +3,9 @@
 {% block content %}
 <h1 class="text-primary">
   <center>
-    계좌 목록
+    
+  	  계좌 목록
+  	
   </center>
 </h1>
 
@@ -11,11 +13,8 @@
    <table>
      <tr>
       {% for ActList in actlist %}
-        <th>
-        
-          <a href="{{ ActList.act_name }}">
+        <th>  
             <h3>{{ ActList.act_name }}</h3>
-          </a>
         </th>
         <td><label for="inputText3" class="col-sm-12 control-label">{{ ActList.act_summary }}</label></td>          
       </tr>
@@ -24,18 +23,47 @@
  </p>
 <hr>
 </div><!--End of Left-->
-<!-- 계좌 추가 -->
+
 <div class="col-md-6" align="center">
+
 	<h1 class="text-primary"><center>계좌정보</center></h1>
 
 	<p class=""></p>
-	  {% for ActList in account_info %}
-
-	    {{ ActList.act_num }}
-	    {{ ActList.act_name }}
-	    {{ ActList.act_summary }}
-	    {{ ActList.act_info }}
-
-	  {% endfor %}
-
+		 {% for ActList in account_info %}
+		  <div class="lead">
+		  	<div class="panel panel">
+		      <div class="panel-heading">
+		        <board><h5 class="panel-title" align="left">계좌번호</h5></board>
+		      </div>
+		      <div class="panel-body">
+		        <div class="form-control col-sm-12 input-lg" type="text" align="left">{{ ActList.act_num }}</div>
+		      </div>
+		      <br>
+		      <div class="panel-heading">
+		        <h5 class="panel-title" align="left">계좌이름</h5>
+		      </div>
+		      <div class="panel-body">
+		        <div class="form-control col-sm-12 input-lg" type="text" align="left">{{ ActList.act_name }}</div>
+		      </div>
+		      <br>
+		      <div class="panel-heading">
+		        <h5 class="panel-title" align="left">계좌메모</h5>
+		      </div>
+		      <div class="panel-body">
+		        <div class="form-control col-sm-12 input-lg" type="text" align="left">{{ ActList.act_summary }}</div>
+		      </div>
+		      <br>
+		      <div class="panel-heading">
+		        <h5 class="panel-title" align="left">계좌정보</h5>
+		      </div>
+		      <div class="panel-body">
+		        <textarea class="form-control col-sm-12 input-lg" >{{ ActList.act_info }}</textarea>
+		      </div>
+		    </div><!-- End of panel panel-->
+		   </div><!--End of lead-->
+		   <br>
+		   <button class="btn btn-outline-info my-2 my-sm-0" type="button">정보수정</button>           
+           <button class="btn btn-outline-danger my-2 my-sm-0" type="button">계좌삭제</button>
+		   <hr>
+		  {% endfor %}
 {% endblock %}
