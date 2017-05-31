@@ -1,5 +1,5 @@
 from django import forms
-from .models import MyUser, ActList
+from .models import MyUser, ActList, BankBook
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
 
@@ -104,6 +104,29 @@ class ActListForm(forms.ModelForm):
         self.fields['act_info'].widget.attrs['class'] = "form-control"
 
 
+
+class BankBookForm(forms.ModelForm):
+    class Meta:
+        model = BankBook
+        fields = ('act_date', 'act_price','act_payment','act_part')
+
+    def __init__(self, *args, **kwargs):
+        super(BankBookForm, self).__init__(*args, **kwargs)
+
+        for field in self.fields:
+            self.fields[field].help_text=None
+            self.fields[field].label=None
+
+        
+        self.fields['act_date'].widget.attrs['input type'] = "date"
+        
+        self.fields['act_price'].widget.attrs['placeholder'] = "금액(원)"
+        self.fields['act_price'].widget.attrs['class'] = "form-control"
+    
+    act_payment = forms.CharField(label="현금/카드",
+                                 widget=forms.RadioSelect(choices=(('현금','현금'),('카드','카드'))), required=True)
+    act_part = forms.CharField(label="지출/수입",
+                                 widget=forms.RadioSelect(choices=(('지출','지출'),('수입','수입'))), required=True)
 
     '''
     ActNum = forms.CharField(

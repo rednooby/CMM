@@ -4,8 +4,8 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 #from django.contrib.auth.forms import UserCreationForm
 
-from .models import ActList, MyUser
-from .forms import ActListForm
+from .models import ActList, MyUser,BankBook
+from .forms import ActListForm, BankBookForm
 
 # Create your views here.
 def login(request):
@@ -23,6 +23,17 @@ def join(request):
 		form = UserCreationForm()
 
 	return render(request, 'login/join.html',{'form' : form})
+
+@login_required
+def bankbook(request):
+	if request.method == 'POST':
+		form = BankBookForm(request.POST)
+		if form.is_valid():
+			act	
+
+	form = BankBookForm()
+
+	return render(request, 'login/bankbook.html', {'form': form})
 
 
 @login_required

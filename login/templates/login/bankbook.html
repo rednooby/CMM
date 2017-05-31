@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<head>
+<title>{% block title %}{% endblock %}</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+
+  <link rel="stylesheet" href="https://pingendo.com/assets/bootstrap/bootstrap-4.0.0-alpha.6.css" type="text/css">
+  
+  <!-- Only 부트스트랩
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+  -->
+  <!--<script src="/lib/jquery-1.12.2.min.js"></script>-->
+  </head>
+  <body>
+  
+    
+ <!--돈입력버튼-->
+  <div class="container"> 
+    <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+      <div class="collapse navbar-collapse">
+        
+        <ul class="navbar-nav mr-auto">
+          <!--입력 폼-->
+          <form class="form-inline my-2 my-lg-0" action="" method="post">
+          {% csrf_token %}
+          {% for BankBook in bankbook %}
+            <!--달력-->
+            <li class="nav-item">
+              {{ BankBook.act_date }}
+            </li>
+            <!--달력끝-->
+
+            <!--금액 박스-->
+            <li class="nav-item"> 
+              {{ BankBook.act_price }}
+            </li>
+            <!--금액박스 끝-->
+
+            <!--라디오버튼-->
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <div class="radio"> 
+                    <label> 
+                      <input type="radio" name="optionsRadios" id="optionsRadios1" value="True" checked>
+                      현금
+                    </label> 
+                  </div> 
+                  <div class="radio "> 
+                    <label> 
+                      <input type="radio" name="optionsRadios" id="optionsRadios1" value="False" checked>
+                      카드
+                    </label> 
+                  </div> 
+                </a>
+              </li>
+            <!--라디오버튼 끝-->
+
+            <!--드롭다운메뉴-->
+            <div class="btn-group">
+                <button class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown"> Dropdown </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="#">Action</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#">Separated link</a>
+                </div>
+            </div>
+            <!--드롭다운메뉴 끝-->
+
+            <!--수정버튼-->
+            <a class="nav-link" href="#">
+              <i class="d-block mx-auto fa fa-pencil-square fa-3x"></i>
+            </a>
+            <!--수정버튼 끝-->
+
+            <li class="nav-item">
+              <a class="nav-link" href="#"> 
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Save</button>
+              </a>
+            </li>
+          {% endfor %}
+          </form>
+          <!--입력폼 끝-->
+
+  </body>
+  </html>
