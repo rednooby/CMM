@@ -1,17 +1,41 @@
 {% extends "login/mypage_layout.html" %}
 
 {% block content %}
+<h1 class="text-primary">
+  <center>
+    계좌 목록
+  </center>
+</h1>
 
- 
-<h1 class="text-primary"><center>계좌정보</center></h1>
-<p class=""></p>
-  {% for ActList in account_info %}
+ <p class="lead">
+   <table>
+     <tr>
+      {% for ActList in actlist %}
+        <th>
+        
+          <a href="{{ ActList.act_name }}">
+            <h3>{{ ActList.act_name }}</h3>
+          </a>
+        </th>
+        <td><label for="inputText3" class="col-sm-12 control-label">{{ ActList.act_summary }}</label></td>          
+      </tr>
+      {% endfor %}
+   </table>
+ </p>
+<hr>
+</div><!--End of Left-->
+<!-- 계좌 추가 -->
+<div class="col-md-6" align="center">
+	<h1 class="text-primary"><center>계좌정보</center></h1>
 
-    {{ ActList.act_num }}
-    {{ ActList.act_name }}
-    {{ ActList.act_summary }}
-    {{ ActList.act_info }}
+	<p class=""></p>
+	  {% for ActList in account_info %}
 
-  {% endfor %}
+	    {{ ActList.act_num }}
+	    {{ ActList.act_name }}
+	    {{ ActList.act_summary }}
+	    {{ ActList.act_info }}
+
+	  {% endfor %}
 
 {% endblock %}
