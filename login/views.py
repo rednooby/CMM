@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import UserCreationForm, UserChangeForm
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -62,6 +62,28 @@ def account_info(request, act_name):
 	return render(request, 'login/account_info.html',{
 		'account_info': qs, 'actlist': qs1
 		}) 
+
+
+def account_edit(request, act):
+	act_list = get_object_or_404(ActList, act=act)
+
+	if request.method == 'POST':
+		form = ActListForm(request.POST, instance=act_list)
+		if form.is_valid():
+			act_list = form.save(commit=False)
+			act_list.act = request.user
+			act_list.save()
+			
+			return redirect('Managment')
+			#return redirect(val)
+	else:
+		form = ActListForm(instance=act_list)
+
+	##자신의 계좌만 필터링##	
+	qs = ActList.objects.filter(act__email=request.user.email)
+	#print(act) #쿼리셋 검증
+
+	return render(request, 'login/mypage.html', {'Managment': qs, 'form': form}) 
 
 
 def UserChangeForm(request):

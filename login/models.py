@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 #from .validators import number_validator
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
@@ -128,6 +129,38 @@ class ActList(models.Model):
     )
     def __str__(self):
        return "'{}'의 '{}'".format(self.act, self.act_name)
+
+    def get_absolute_url(self):
+        return reverse('login:account_info', args=[self.id])
+
+
+class BankBook(models.Model):
+    name = models.ForeignKey(ActList)
+
+    #날짜
+    act_date = models.DateField(
+        null=False,
+        verbose_name='날짜',
+        )
+    
+    #금액
+    act_price = models.IntegerField(
+        null=False,
+        verbose_name='금액',
+        ) 
+    
+    #카드(T)/현금(F)
+    act_payment = models.BooleanField(
+        null=False,
+        verbose_name='카드(T)/현금(F)',
+        )
+    
+    #수입(T)/지출(F)
+    act_part = models.BooleanField(
+        null=False,
+        verbose_name='수입(T)/지출(F)',
+        )
+
 
 '''
 #선택은 choices 사용
