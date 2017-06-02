@@ -4,7 +4,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 #from django.contrib.auth.forms import UserCreationForm
 
-from .models import ActList, MyUser,BankBook
+from .models import ActList, MyUser, BankBook
 from .forms import ActListForm, BankBookForm
 
 # Create your views here.
@@ -29,13 +29,33 @@ def bankbook(request):
 	if request.method == 'POST':
 		form = BankBookForm(request.POST)
 		if form.is_valid():
-			act	
+			act_list = form.save(commit=False)
+			act_list.act = request.user
+			act_list.save()
 
-	form = BankBookForm()
+			return redirect('Managment')
+	else:
+		form = BankBookForm()
+	print(form)
 
 	return render(request, 'login/bankbook.html', {'form': form})
 
 
+@login_required
+##통장정보 출력##
+def account_info(request, act_name):
+	qs = ActList.objects.filter(act__email=request.user.email, act_name=act_name)
+	qs1 = ActList.objects.filter(act__email=request.user.email)
+
+	print()
+
+
+	return render(request, 'login/account_info.html',{
+		'account_info': qs, 'actlist': qs1
+		})
+
+
+#목록, 데이터 입력
 @login_required
 def Managment(request):
 	if request.method == 'POST':
@@ -53,30 +73,17 @@ def Managment(request):
 			#return redirect(val)
 	else:
 		form = ActListForm()#GET으로 들어오면 Forms.py의 ActListForm을 출력
-
+		print(form)
 	##자신의 계좌만 필터링##	
 	qs = ActList.objects.filter(act__email=request.user.email)
 	#print(act) #쿼리셋 검증
 
 	return render(request, 'login/mypage.html', {'Managment': qs, 'form': form}) 
+ 
 
-
-@login_required
-##통장정보 출력##
-def account_info(request, act_name):
-	qs = ActList.objects.filter(act__email=request.user.email, act_name=act_name)
-	qs1 = ActList.objects.filter(act__email=request.user.email)
-
-	print()
-
-
-	return render(request, 'login/account_info.html',{
-		'account_info': qs, 'actlist': qs1
-		}) 
-
-
-def account_edit(request, act):
-	act_list = get_object_or_404(ActList, act=act)
+#데이터 수정 (아직 안된것 수정해야됨)
+def account_edit(request, act_name):
+	act_list = get_object_or_404(ActList, act_name=act_name)
 
 	if request.method == 'POST':
 		form = ActListForm(request.POST, instance=act_list)

@@ -104,7 +104,35 @@ class ActListForm(forms.ModelForm):
         self.fields['act_info'].widget.attrs['class'] = "form-control"
 
 
+class BankBookForm(forms.ModelForm):
+    class Meta:
+        model = BankBook
+        fields = ('act_date', 'act_price')
 
+    def __init__(self, *args, **kwargs):
+        super(BankBookForm, self).__init__(*args, **kwargs)
+
+        for field in self.fields:
+            self.fields[field].help_text=None
+            self.fields[field].label=None
+
+        self.fields['act_date'].widget.attrs['class'] = "form-control"
+        self.fields['act_date'].widget.attrs['type'] = "date"
+        
+        self.fields['act_price'].widget.attrs['placeholder'] = "금액(원)"
+        self.fields['act_price'].widget.attrs['class'] = "form-control"
+
+        '''
+        self.fields['act_summary'].widget.attrs['placeholder'] = "한줄메모"
+        self.fields['act_summary'].widget.attrs['class'] = "form-control"
+        
+        self.fields['act_info'].widget.attrs['placeholder'] = "통장설명"
+        self.fields['act_info'].widget.attrs['class'] = "form-control"
+        '''
+
+
+'''
+###20170602 최초 BankBookForm
 class BankBookForm(forms.ModelForm):
     class Meta:
         model = BankBook
@@ -122,49 +150,7 @@ class BankBookForm(forms.ModelForm):
         
         self.fields['act_price'].widget.attrs['placeholder'] = "금액(원)"
         self.fields['act_price'].widget.attrs['class'] = "form-control"
-    
-    act_payment = forms.CharField(label="현금/카드",
-                                 widget=forms.RadioSelect(choices=(('현금','현금'),('카드','카드'))), required=True)
-    act_part = forms.CharField(label="지출/수입",
-                                 widget=forms.RadioSelect(choices=(('지출','지출'),('수입','수입'))), required=True)
-
-    '''
-    ActNum = forms.CharField(
-
-        )
-    ActName = forms.CharField(
-
-        )
-    ActSummary = forms.CharField(
-
-        )
-    ActInfo = forms.CharField(
-        widget=forms.Textarea
-        )
-    '''
-
 '''
-    class Meta:
-        model = ActList
-        fields = ('ActNum', 'ActName','ActSummary','ActInfo')
-
-    for field in self.fields:
-            self.fields[field].help_text=None
-            self.fields[field].label=''
-
-        self.fields['ActNum'].widget.attrs['placeholder'] = "계좌번호"
-        self.fields['ActNum'].widget.attrs['class'] = "form-control"
-        self.fields['ActName'].widget.attrs['placeholder'] = "계좌명"
-        self.fields['ActName'].widget.attrs['class'] = "form-control"
-        self.fields['ActSummary'].widget.attrs['placeholder'] = "한줄정보(주로 은행, 예금주 기재)"
-        self.fields['ActSummary'].widget.attrs['class'] = "form-control"
-        self.fields['ActInfo'].widget.attrs['placeholder'] = "계좌 상세정보"
-        self.fields['ActInfo'].widget.attrs['class'] = "form-control"
-'''
-
-
-
-
 
 
 '''

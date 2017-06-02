@@ -150,15 +150,15 @@ class BankBook(models.Model):
         ) 
     
     #카드(T)/현금(F)
-    act_payment = models.BooleanField(
-        null=False,
-        verbose_name='카드(T)/현금(F)',
+    act_payment = models.CharField(
+        verbose_name='카드/현금',
+        max_length=6,
         )
     
     #수입(T)/지출(F)
-    act_part = models.BooleanField(
-        null=False,
-        verbose_name='수입(T)/지출(F)',
+    act_part = models.CharField(
+        verbose_name='수입/지출',
+        max_length=6,
         )
 
 
