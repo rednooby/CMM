@@ -1,28 +1,21 @@
-<!DOCTYPE html>
-<head>
-<title>Bankbook</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+{% extends 'main/layout.html' %}
 
-  <link rel="stylesheet" href="https://pingendo.com/assets/bootstrap/bootstrap-4.0.0-alpha.6.css" type="text/css">
-  
-  <!-- Only 부트스트랩
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-  -->
-  <!--<script src="/lib/jquery-1.12.2.min.js"></script>-->
-  </head>
-  <body>
-    
-<form action="" method="post">
-  {% csrf_token %}
-  {% for BankBook in bankbook %}
-  <table>
-    {{ form.as_table }}
-  </table>
-  {% endfor %}
-</form>
+{% block content %}
 
-  </body>
-  </html>
+<!--돈입력버튼-->
+  <div class="container">    
+        <ul class="navbar-nav mr-auto">
+          <!--입력 폼-->
+          <form action="" method="post">
+          {% csrf_token %}
+          	{{form.act_name}}
+          	{{form.as_table}}
+            <li class="nav-item">
+              <a class="nav-link" href="#"> 
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Save</button>
+              </a>
+            </li>
+          </form>
+  </div>
+          <!--입력폼 끝-->
+{% endblock %}

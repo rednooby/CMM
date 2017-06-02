@@ -24,21 +24,23 @@ def join(request):
 
 	return render(request, 'login/join.html',{'form' : form})
 
-@login_required
-def bankbook(request):
+
+def bankbook_new(request):
+	qs = ActList.objects.filter(act__email=request.user.email)
 	if request.method == 'POST':
 		form = BankBookForm(request.POST)
 		if form.is_valid():
-			act_list = form.save(commit=False)
-			act_list.act = request.user
-			act_list.save()
+			bankbook = form.save(commit=False)
+			#bankbook.name = request.act_name
+			bankbook.save()
 
 			return redirect('Managment')
 	else:
 		form = BankBookForm()
-	print(form)
 
-	return render(request, 'login/bankbook.html', {'form': form})
+	return render(request, 'login/bankbook.html',{
+		'form': form, 'name': qs,
+		})
 
 
 @login_required

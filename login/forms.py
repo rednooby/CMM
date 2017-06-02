@@ -107,28 +107,8 @@ class ActListForm(forms.ModelForm):
 class BankBookForm(forms.ModelForm):
     class Meta:
         model = BankBook
-        fields = ('act_date', 'act_price')
+        fields = ['act_date', 'act_price','act_payment','act_part']
 
-    def __init__(self, *args, **kwargs):
-        super(BankBookForm, self).__init__(*args, **kwargs)
-
-        for field in self.fields:
-            self.fields[field].help_text=None
-            self.fields[field].label=None
-
-        self.fields['act_date'].widget.attrs['class'] = "form-control"
-        self.fields['act_date'].widget.attrs['type'] = "date"
-        
-        self.fields['act_price'].widget.attrs['placeholder'] = "금액(원)"
-        self.fields['act_price'].widget.attrs['class'] = "form-control"
-
-        '''
-        self.fields['act_summary'].widget.attrs['placeholder'] = "한줄메모"
-        self.fields['act_summary'].widget.attrs['class'] = "form-control"
-        
-        self.fields['act_info'].widget.attrs['placeholder'] = "통장설명"
-        self.fields['act_info'].widget.attrs['class'] = "form-control"
-        '''
 
 
 '''
