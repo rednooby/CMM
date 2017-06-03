@@ -8,8 +8,10 @@
           <!--입력 폼-->
           <form action="" method="post">
           {% csrf_token %}
-          	{{form.act_name}}
-          	{{form.as_table}}
+          	{% for ActList in qs1 %}
+          		{{form.as_table}}
+          	{% endfor %}
+          	
             <li class="nav-item">
               <a class="nav-link" href="#"> 
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Save</button>

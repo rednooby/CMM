@@ -130,12 +130,12 @@ class ActList(models.Model):
     def __str__(self):
        return "'{}'의 '{}'".format(self.act, self.act_name)
 
-    def get_absolute_url(self):
-        return reverse('login:account_info', args=[self.id])
-
+    
 
 class BankBook(models.Model):
-    name = models.ForeignKey(ActList)
+    name = models.ForeignKey(ActList,
+        verbose_name='계좌선택',
+        )
 
     #날짜
     act_date = models.DateField(
@@ -160,6 +160,9 @@ class BankBook(models.Model):
         verbose_name='수입/지출',
         max_length=6,
         )
+
+    def __str__(self):
+        return "{} / {} 의 {}".format(self.act_date, self.name, self.act_part)
 
 
 '''

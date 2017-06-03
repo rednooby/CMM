@@ -26,21 +26,21 @@ def join(request):
 
 
 def bankbook_new(request):
-	qs = ActList.objects.filter(act__email=request.user.email)
 	if request.method == 'POST':
 		form = BankBookForm(request.POST)
 		if form.is_valid():
 			bankbook = form.save(commit=False)
-			#bankbook.name = request.act_name
 			bankbook.save()
 
-			return redirect('Managment')
+			return redirect('bankbook_new')
 	else:
 		form = BankBookForm()
 
-	return render(request, 'login/bankbook.html',{
-		'form': form, 'name': qs,
-		})
+	#qs = ActList.objects.filter(act__email=request.user.email)
+	qs1 = BankBook.objects.filter(name__act_name=request.act.act_name)
+	print(qs1)
+	return render(request, 'login/bankbook.html', {'qs': qs, 'form': form, 'qs1':qs1})
+
 
 
 @login_required
@@ -98,11 +98,10 @@ def account_edit(request, act_name):
 			#return redirect(val)
 	else:
 		form = ActListForm(instance=act_list)
-
+		print(form)
 	##자신의 계좌만 필터링##	
 	qs = ActList.objects.filter(act__email=request.user.email)
 	#print(act) #쿼리셋 검증
-
 	return render(request, 'login/mypage.html', {'Managment': qs, 'form': form}) 
 
 
