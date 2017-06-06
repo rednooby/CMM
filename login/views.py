@@ -12,6 +12,10 @@ def login(request):
 	return render(request, 'login/login.html')
 
 
+def index(request):
+	return render(request, 'login/index.html')
+
+
 def join(request):
 	print(request.user) #유저 로그에 남기기
 	if request.method == 'POST':
@@ -24,23 +28,35 @@ def join(request):
 
 	return render(request, 'login/join.html',{'form' : form})
 
+def bankbook_list(request, act_name):
+	qs = ActList.objects.filter(act__email=request.user.email, act_name=act_name)
+	qs1 = ActList.objects.filter(act__email=request.user.email)
+
+	print()
+
+
+	return render(request, 'login/account_info.html',{
+		'account_info': qs, 'actlist': qs1
+		})
 
 def bankbook_new(request):
 	if request.method == 'POST':
 		form = BankBookForm(request.POST)
 		if form.is_valid():
 			bankbook = form.save(commit=False)
+			bankbook.act = request.user
 			bankbook.save()
 
 			return redirect('bankbook_new')
 	else:
 		form = BankBookForm()
 
-	#qs = ActList.objects.filter(act__email=request.user.email)
-	qs1 = BankBook.objects.filter(name__act_name=request.act.act_name)
-	print(qs1)
-	return render(request, 'login/bankbook.html', {'qs': qs, 'form': form, 'qs1':qs1})
-
+	qs = ActList.objects.filter(act__email=request.user.email)
+	#qs = BankBook.objects.filter(name__act_name=request.user.actlist_set.all())
+	print(qs)
+	return render(request, 'login/bankbook.html', {'form': form, 'qs':qs})
+	#_set의 사용: 어떤 model에서 자신을 foreign key로 가지고 있는 모델이 접근하기 위해 Manager를 이용할때 사용
+	#set 정보: http://freeprog.tistory.com/55
 
 
 @login_required

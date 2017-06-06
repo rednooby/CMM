@@ -11,6 +11,6 @@ urlpatterns = [
 	#url(r'^$', root, name='root'), ##최상위 주소##
 	#url(r'^$', lambda r: redirect('login:login'), name='root'), ##최상위 주소##
     url(r'^admin/', admin.site.urls),
-    url(r'^account/', include('login.urls', namespace='login')),
+    url(r'^', include('login.urls', namespace='login')),
     url(r'^index/', include('main.urls')),
 ]

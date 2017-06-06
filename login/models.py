@@ -4,7 +4,9 @@ from django.urls import reverse
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
- 
+
+#user는 django.contrib.auth.middleware.AuthenticationMiddlewar에 의해 설정됨
+#https://github.com/django/django/blob/stable/1.10.x/django/contrib/auth/middleware.py#L16
 class MyUserManager(BaseUserManager):
     def create_user(self, email, nickname, birth, password=None):
         if not email:

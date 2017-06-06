@@ -8,8 +8,11 @@
           <!--입력 폼-->
           <form action="" method="post">
           {% csrf_token %}
-          	{% for ActList in qs1 %}
-          		{{form.as_table}}
+          {{form.as_table}}
+          	{% for BankBook in qs1 %}
+              
+          		
+              
           	{% endfor %}
           	
             <li class="nav-item">
