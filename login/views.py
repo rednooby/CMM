@@ -13,7 +13,10 @@ def login(request):
 
 
 def index(request):
-	return render(request, 'login/index.html')
+	qs = ActList.objects.filter(act__email=request.user.email)
+
+	print(qs)
+	return render(request, 'login/index.html',{'qs': qs})
 
 
 def join(request):
