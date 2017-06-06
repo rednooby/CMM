@@ -135,9 +135,7 @@ class ActList(models.Model):
     
 
 class BankBook(models.Model):
-    name = models.ForeignKey(ActList,
-        verbose_name='계좌선택',
-        )
+    name = models.ForeignKey(ActList)
 
     #날짜
     act_date = models.DateField(

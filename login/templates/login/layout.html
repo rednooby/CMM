@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<head>
+<title>{% block title %}{% endblock %}</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="https://pingendo.com/assets/bootstrap/bootstrap-4.0.0-alpha.6.css" type="text/css"> 
+  <!--<script src="/lib/jquery-1.12.2.min.js"></script>-->
+  </head>
+
+
+
+  <!--계좌정보 사용 헤드 선언-->
+  <script type="text/javascript">
+    var count = 1;
+    function add(){
+        if (count >= 0){
+          var div = document.createElement('div');
+          div.innerHTML = document.getElementById('as').innerHTML;
+          document.getElementById('sortWrap').appendChild(div);
+                            
+        }else{
+          count = count -1; 
+  
+        }
+        count = count +1; 
+  
+    }
+    
+    function remove(obj){
+    
+    document.getElementById('sortWrap').removeChild(obj.parentNode);
+    
+    }
+  </script>
+  <script type="text/javascript">
+    var count = 1;
+    function addimg(){
+        if (count >= 0){
+          var div = document.createElement('div');
+          div.innerHTML = document.getElementById('az').innerHTML;
+          document.getElementById('sp').appendChild(div);
+                            
+        }else{
+          count = count -1; 
+  
+        }
+        count = count +1; 
+  
+    }
+    </script>
+    <!--계좌정보 사용 헤드 선언 끝-->
+
+    <!--프로필 가는 링크 스크립트-->
+    <script type="text/javascript">
+    function EditProfileLink()
+    {
+         location.href = "/account/update/";
+    } 
+    </script>
+  <!--프로필 가는 링크 스크립트 끝-->
+
+<body>
+  <nav class="navbar navbar-expand-md navbar-light bg-faded">
+    <div class="container"> 
+      <!--메뉴버튼-->
+      <i class="d-block fa fa-list fa-2x bg-faded"></i> 
+      <!--버튼끝-->
+
+  <!--돈입력버튼-->
+  <div class="container"> 
+    <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+      <div class="collapse navbar-collapse">
+        
+        <ul class="navbar-nav mr-auto">
+          <!--입력 폼-->
+          <form class="form-inline my-2 my-lg-0">
+            <!--드롭다운메뉴-->
+            <div class="btn-group">
+                <button class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown"> 통장선택 </button>
+                <div class="dropdown-menu">
+                  {% for ActList in qs %}
+                    <a class="dropdown-item" href="{{ ActList.act_name }}">{{ ActList.act_name }}</a>
+                    <div class="dropdown-divider"></div>
+                  {% endfor %}
+                </div>
+            </div>
+            <!--드롭다운메뉴 끝-->
+          </form>
+          <!--입력폼 끝-->
+        </ul>
+        
+        <form class="form-inline my-2 my-lg-0">      
+        <!--로그아웃 상태일 경우에-->
+        {% if not user.is_authenticated %} 
+            <a href="{% url 'login' %}">
+            <i class="d-block mx-auto fa fa-3x fa-power-off text-danger"></i>
+            </a>
+        {% else %}<!-- if user.is_active 요것은 유저가 로그인 상태일때-->
+            <a href="{% url 'logout' %}">
+            <i class="d-block mx-auto fa fa-3x fa-power-off text-success"></i>
+            </a>
+        {% endif %} 
+        </form>
+      </div>
+    </div>
+  </div>
+  <!--돈입력버튼 끝-->
+  </nav>
+  <hr>
+  <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+  <script src="https://pingendo.com/assets/bootstrap/bootstrap-4.0.0-alpha.6.min.js"></script>
+  {% block content %} 
+
+
+  {% endblock %}
+</body>
+
+</html>

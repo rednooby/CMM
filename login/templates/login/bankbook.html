@@ -1,4 +1,4 @@
-{% extends 'main/layout.html' %}
+{% extends 'login/layout.html' %}
 
 {% block content %}
 
@@ -8,8 +8,9 @@
           <!--입력 폼-->
           <form action="" method="post">
           {% csrf_token %}
+          <label>{{ form.name }}</label>
           {{form.as_table}}
-          	{% for BankBook in qs1 %}
+          	{% for BankBook in qs %}
               
           		
               
