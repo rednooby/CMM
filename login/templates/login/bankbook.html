@@ -9,12 +9,12 @@
           <form action="" method="post">
           {% csrf_token %}
           <label>{{ form.name }}</label>
-          {{form.as_table}}
-          	{% for BankBook in qs %}
+
+          	
               
-          		
+          		{{form.as_table}}
               
-          	{% endfor %}
+          	
           	
             <li class="nav-item">
               <a class="nav-link" href="#"> 

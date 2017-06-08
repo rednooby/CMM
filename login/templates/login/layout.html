@@ -80,7 +80,7 @@
                 <button class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown"> 통장선택 </button>
                 <div class="dropdown-menu">
                   {% for ActList in qs %}
-                    <a class="dropdown-item" href="{{ ActList.act_name }}">{{ ActList.act_name }}</a>
+                    <a class="dropdown-item" href="{{ ActList.id }}">{{ ActList.act_name }}</a>
                     <div class="dropdown-divider"></div>
                   {% endfor %}
                 </div>

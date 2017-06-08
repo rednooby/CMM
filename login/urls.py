@@ -8,7 +8,7 @@ from . import views
 urlpatterns = [
     url(r'^join/$', views.join, name='join'),
     url(r'^index/$', views.index, name='index'),
-    url(r'^index/(?P<act_name>.+)/$', views.bankbook_new, name='bankbooknew'),
+    url(r'^index/(?P<id>.+)/$', views.bankbook_new, name='bankbooknew'),
     url(r'^mypage/$', views.Managment, name='Managment'),
     #url(r'^bankbook/$', views.bankbook_new, name='bankbook_new'),
     url(r'^mypage/PWC$', auth_views.password_change, name='password_change_done',

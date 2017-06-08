@@ -42,24 +42,27 @@ def bankbook_list(request, act_name):
 		'account_info': qs, 'actlist': qs1
 		})
 
-def bankbook_new(request, act_name):
+def bankbook_new(request, id):
 	if request.method == 'POST':
 		form = BankBookForm(request.POST)
 		if form.is_valid():
 			bankbook = form.save(commit=False)
-			bankbook.name = request.user.actlist_set.filter(act_name=act_name)
+			bankbook.name = request.user.actlist_set.all().get(id=id)
+			
+			#bankbook.name = request.user.actlist_set.filter(act_name=act_name)
+			#안되는 이유=>쿼리셋은 다수의 모델필드를 DB에 쿼리하기 위한 객체. 그래서 직접 모델필드로 담을수 없음
+			#request.user.actlist_set.filter는 쿼리셋인데 외래키 필드에 지정하여 오류가 난것
 			bankbook.save()
 
 			return redirect('index')
 	else:
 		form = BankBookForm()
 
-	qs = ActList.objects.filter(act__email=request.user.email, act_name=act_name)
-	qs1 = BankBook.objects.all()
+	qs = ActList.objects.filter(act__email=request.user.email, id=id)
+	#qs = BankBook.objects.all()
 	
-	#qs1 = BankBook.objects.filter(name__act_name=request.user.actlist_set.all())
 	print(qs)
-	return render(request, 'login/bankbook.html', {'form': form, 'qs':qs, 'qs1':qs1})
+	return render(request, 'login/bankbook.html', {'form': form, 'qs':qs})
 	#_set의 사용: 어떤 model에서 자신을 foreign key로 가지고 있는 모델이 접근하기 위해 Manager를 이용할때 사용
 	#set 정보: http://freeprog.tistory.com/55
 
