@@ -4,24 +4,47 @@
 
 <!--돈입력버튼-->
   <div class="container">    
-        <ul class="navbar-nav mr-auto">
-          <!--입력 폼-->
-          <form action="" method="post">
-          {% csrf_token %}
-          <label>{{ form.name }}</label>
+    <!--입력 폼-->
+    <form action="" method="post">
+    {% csrf_token %}
+      <center>
+        <!--폼에 필드가 없을경우 에러메세지 출력-->
+        {% for error in form.non_field_errors %}
+          <div class="alert alert-danger">
+              {{ error }}
+          </div>
+        {% endfor %}
 
-          	
-              
-          		{{form.as_table}}
-              
-          	
-          	
-            <li class="nav-item">
-              <a class="nav-link" href="#"> 
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Save</button>
-              </a>
-            </li>
-          </form>
+        <div class="col-sm-5">
+          <input type="date" class="form-control" id="id_act_date" name="act_date">
+          {% for error in form.act_date.errors %}
+            <div class="alert alert-danger">
+              {{ error }}
+            </div>
+          {% endfor %}
+          <input type="text" class="form-control" id="id_act_price" name="act_price" placeholder="금액(원)">
+          {% for error in form.act_price.errors %}
+            <div class="alert alert-danger">
+              {{ error }}
+            </div>
+          {% endfor %}
+          <select class="form-control" id="id_act_payment" name="act_payment">
+            <option>카드</option>
+            <option>현금</option>
+          </select>
+          <select class="form-control" id="id_act_part" name="act_part">
+            <option>수입</option>
+            <option>지출</option>
+          </select>
+        </div>
+         <p class="help-block"></p>
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Save</button>
+      </center>
+    </form>
   </div>
           <!--입력폼 끝-->
 {% endblock %}
+
+
+
+

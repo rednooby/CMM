@@ -59,9 +59,8 @@ def bankbook_new(request, id):
 		form = BankBookForm()
 
 	qs = ActList.objects.filter(act__email=request.user.email, id=id)
-	#qs = BankBook.objects.all()
 	
-	print(qs)
+	print(form)
 	return render(request, 'login/bankbook.html', {'form': form, 'qs':qs})
 	#_set의 사용: 어떤 model에서 자신을 foreign key로 가지고 있는 모델이 접근하기 위해 Manager를 이용할때 사용
 	#set 정보: http://freeprog.tistory.com/55

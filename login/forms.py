@@ -111,7 +111,17 @@ class BankBookForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(BankBookForm,self).__init__(*args, **kwargs)
-
+        
+        '''
+        self.fields['act_date'].widget.attrs['placeholder'] = "날짜"
+        self.fields['act_date'].widget.attrs['class'] = "form-control"
+        self.fields['act_price'].widget.attrs['placeholder'] = "금액(원)"
+        self.fields['act_price'].widget.attrs['class'] = "form-control"
+        self.fields['act_payment'].widget.attrs['placeholder'] = "카드/현금"
+        self.fields['act_payment'].widget.attrs['class'] = "form-control"
+        self.fields['act_part'].widget.attrs['placeholder'] = "수입/지출"
+        self.fields['act_part'].widget.attrs['class'] = "form-control"
+        '''
         
 
 
