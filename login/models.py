@@ -165,6 +165,7 @@ class BankBook(models.Model):
         return "{} / {} 의 {}".format(self.act_date, self.name, self.act_part)
 
 
+
 '''
 #선택은 choices 사용
 #https://nomade.kr/vod/django/27/ 참고 23:39

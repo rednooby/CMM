@@ -2,8 +2,60 @@
 
 {% block content %}
 
+<!--상단 로고 및 CMM 출력-->
+<div class="container">
+	<div class="row">
+		<form class="form-inline my-4 my-lg-0"><!--폼의 사이즈 고정 및 사진, 글씨 정렬-->
+			<div class="col-md-4">
+				<img src="https://pingendo.com/assets/photos/user_placeholder.png" class="rounded-circle img-fluid mx-auto d-block">
+			</div>
+			<div class="col-md-4">
+				<h1 class="text-primary">CMM</h1>
+			</div>
+		</form>
+	</div>
+</div>
 
-Index
+<br>
+
+<!--통장 리스트와 그래프 출력-->
+<div class="container">
+	<div class="row">
+		<div class="col-md-6">
+			6이당
+		</div>
+		<div class="col-md-3">
+			원그래프 넣을래
+		</div>
+		<div class="col-md-3">
+			꺾은선 넣을래
+		</div>
+	</div>
+</div>
+
+<br>
+<hr>
+
+
+<!--검색-->
+<div class="container">
+	<div class="row">
+		<form class="form-inline my-4 my-lg-0"><!--폼의 사이즈 고정 및 사진, 글씨 정렬-->
+			<div class="col-md-5">
+				<h2 class="text-primary">통장 검색</h2>
+			</div>
+			<div class="col-md-2">
+				<input type="text" class="form-control"></input>	
+			</div>
+			<div class="col-md-2">
+				<button class="btn btn-primary">검색</button>
+			</div>
+			<div class="col-md-2">
+				<button class="btn btn-primary">내통장 검색</button>
+			</div>
+		</form>
+	</div>
+</div>
 
 
 {% endblock %}
