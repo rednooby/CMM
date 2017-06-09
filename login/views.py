@@ -15,8 +15,15 @@ def login(request):
 def index(request):
 	qs = ActList.objects.filter(act__email=request.user.email)
 
-	print(qs)
 	return render(request, 'login/index.html',{'qs': qs})
+
+def my_view(request, act_name):
+	qs = ActList.objects.filter(act__email=request.user.email)
+	qs_info = ActList.objects.filter(act__email=request.user.email, act_name=act_name)
+	qs_bank = BankBook.objects.filter(name=act_name)
+
+	print(qs)
+	return render(request, 'login/my_view.html', {'qs': qs, 'qs_info':qs_info})
 
 
 def join(request):

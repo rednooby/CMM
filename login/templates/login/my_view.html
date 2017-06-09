@@ -1,0 +1,24 @@
+{% extends 'login/layout.html' %}
+
+{% block content %}
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-6">
+			{% for ActList in qs_info %}
+				{{ ActList.act_name }} 통장의 사용내역
+			{% endfor %}
+		</div>
+		<div class="col-md-6">
+			<table class="form-control">
+				
+					<th>
+
+					</th>
+				
+			</table>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

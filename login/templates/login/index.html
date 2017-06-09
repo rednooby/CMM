@@ -20,42 +20,65 @@
 
 <!--통장 리스트와 그래프 출력-->
 <div class="container">
+	<hr>
 	<div class="row">
-		<div class="col-md-6">
-			6이당
+		<div class="col-md-4">
+			<div class="btn-group">
+                <button class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown"> {{ user.nickname }}님의 통장목록 </button>
+                <div class="dropdown-menu">
+                  {% for ActList in qs %}
+                    <a class="dropdown-item" href="my_view/{{ ActList.act_name }}">{{ ActList.act_name }}</a>
+                <div class="dropdown-divider"></div>
+                  {% endfor %}
+                </div>
+            </div>
 		</div>
-		<div class="col-md-3">
-			원그래프 넣을래
-		</div>
-		<div class="col-md-3">
+
+		<div class="col-md-8">
 			꺾은선 넣을래
 		</div>
 	</div>
 </div>
-
 <br>
-<hr>
+<br>
+<br>
 
 
 <!--검색-->
+<nav class="navbar navbar-expand-md">
+    <div class="container"> 
+	    <div class="col-md-12">
+	      
+	    </div>
+	 </div><!--End of container-->
+</nav>
+
+<!--통장 공유 게시판-->
 <div class="container">
 	<div class="row">
-		<form class="form-inline my-4 my-lg-0"><!--폼의 사이즈 고정 및 사진, 글씨 정렬-->
-			<div class="col-md-5">
-				<h2 class="text-primary">통장 검색</h2>
-			</div>
-			<div class="col-md-2">
-				<input type="text" class="form-control"></input>	
-			</div>
-			<div class="col-md-2">
-				<button class="btn btn-primary">검색</button>
-			</div>
-			<div class="col-md-2">
-				<button class="btn btn-primary">내통장 검색</button>
-			</div>
-		</form>
+		<div class="col-md-8">
+			
+		</div>
+		<div class="col-md-4">
+
+		</div>
 	</div>
 </div>
+
+<!--<div class="container">
+	<div class="row">
+		<div class="col-md-4">
+			자랑통장 나올것
+		</div>
+		<div class="col-md-4">
+			ㅎㅎ
+		</div>
+		<div class="col-md-4">
+			ㅠㅎㅎ
+		</div>
+	</div>
+</div>
+-->
 
 
 {% endblock %}
