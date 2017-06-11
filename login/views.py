@@ -17,12 +17,12 @@ def index(request):
 
 	return render(request, 'login/index.html',{'qs': qs})
 
-def my_view(request, act_name):
-	qs = ActList.objects.filter(act__email=request.user.email)
-	qs_info = ActList.objects.filter(act__email=request.user.email, act_name=act_name)
-	qs_bank = BankBook.objects.filter(name=act_name)
+def my_view(request, id):
+	#qs = ActList.objects.filter(act__email=request.user.email)
+	qs = ActList.objects.filter(act__email=request.user.email, id=id)
+	qs_info = BankBook.objects.filter(name_id=id) #가장 최근날짜 최상위로 필터링 추가하기
 
-	print(qs)
+	print(qs_info)
 	return render(request, 'login/my_view.html', {'qs': qs, 'qs_info':qs_info})
 
 

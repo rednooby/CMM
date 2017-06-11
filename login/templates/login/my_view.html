@@ -5,17 +5,28 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-6">
-			{% for ActList in qs_info %}
+			{% for ActList in qs %}
 				{{ ActList.act_name }} 통장의 사용내역
 			{% endfor %}
 		</div>
 		<div class="col-md-6">
-			<table class="form-control">
-				
-					<th>
-
-					</th>
-				
+			<table class="table">
+					<thead>
+						<tr>
+							<th>날짜</th>
+							<th>금액</th>
+							<th>카드/현금</th>
+							<th>수입/지출</th>
+						</tr>
+					</thead>
+				{% for BankBook in qs_info %}
+					<tbody>
+						<td>{{ BankBook.act_date }}</td>
+						<td>{{ BankBook.act_price }}</td>
+						<td>{{ BankBook.act_payment }}</td>
+						<td>{{ BankBook.act_part }}</td>
+					</tbody>
+				{% endfor %}
 			</table>
 		</div>
 	</div>
