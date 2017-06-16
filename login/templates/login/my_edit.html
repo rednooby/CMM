@@ -2,12 +2,10 @@
 
 {% block content %}
 
-<!--돈입력버튼-->
-  <div class="container">    
-    <!--입력 폼-->
-    <form action="" method="post">
-    {% csrf_token %}
-      <center>
+
+<form action="" method="post">
+	{% csrf_token %}
+	     <center>
         <!--폼에 필드가 없을경우 에러메세지 출력-->
         {% for error in form.non_field_errors %}
           <div class="alert alert-danger">
@@ -16,13 +14,13 @@
         {% endfor %}
 
         <div class="col-sm-5">
-          <input type="date" class="form-control" id="id_act_date" name="act_date">
+          <input type="date" class="form-control" required id="id_act_date" name="act_date" value="">
           {% for error in form.act_date.errors %}
             <div class="alert alert-danger">
               {{ error }}
             </div>
           {% endfor %}
-          <input type="text" class="form-control" id="id_act_price" name="act_price" placeholder="금액(원)">
+          <input type="text" class="form-control" required id="id_act_price" name="act_price" value="">
           {% for error in form.act_price.errors %}
             <div class="alert alert-danger">
               {{ error }}
@@ -38,13 +36,8 @@
           </select>
         </div>
          <p class="help-block"></p>
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Save</button>
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">완료</button>
       </center>
-    </form>
-  </div>
-  <!--입력폼 끝-->
+	
+</form>
 {% endblock %}
-
-
-
-

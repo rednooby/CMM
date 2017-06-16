@@ -6,7 +6,10 @@ from . import views
 
 #/account/??
 urlpatterns = [
-    url(r'^index/my_view/(?P<id>.+)/$', views.my_view, name='my_view'),
+    url(r'^index/my_view/(?P<id>.+)/$', views.my_list, name='my_list'),
+    url(r'^index/view/(?P<id>.+)/$', views.my_view, name='my_view'),
+    url(r'^index/edit/(?P<id>.+)/$', views.my_edit, name='my_edit'),
+    url(r'^index/delete/(?P<id>.+)/$', views.my_delete, name='my_delete'),
     url(r'^join/$', views.join, name='join'),
     url(r'^index/$', views.index, name='index'),
     url(r'^mypage/$', views.Managment, name='Managment'),
