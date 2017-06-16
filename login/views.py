@@ -12,11 +12,14 @@ def login(request):
 	return render(request, 'login/login.html')
 
 
+##메인화면##	/index/$
 def index(request):
 	qs_li = ActList.objects.filter(act__email=request.user.email)
 
 	return render(request, 'login/index.html',{'qs_li': qs_li})
 
+
+##통장 사용정보 출력##	/index/my_view/id/$
 def my_view(request, id):
 	#qs = ActList.objects.filter(act__email=request.user.email)
 	qs = ActList.objects.filter(act__email=request.user.email, id=id)
@@ -27,6 +30,7 @@ def my_view(request, id):
 	return render(request, 'login/my_view.html', {'qs': qs, 'qs_info':qs_info, 'qs_li':qs_li})
 
 
+##회원가입##	/join/$
 def join(request):
 	print(request.user) #유저 로그에 남기기
 	if request.method == 'POST':
@@ -53,7 +57,7 @@ def bankbook_list(request, act_name):
 		})
 '''
 
-
+##계좌에 금액추가##	/id/$
 def bankbook_new(request, id):
 	if request.method == 'POST':
 		form = BankBookForm(request.POST)
@@ -80,7 +84,7 @@ def bankbook_new(request, id):
 
 
 @login_required
-##통장정보 출력##
+##통장정보 출력##	/mypage/act_name/$
 def account_info(request, act_name):
 	qs = ActList.objects.filter(act__email=request.user.email, act_name=act_name)
 	qs_li = ActList.objects.filter(act__email=request.user.email)
@@ -93,7 +97,7 @@ def account_info(request, act_name):
 		})
 
 
-#목록, 데이터 입력
+##회원정보, 통장정보 출력(mypage)##	/mypage/$
 @login_required
 def Managment(request):
 	if request.method == 'POST':
@@ -119,7 +123,7 @@ def Managment(request):
 	return render(request, 'login/mypage.html', {'Managment': qs, 'form': form}) 
  
 
-#데이터 수정 (아직 안된것 수정해야됨)
+##통장정보 수정 (아직 안된것 수정해야됨)##		/mypage/act_name/edit/$
 def account_edit(request, act_name):
 	act_list = get_object_or_404(ActList, act_name=act_name)
 
