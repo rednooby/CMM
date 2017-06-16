@@ -12,9 +12,12 @@
  <p class="lead">
    <table>
      <tr>
-      {% for ActList in actlist %}
-        <th>  
+      {% for ActList in qs_li %}
+        <th>
+        
+          <a href="/mypage/{{ ActList.act_name }}">
             <h3>{{ ActList.act_name }}</h3>
+          </a>
         </th>
         <td><label for="inputText3" class="col-sm-12 control-label">{{ ActList.act_summary }}</label></td>          
       </tr>
@@ -30,7 +33,7 @@
 
 	<p class=""></p>
 		{{form.as_table}}
-		 {% for ActList in account_info %}
+		 {% for ActList in qs %}
 		  <div class="lead">
 		  	<div class="panel panel">
 		      <div class="panel-heading">

@@ -13,17 +13,18 @@ def login(request):
 
 
 def index(request):
-	qs = ActList.objects.filter(act__email=request.user.email)
+	qs_li = ActList.objects.filter(act__email=request.user.email)
 
-	return render(request, 'login/index.html',{'qs': qs})
+	return render(request, 'login/index.html',{'qs_li': qs_li})
 
 def my_view(request, id):
 	#qs = ActList.objects.filter(act__email=request.user.email)
 	qs = ActList.objects.filter(act__email=request.user.email, id=id)
 	qs_info = BankBook.objects.filter(name_id=id) #가장 최근날짜 최상위로 필터링 추가하기
+	qs_li = ActList.objects.filter(act__email=request.user.email)
 
 	print(qs_info)
-	return render(request, 'login/my_view.html', {'qs': qs, 'qs_info':qs_info})
+	return render(request, 'login/my_view.html', {'qs': qs, 'qs_info':qs_info, 'qs_li':qs_li})
 
 
 def join(request):
@@ -38,16 +39,20 @@ def join(request):
 
 	return render(request, 'login/join.html',{'form' : form})
 
+
+'''
 def bankbook_list(request, act_name):
 	qs = ActList.objects.filter(act__email=request.user.email, act_name=act_name)
-	qs1 = ActList.objects.filter(act__email=request.user.email)
+	qs_li = ActList.objects.filter(act__email=request.user.email)
 
 	print()
 
 
-	return render(request, 'login/account_info.html',{
-		'account_info': qs, 'actlist': qs1
+	return render(request, 'account_info',{
+		'qs': qs, 'qs_li': qs_li
 		})
+'''
+
 
 def bankbook_new(request, id):
 	if request.method == 'POST':
@@ -66,9 +71,10 @@ def bankbook_new(request, id):
 		form = BankBookForm()
 
 	qs = ActList.objects.filter(act__email=request.user.email, id=id)
+	qs_li = ActList.objects.filter(act__email=request.user.email)
 	
-	print(form)
-	return render(request, 'login/bankbook.html', {'form': form, 'qs':qs})
+	#print(form)
+	return render(request, 'login/bankbook.html', {'form': form, 'qs':qs, 'qs_li':qs_li})
 	#_set의 사용: 어떤 model에서 자신을 foreign key로 가지고 있는 모델이 접근하기 위해 Manager를 이용할때 사용
 	#set 정보: http://freeprog.tistory.com/55
 
@@ -77,13 +83,13 @@ def bankbook_new(request, id):
 ##통장정보 출력##
 def account_info(request, act_name):
 	qs = ActList.objects.filter(act__email=request.user.email, act_name=act_name)
-	qs1 = ActList.objects.filter(act__email=request.user.email)
+	qs_li = ActList.objects.filter(act__email=request.user.email)
 
 	print()
 
 
 	return render(request, 'login/account_info.html',{
-		'account_info': qs, 'actlist': qs1
+		'qs': qs, 'qs_li': qs_li
 		})
 
 

@@ -5,9 +5,12 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-6">
+		<h1 class="text-primary">	
 			{% for ActList in qs %}
-				{{ ActList.act_name }} 통장의 사용내역
+				{{ ActList.act_name }}
 			{% endfor %}
+		</h1>
+		사용내역
 		</div>
 		<div class="col-md-6">
 			<table class="table">

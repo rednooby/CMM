@@ -26,7 +26,7 @@
 			<div class="btn-group">
                 <button class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown"> {{ user.nickname }}님의 통장목록 </button>
                 <div class="dropdown-menu">
-                  {% for ActList in qs %}
+                  {% for ActList in qs_li %}
                     <a class="dropdown-item" href="my_view/{{ ActList.id }}">{{ ActList.act_name }}</a>
                 <div class="dropdown-divider"></div>
                   {% endfor %}
