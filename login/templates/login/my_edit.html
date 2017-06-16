@@ -12,32 +12,42 @@
               {{ error }}
           </div>
         {% endfor %}
-
         <div class="col-sm-5">
-          <input type="date" class="form-control" required id="id_act_date" name="act_date" value="">
+        <input type="text" class="form-control" id="id_act_date" name="act_date" value="{{ form.act_date.value }}">
           {% for error in form.act_date.errors %}
             <div class="alert alert-danger">
               {{ error }}
             </div>
           {% endfor %}
-          <input type="text" class="form-control" required id="id_act_price" name="act_price" value="">
+          <input type="text" class="form-control" required id="id_act_price" name="act_price" value="{{ form.act_price.value }}">
           {% for error in form.act_price.errors %}
             <div class="alert alert-danger">
               {{ error }}
             </div>
           {% endfor %}
+
           <select class="form-control" id="id_act_payment" name="act_payment">
-            <option>카드</option>
-            <option>현금</option>
+
+            <option>{{form.act_payment.value}}</option>
+            
+            {% if form.act_payment.value == "현금" %}
+	       		<option>카드</option>
+	        {% else %}
+	            <option>현금</option>
+            {% endif %}
           </select>
           <select class="form-control" id="id_act_part" name="act_part">
-            <option>수입</option>
-            <option>지출</option>
+            <option>{{form.act_part.value}}</option>
+            
+            {% if form.act_part.value == "수입" %}
+            	<option>지출</option>
+            {% else %}
+            	<option>수입</option>
+          	{% endif %}
           </select>
         </div>
          <p class="help-block"></p>
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">완료</button>
       </center>
-	
 </form>
 {% endblock %}
