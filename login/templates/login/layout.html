@@ -5,116 +5,343 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
   <link rel="stylesheet" href="https://pingendo.com/assets/bootstrap/bootstrap-4.0.0-alpha.6.css" type="text/css"> 
+
+
   <!--<script src="/lib/jquery-1.12.2.min.js"></script>-->
-  </head>
 
 
+      <!--Using jQuery and jQuery UI for display effects-->
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
 
-  <!--계좌정보 사용 헤드 선언-->
-  <script type="text/javascript">
-    var count = 1;
-    function add(){
-        if (count >= 0){
-          var div = document.createElement('div');
-          div.innerHTML = document.getElementById('as').innerHTML;
-          document.getElementById('sortWrap').appendChild(div);
-                            
-        }else{
-          count = count -1; 
-  
-        }
-        count = count +1; 
-  
-    }
-    
-    function remove(obj){
-    
-    document.getElementById('sortWrap').removeChild(obj.parentNode);
-    
-    }
+    <!--Using the hamburger menu display code-->
+    <script>
+    jQuery(document).ready(function () {
+
+      //Open the menu
+      jQuery("#hamburger").click(function () {
+
+        jQuery('#content').css('min-height', jQuery(window).height());
+
+        jQuery('nav').css('opacity', 1);
+
+        //set the width of primary content container -> content should not scale while animating
+        var contentWidth = jQuery('#content').width();
+
+        //set the content with the width that it has originally
+        jQuery('#content').css('width', contentWidth);
+
+        //display a layer to disable clicking and scrolling on the content while menu is shown
+        jQuery('#contentLayer').css('display', 'block');
+
+        //disable all scrolling on mobile devices while menu is shown
+        jQuery('#container').bind('touchmove', function (e) {
+          e.preventDefault()
+        });
+
+        //set margin for the whole container with a jquery UI animation
+        jQuery("#container").animate({"marginLeft": ["300px", 'easeOutExpo']}, {
+          duration: 700
+        });
+
+      });
+
+      //close the menu
+      jQuery("#contentLayer").click(function () {
+
+        //enable all scrolling on mobile devices when menu is closed
+        jQuery('#container').unbind('touchmove');
+
+        //set margin for the whole container back to original state with a jquery UI animation
+        jQuery("#container").animate({"marginLeft": ["-1", 'easeOutExpo']}, {
+          duration: 700,
+          complete: function () {
+            jQuery('#content').css('width', 'auto');
+            jQuery('#contentLayer').css('display', 'none');
+            jQuery('nav').css('opacity', 0);
+            jQuery('#content').css('min-height', 'auto');
+
+          }
+        });
+      });
+
+    }); 
   </script>
-  <script type="text/javascript">
-    var count = 1;
-    function addimg(){
-        if (count >= 0){
-          var div = document.createElement('div');
-          div.innerHTML = document.getElementById('az').innerHTML;
-          document.getElementById('sp').appendChild(div);
-                            
-        }else{
-          count = count -1; 
-  
-        }
-        count = count +1; 
-  
-    }
-    </script>
-    <!--계좌정보 사용 헤드 선언 끝-->
 
-    <!--프로필 가는 링크 스크립트-->
-    <script type="text/javascript">
-    function EditProfileLink()
-    {
-         location.href = "/account/update/";
-    } 
-    </script>
-  <!--프로필 가는 링크 스크립트 끝-->
+    <!--Using Media Queries, if the viewport is smaller than 700px use another stylesheet-->
+<style>
+html {
+    overflow-y: scroll;
+}
+
+/*
+Setup a basic body
+*/
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    font-family: Arial;
+    font-size: 18px;
+}
+
+/*
+Header is relative so z-index: 1 guarantees always displayed on top
+*/
+header {
+    background-color: #3b5998;
+    padding: 10px;
+    text-decoration: none;
+    position: fixed;
+    width: 100%;
+    z-index: 1;
+    -webkit-box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.4);
+    box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.4);
+}
+
+/*
+using background color is important to cover the menu
+position absolute isset to cover the whole viewport
+*/
+#content {
+    background-color: #FFFFFF;
+    padding: 52px 10px 10px 10px;
+    position: relative;
+    width: auto;
+    height: 100%;
+    /* munu shadow
+    -webkit-box-shadow: -10px 0px 9px 0px rgba(0, 0, 0, 0.4);
+    box-shadow: -10px 0px 9px 0px rgba(0, 0, 0, 0.4);
+    */
+}
+
+/*
+the hamburger button with a little gradient effekt
+*/
+#hamburger {
+    border: 1px solid #374C77;
+    border-radius: 3px 3px 3px 3px;
+    cursor: pointer;
+    display: block;
+    height: 24px;
+    padding: 3px 4px 3px;
+    position: relative;
+    width: 25px;
+    background: #4569b2;
+    background: -moz-linear-gradient(top, #4569b2 0%, #4062a5 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #4569b2), color-stop(100%, #4062a5));
+    background: -webkit-linear-gradient(top, #4569b2 0%, #4062a5 100%);
+    background: -o-linear-gradient(top, #4569b2 0%, #4062a5 100%);
+    background: -ms-linear-gradient(top, #4569b2 0%, #4062a5 100%);
+    background: linear-gradient(to bottom, #4569b2 0%, #4062a5 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4569b2', endColorstr='#4062a5', GradientType=0);
+}
+
+/*
+The white stripes in the hamburger button
+*/
+#hamburger div {
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: 2px 2px 2px 2px;
+    height: 2px;
+    margin-top: 3px;
+    width: 100%;
+}
+
+/*
+The navigation container in the background
+*/
+nav {
+    opacity: 0;
+    left: 0px;
+    top: 0px;
+    position: fixed;
+    z-index: 0;
+    width: 300px;
+    height: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: #ffffff;
+
+}
+
+/*
+Style the navigation menu
+*/
+nav ul {
+    list-style: none;
+    margin: 0;
+    width: 100%;
+    padding: 0;
+}
+
+nav li {
+    color: #514f4f;
+    position: relative;
+    font-size: 1em;
+    font-weight: bold;
+    /* 메뉴마다 밑줄
+    border-bottom: 0.5px solid #f2efef;
+    border-top: 0.5px solid #f2efef;
+    */
+    padding: 15px;
+}
+
+nav li a {
+    color: #514f4f;
+    text-decoration: none;
+}
+
+/*
+The Layer that will be layed over the content
+so that the content is unclickable while menu is shown
+*/
+#contentLayer {
+    display: none;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 70%;
+    z-index: 5;
+}
+
+</style>
+</head>
+
+
+
+  
 
 <body>
-  <nav class="navbar navbar-expand-md navbar-light bg-faded">
-    <div class="container"> 
-      <!--메뉴버튼-->
-      <i class="d-block fa fa-list fa-2x bg-faded"></i> 
-      <!--버튼끝-->
+  <!--This wrapping container is used to get the width of the whole content-->
+<div id="container">
 
-  <!--돈입력버튼-->
-  <div class="container"> 
-    <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-      <div class="collapse navbar-collapse">
+    <!--The Hamburger Button in the Header-->
+    <header>
+        <div id="hamburger">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </header>
+
+    <!--The mobile navigation Markup hidden via css-->
+    <nav>
+        <ul align="center">
+            <li>
+              {{user.nickname}}님 환영합니다. 
+               {% if not user.is_authenticated %} 
+                  <a href="{% url 'login' %}">
+                  <i class="d-block mx-auto fa fa-3x fa-power-off text-danger"></i>
+                  </a>
+                {% else %}<!-- if user.is_active 요것은 유저가 로그인 상태일때-->
+                <a href="{% url 'logout' %}">
+                  <i class="d-block mx-auto fa fa1x fa-power-off text-success">LOGOUT</i>
+                </a>
+                {% endif %}
+            </li>
+            <li><a href="#"><h1>CMM</h1></a></li>
+            <li><a href="#">소비공유 게시판</a></li>
+            <li><a href="#">지출공유 게시판</a></li>
+        </ul>
+        <ul><li></li></ul>
         
-        <ul class="navbar-nav mr-auto">
-          <!--입력 폼-->
-          <form class="form-inline my-2 my-lg-0">
-            <!--드롭다운메뉴-->
-            <div class="btn-group">
-                <button class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown"> 통장선택 </button>
-                <div class="dropdown-menu">
-                  {% for ActList in qs_li %}
-                    <a class="dropdown-item" href="/{{ ActList.id }}">{{ ActList.act_name }}</a>
-                    <div class="dropdown-divider"></div>
+        <ul align="center">
+          <li><h1>가게부</h1></li>
+        </ul>
+            {% for ActList in qs_li %}  
+                <li align="center"><a href="/{{ ActList.id }}">{{ ActList.act_name }}</a></li>
+              {% endfor %}
+          
+        
+    </nav>
+
+    <!--The Layer that will be layed over the content
+    so that the content is unclickable while menu is shown-->
+    <div id="contentLayer"></div>
+
+    <!--The content of the site-->
+    <div id="content">
+      {% block content %} 
+
+
+      {% endblock %}
+    </div>
+
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="editModal" role="dialog" data-backdrop="false">
+  <div class="modal-dialog">
+    <!--Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <!--Close button-->
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <!--Modal title-->
+        <h4 class="modal-title" id="myModalLabel">회원정보 변경</h4>
+      </div><!--End of modal-content-->
+      <!--Modal body-->
+      <div class="modal-body">
+        <form action="" method="post">
+          {% csrf_token %}
+          <center>
+            <!--폼에 필드가 없을경우 에러메세지 출력-->
+            {% for error in form.non_field_errors %}
+              <div class="alert alert-danger">
+                  {{ error }}
+              </div>
+            <script>
+              $(document).ready(function(){
+                  $("#myModal").modal("show");
+              });
+            </script>
+            {% endfor %}
+            <!--필드 출력할 반복문-->
+            {% for field in form.visible_fields %}
+              <div class="form-group">
+                <!--필드들의 라벨 출력-->
+                {{ field.label_tag }} 
+
+                <div class="col-sm-10">
+                  <!--필드들 출력-->
+                  {{ field }}
+                  <!--필드자체 에러 메시지 출력-->
+                  {% for error in field.errors %}
+                    <div class="alert alert-danger">
+                      {{ error }}
+                    </div>
+                  <script>
+                    $(document).ready(function(){
+                        $("#myModal").modal("show");
+                    });
+                  </script>
                   {% endfor %}
                 </div>
-            </div>
-            <!--드롭다운메뉴 끝-->
-          </form>
-          <!--입력폼 끝-->
-        </ul>
-        
-        <form class="form-inline my-2 my-lg-0">      
-        <!--로그아웃 상태일 경우에-->
-        {% if not user.is_authenticated %} 
-            <a href="{% url 'login' %}">
-            <i class="d-block mx-auto fa fa-3x fa-power-off text-danger"></i>
-            </a>
-        {% else %}<!-- if user.is_active 요것은 유저가 로그인 상태일때-->
-            <a href="{% url 'logout' %}">
-            <i class="d-block mx-auto fa fa-3x fa-power-off text-success"></i>
-            </a>
-        {% endif %} 
+              </div> 
+            {% endfor %}
+            </center>    
+          </div><!--End of Modal-body-->
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" id="myBtn">확인</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+          </div><!--End of Modal-footer-->
         </form>
-      </div>
     </div>
   </div>
-  <!--돈입력버튼 끝-->
-  </nav>
-  <hr>
-  <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
-  <script src="https://pingendo.com/assets/bootstrap/bootstrap-4.0.0-alpha.6.min.js"></script>
-  {% block content %} 
+</div>
 
 
-  {% endblock %}
+
 </body>
 
 </html>
+  <script src="https://pingendo.com/assets/bootstrap/bootstrap-4.0.0-alpha.6.min.js"></script><!--지우면 디비 안불러와짐. 모바일 메뉴할때 확인-->
