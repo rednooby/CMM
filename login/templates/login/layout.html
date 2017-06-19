@@ -109,10 +109,10 @@ position absolute isset to cover the whole viewport
     position: relative;
     width: auto;
     height: 100%;
-    /* munu shadow
-    -webkit-box-shadow: -10px 0px 9px 0px rgba(0, 0, 0, 0.4);
-    box-shadow: -10px 0px 9px 0px rgba(0, 0, 0, 0.4);
-    */
+    /*메뉴 세로선 그라데이션*/
+    -webkit-box-shadow: -1px 0px 9px 0px rgba(0, 0, 0, 0.4);
+    box-shadow: -1px 0px 9px 0px rgba(0, 0, 0, 0.4);
+   
 }
 
 /*
@@ -250,19 +250,51 @@ so that the content is unclickable while menu is shown
                 {% endif %}
             </li>
             <li><hr></li>
-            <li><a href="#">메인화면</a></li>
-            <li><a href="#">소비공유 게시판</a></li>
-            <li><a href="#">지출공유 게시판</a></li>
+            <li>
+              <a href="#">
+              <h3>
+              <i class="d-block mx-auto fa fa-1x fa-home">홈으로</i>
+              </h3>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <i class="d-block mx-auto fa fa-1x fa-pencil-square-o text-left pull-left"></i>
+                소비공유 게시판
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <i class="d-block mx-auto fa fa-1x fa-pencil-square-o text-left pull-left"></i>
+                지출공유 게시판
+              </a>
+            </li>
         </ul>
+
+        <!--공백 및 밑줄-->
         <ul><li><hr></li></ul>
         
         <ul align="center">
-          <li>가계부 입력</li>
+          <li>
+            <h3>
+            <i class="d-block mx-auto fa fa-1x fa-calculator">가계부 입력</i>
+            </h3>
+          </li>
         </ul>
-            {% for ActList in qs_li %}  
-                <li align="center"><a href="/{{ ActList.id }}">{{ ActList.act_name }}</a></li>
-              {% endfor %}
-          <ul><li><hr></li></ul>
+
+        {% for ActList in qs_li %}  
+          <ul>
+            <li align="center">
+              <a href="/{{ ActList.id }}">
+                <i class="d-block fa fa-1x fa-plus-circle text-left pull-left"></i>
+                {{ ActList.act_name }}
+              </a>
+            </li>
+          </ul>
+        {% endfor %}
+        
+        <!--공백 및 밑줄-->  
+        <ul><li><hr></li></ul>
         
     </nav>
 
@@ -279,70 +311,6 @@ so that the content is unclickable while menu is shown
     </div>
 
 </div>
-
-
-<!-- Modal -->
-<div class="modal fade" id="editModal" role="dialog" data-backdrop="false">
-  <div class="modal-dialog">
-    <!--Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <!--Close button-->
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <!--Modal title-->
-        <h4 class="modal-title" id="myModalLabel">회원정보 변경</h4>
-      </div><!--End of modal-content-->
-      <!--Modal body-->
-      <div class="modal-body">
-        <form action="" method="post">
-          {% csrf_token %}
-          <center>
-            <!--폼에 필드가 없을경우 에러메세지 출력-->
-            {% for error in form.non_field_errors %}
-              <div class="alert alert-danger">
-                  {{ error }}
-              </div>
-            <script>
-              $(document).ready(function(){
-                  $("#myModal").modal("show");
-              });
-            </script>
-            {% endfor %}
-            <!--필드 출력할 반복문-->
-            {% for field in form.visible_fields %}
-              <div class="form-group">
-                <!--필드들의 라벨 출력-->
-                {{ field.label_tag }} 
-
-                <div class="col-sm-10">
-                  <!--필드들 출력-->
-                  {{ field }}
-                  <!--필드자체 에러 메시지 출력-->
-                  {% for error in field.errors %}
-                    <div class="alert alert-danger">
-                      {{ error }}
-                    </div>
-                  <script>
-                    $(document).ready(function(){
-                        $("#myModal").modal("show");
-                    });
-                  </script>
-                  {% endfor %}
-                </div>
-              </div> 
-            {% endfor %}
-            </center>    
-          </div><!--End of Modal-body-->
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-primary" id="myBtn">확인</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-          </div><!--End of Modal-footer-->
-        </form>
-    </div>
-  </div>
-</div>
-
-
 
 </body>
 
