@@ -3,67 +3,69 @@
 {% block content %}
 
 <!--상단 로고 및 CMM 출력-->
-<div class="container">
-	<div class="row">
-		<form class="form-inline my-4 my-lg-0"><!--폼의 사이즈 고정 및 사진, 글씨 정렬-->
-			<div class="col-md-4">
-				<img src="https://pingendo.com/assets/photos/user_placeholder.png" class="rounded-circle img-fluid mx-auto d-block">
-			</div>
-			<div class="col-md-4">
-				<h1 class="text-primary">CMM</h1>
-			</div>
-		</form>
+<div class="py-3">
+	<div class="container form-control">
+		<div class="row">
+			<form class="form-inline my-4 my-lg-0 form-form"><!--폼의 사이즈 고정 및 사진, 글씨 정렬-->
+				<div class="col-md-4">
+					<img src="https://pingendo.com/assets/photos/user_placeholder.png" class="rounded-circle img-fluid mx-auto d-block">
+				</div>
+				<div class="col-md-4">
+					<h1 class="text-primary">CMM</h1>
+				</div>
+			</form>
+		</div>
 	</div>
 </div>
-
-<br>
 
 <!--통장 리스트와 그래프 출력-->
-<div class="container">
-	<hr>
-	<div class="row">
-		<div class="col-md-4">
-			<div class="btn-group">
-                <button class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown"> {{ user.nickname }}님의 통장목록 </button>
-                <div class="dropdown-menu">
-                  {% for ActList in qs_li %}
-                    <a class="dropdown-item" href="my_view/{{ ActList.id }}">{{ ActList.act_name }}</a>
-                <div class="dropdown-divider"></div>
-                  {% endfor %}
-                </div>
-            </div>
-		</div>
+<div class="py-3">
+	<div class="container form-control"">
+		<div class="row">
+			<div class="col-md-4">
+				<div class="btn-group">
+	                <button class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown"> {{ user.nickname }}님의 통장목록 </button>
+	                <div class="dropdown-menu">
+	                  {% for ActList in qs_li %}
+	                    <a class="dropdown-item" href="my_view/{{ ActList.id }}">{{ ActList.act_name }}</a>
+	                <div class="dropdown-divider"></div>
+	                  {% endfor %}
+	                </div>
+	            </div>
+			</div>
 
-		<div class="col-md-8">
-			꺾은선 넣을래
-		</div>
-	</div>
-</div>
-<br>
-<br>
-<br>
-
-
-<!--검색-->
-<nav class="navbar navbar-expand-md">
-    <div class="container"> 
-	    <div class="col-md-12">
-	      
-	    </div>
-	 </div><!--End of container-->
-</nav>
-
-<!--통장 공유 게시판-->
-<div class="container">
-	<div class="row">
-		<div class="col-md-8">
-			야야
-		</div>
-		<div class="col-md-4">
-		좀나와
+			<div class="col-md-8">
+				꺾은선 넣을래
+			</div>
 		</div>
 	</div>
 </div>
+
+<div class="py-3">
+	<div class="container form-control"">
+		<!--검색-->
+		<nav class="navbar navbar-expand-md">
+		    <div class="container"> 
+			    <div class="col-md-12">
+			      
+			    </div>
+			 </div><!--End of container-->
+		</nav>
+
+		<!--통장 공유 게시판-->
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8">
+					야야
+				</div>
+				<div class="col-md-4">
+				좀나와
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
 
 
 <!--<div class="container">
