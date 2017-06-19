@@ -161,6 +161,13 @@ class BankBook(models.Model):
         max_length=6,
         )
 
+    #남은돈
+    act_total = models.IntegerField(
+        verbose_name='잔여금액',
+        max_length=15,
+        default=0,
+        )
+
     def __str__(self):
         return "{} / {} 의 {}".format(self.act_date, self.name, self.act_part)
 

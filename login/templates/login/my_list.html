@@ -1,43 +1,51 @@
 {% extends 'login/layout.html' %}
 
 {% block content %}
-
-<div class="container">
-	<div class="row">
-		<div class="col-md-6">
-		<h1 class="text-primary">	
-			{% for ActList in qs %}
-				{{ ActList.act_name }}
-			{% endfor %}
-		</h1>
-		사용내역
-		</div>
-		<div class="col-md-6">
-			<table class="table">
-					<thead>
-						<tr>
-							<th>날짜</th>
-							<th>금액</th>
-							<th>카드/현금</th>
-							<th>수입/지출</th>
-						</tr>
-					</thead>
-				{% for BankBook in qs_info %}
-					<tbody>
-						
-						<td>
-							<a href="/index/view/{{ BankBook.id }}">
-								{{ BankBook.act_date }}
-							</a>
-						</td>
-						<td>{{ BankBook.act_price }}</td>
-						<td>{{ BankBook.act_payment }}</td>
-						<td>{{ BankBook.act_part }}</td>
-					</tbody>
+<div class="py-3">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-5">
+			<h1 class="text-primary" align="center">	
+				{% for ActList in qs %}
+					{{ ActList.act_name }}
 				{% endfor %}
-			</table>
+			</h1>
+			
+			</div>
+			<div class="col-md-7">
+				<div class="py-1">
+					<h6 align="right">
+						계좌에 남은 금액: 
+						{% for BankBook in qs_total %}
+								{{ qs_total.act_total__sum}}
+						{% endfor %}
+						원
+					</h6>
+				</div>
+				<table class="table">
+						<thead>
+							<tr>
+								<th>날짜</th>
+								<th>금액</th>
+								<th>카드/현금</th>
+								<th>수입/지출</th>
+							</tr>
+						</thead>
+					{% for BankBook in qs_info %}
+						<tbody>
+							<td>
+								<a href="/index/view/{{ BankBook.id }}">
+									{{ BankBook.act_date }}
+								</a>
+							</td>
+							<td>{{ BankBook.act_price }}</td>
+							<td>{{ BankBook.act_payment }}</td>
+							<td>{{ BankBook.act_part }}</td>
+						</tbody>
+					{% endfor %}
+				</table>
+			</div>
 		</div>
 	</div>
 </div>
-
 {% endblock %}
