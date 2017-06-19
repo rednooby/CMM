@@ -236,7 +236,9 @@ so that the content is unclickable while menu is shown
     <nav>
         <ul align="center">
             <li>
-              {{user.nickname}}님 환영합니다. 
+              {{user.nickname}}님 환영합니다.
+            </li>
+            <li> 
                {% if not user.is_authenticated %} 
                   <a href="{% url 'login' %}">
                   <i class="d-block mx-auto fa fa-3x fa-power-off text-danger"></i>
@@ -247,19 +249,20 @@ so that the content is unclickable while menu is shown
                 </a>
                 {% endif %}
             </li>
-            <li><a href="#"><h1>CMM</h1></a></li>
+            <li><hr></li>
+            <li><a href="#">메인화면</a></li>
             <li><a href="#">소비공유 게시판</a></li>
             <li><a href="#">지출공유 게시판</a></li>
         </ul>
-        <ul><li></li></ul>
+        <ul><li><hr></li></ul>
         
         <ul align="center">
-          <li><h1>가게부</h1></li>
+          <li>가계부 입력</li>
         </ul>
             {% for ActList in qs_li %}  
                 <li align="center"><a href="/{{ ActList.id }}">{{ ActList.act_name }}</a></li>
               {% endfor %}
-          
+          <ul><li><hr></li></ul>
         
     </nav>
 
