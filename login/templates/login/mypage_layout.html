@@ -4,17 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
-
   <link rel="stylesheet" href="https://pingendo.com/assets/bootstrap/bootstrap-4.0.0-alpha.6.css" type="text/css">
   
-  <!-- Only 부트스트랩
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-  -->
-  <!--<script src="/lib/jquery-1.12.2.min.js"></script>-->
-  </head>
-
-
+<!--Using jQuery and jQuery UI for display effects-->
+    <!--메뉴바 선언-->
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+    <!--메뉴바 선언 끝-->
 
   <!--계좌정보 사용 헤드 선언-->
   <script type="text/javascript">
@@ -63,74 +59,343 @@
     
   <!--프로필 가는 링크 스크립트 끝-->
 
-<body>
-  <nav class="navbar navbar-expand-md navbar-light bg-faded">
-    <div class="container"> 
-      <!--메뉴버튼-->
-      <i class="d-block fa fa-list fa-2x bg-faded"></i> 
-      <!--버튼끝-->
+    <!--Using the hamburger menu display code-->
+    <!--메뉴바 스크립트-->
+    <script>
+    jQuery(document).ready(function () {
 
- 
-        </ul>
+      //Open the menu
+      jQuery("#hamburger").click(function () {
 
-        <form class="form-inline my-2 my-lg-0">      
-        <!--로그아웃 상태일 경우에-->
-        {% if not user.is_authenticated %} 
-            <a href="{% url 'login' %}">
-            <i class="d-block mx-auto fa fa-3x fa-power-off text-danger"></i>
-            </a>
-        {% else %}<!-- if user.is_active 요것은 유저가 로그인 상태일때-->
-            <a href="{% url 'logout' %}">
-            <i class="d-block mx-auto fa fa-3x fa-power-off text-success"></i>
-            </a>
-        {% endif %} 
-        </form>
-      </div>
-    </div>
-  </div>
-  <!--돈입력버튼 끝-->
-  </nav>
-  <hr>
-  <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
-  <script src="https://pingendo.com/assets/bootstrap/bootstrap-4.0.0-alpha.6.min.js"></script>
+        jQuery('#content').css('min-height', jQuery(window).height());
+
+        jQuery('nav').css('opacity', 1);
+
+        //set the width of primary content container -> content should not scale while animating
+        var contentWidth = jQuery('#content').width();
+
+        //set the content with the width that it has originally
+        jQuery('#content').css('width', contentWidth);
+
+        //display a layer to disable clicking and scrolling on the content while menu is shown
+        jQuery('#contentLayer').css('display', 'block');
+
+        //disable all scrolling on mobile devices while menu is shown
+        jQuery('#container').bind('touchmove', function (e) {
+          e.preventDefault()
+        });
+
+        //set margin for the whole container with a jquery UI animation
+        jQuery("#container").animate({"marginLeft": ["300px", 'easeOutExpo']}, {
+          duration: 700
+        });
+
+      });
+
+      //close the menu
+      jQuery("#contentLayer").click(function () {
+
+        //enable all scrolling on mobile devices when menu is closed
+        jQuery('#container').unbind('touchmove');
+
+        //set margin for the whole container back to original state with a jquery UI animation
+        jQuery("#container").animate({"marginLeft": ["-1", 'easeOutExpo']}, {
+          duration: 700,
+          complete: function () {
+            jQuery('#content').css('width', 'auto');
+            jQuery('#contentLayer').css('display', 'none');
+            jQuery('nav').css('opacity', 0);
+            jQuery('#content').css('min-height', 'auto');
+
+          }
+        });
+      });
+
+    }); 
+  </script><!--메뉴바 스크립트 끝-->
+
+  <!--Using Media Queries, if the viewport is smaller than 700px use another stylesheet-->
+  <!--메뉴바 CSS-->
+  <style>
+  html {
+      overflow-y: scroll;
+  }
+
+  /*
+  Setup a basic body
+  */
+  body {
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      font-family: Arial;
+      font-size: 18px;
+  }
+
+  /*
+  Header is relative so z-index: 1 guarantees always displayed on top
+  */
+  header {
+      background-color: #3b5998;
+      padding: 10px;
+      text-decoration: none;
+      position: fixed;
+      width: 100%;
+      z-index: 1;
+      -webkit-box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.4);
+      box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.4);
+  }
+
+  /*
+  using background color is important to cover the menu
+  position absolute isset to cover the whole viewport
+  */
+  #content {
+      background-color: #FFFFFF;
+      padding: 52px 10px 10px 10px;
+      position: relative;
+      width: auto;
+      height: 100%;
+      /*메뉴 세로선 그라데이션*/
+      -webkit-box-shadow: -1px 0px 9px 0px rgba(0, 0, 0, 0.4);
+      box-shadow: -1px 0px 9px 0px rgba(0, 0, 0, 0.4);
+     
+  }
+
+  /*
+  the hamburger button with a little gradient effekt
+  */
+  #hamburger {
+      border: 1px solid #374C77;
+      border-radius: 3px 3px 3px 3px;
+      cursor: pointer;
+      display: block;
+      height: 24px;
+      padding: 3px 4px 3px;
+      position: relative;
+      width: 25px;
+      background: #4569b2;
+      background: -moz-linear-gradient(top, #4569b2 0%, #4062a5 100%);
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #4569b2), color-stop(100%, #4062a5));
+      background: -webkit-linear-gradient(top, #4569b2 0%, #4062a5 100%);
+      background: -o-linear-gradient(top, #4569b2 0%, #4062a5 100%);
+      background: -ms-linear-gradient(top, #4569b2 0%, #4062a5 100%);
+      background: linear-gradient(to bottom, #4569b2 0%, #4062a5 100%);
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4569b2', endColorstr='#4062a5', GradientType=0);
+  }
+
+  /*
+  The white stripes in the hamburger button
+  */
+  #hamburger div {
+      background-color: #fff;
+      border: 1px solid #eee;
+      border-radius: 2px 2px 2px 2px;
+      height: 2px;
+      margin-top: 3px;
+      width: 100%;
+  }
+
+  /*
+  The navigation container in the background
+  */
+  nav {
+      opacity: 0;
+      left: 0px;
+      top: 0px;
+      position: fixed;
+      z-index: 0;
+      width: 300px;
+      height: 100%;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      overflow-x: hidden;
+      overflow-y: auto;
+      background: #ffffff;
+
+  }
+
+  /*
+  Style the navigation menu
+  */
+  nav ul {
+      list-style: none;
+      margin: 0;
+      width: 100%;
+      padding: 0;
+  }
+
+  nav li {
+      color: #514f4f;
+      position: relative;
+      font-size: 1em;
+      font-weight: bold;
+      /* 메뉴마다 밑줄
+      border-bottom: 0.5px solid #f2efef;
+      border-top: 0.5px solid #f2efef;
+      */
+      padding: 15px;
+  }
+
+  nav li a {
+      color: #514f4f;
+      text-decoration: none;
+  }
+
+  /*
+  The Layer that will be layed over the content
+  so that the content is unclickable while menu is shown
+  */
+  #contentLayer {
+      display: none;
+      height: 100%;
+      overflow-x: hidden;
+      overflow-y: auto;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 70%;
+      z-index: 5;
+  }
+
+  </style><!--메뉴바 CSS 끝-->  
+
+</head>
+
+
+
   
-  <!--<form action="" method="post">-->
-  {% csrf_token %}
-  <div class="py-5  section">
-     <div class="container">
-       <div class="row">
-         <!--Left-->
-         <div class="col-md-6" align="center">
-           <h1 class="text-primary"><center>회원정보</center></h1>
-           <p class="lead">
-             <table>
-             <tr>
-               <th>이메일</th>
-               <td><label for="inputEmail3" class="col-sm-12 control-label">{{ user.email }}</label></td>
-             </tr>
-               <th>생년월일</th>
-               <td><label for="inputText3" class="col-sm-12 control-label">{{ user.birth }}</label></td>
-             </tr>
-             <tr>
-               <th>닉네임</th>
-               <td><label for="inputText3" class="col-sm-12 control-label">{{ user.nickname }}</label></td>
-             </tr>
-             </table>
-           </p>
-           <button class="btn btn-outline-info my-2 my-sm-0" data-toggle="modal" data-target="#editModal" data-backdrop="false" type="button">정보수정</button> 
-           <button class="btn btn-outline-info my-2 my-sm-0" data-toggle="modal" data-target="#myModal" data-backdrop="false" type="button">비번변경</button>           
-           <button class="btn btn-outline-danger my-2 my-sm-0" type="button">회원탈퇴</button>
-          <hr>       
-              
-           {% block content %} 
+
+<body>
+  <!--This wrapping container is used to get the width of the whole content-->
+<div id="container">
+  <!--The Hamburger Button in the Header-->
+  <header>
+      <div id="hamburger">
+          <div></div>
+          <div></div>
+          <div></div>
+      </div>
+  </header>
+
+  <!--The mobile navigation Markup hidden via css-->
+  <nav>
+      <ul align="center">
+          <li>
+            {% if not user.is_authenticated %} 
+                  <a href="{% url 'login' %}">
+                  <i class="d-block mx-auto fa fa-3x fa-power-off text-success"></i>
+                  </a>
+                {% else %}<!-- if user.is_active 요것은 유저가 로그인 상태일때-->
+                <a href="{% url 'logout' %}">
+                  <i class="d-block mx-auto fa fa-1x fa-power-off text-danger">로그아웃</i>
+                </a>
+                {% endif %}
+          </li>
+          <li class="form-control">
+            <div class="py-2">
+              <a href="/mypage">
+                <i class="d-block mx-auto fa fa-4x fa-user-circle-o"></i>
+              </a>
+              </div>
+            {{user.nickname}}님 환영합니다.
+          </li>
+
+          <!--공백 및 밑줄-->
+          <ul><li></li></ul>
+
+          <li>
+            <a href="/index">
+            <h3>
+            <i class="d-block mx-auto fa fa-1x fa-home">홈으로</i>
+            </h3>
+            </a>
+          </li>
+
+          <li>
+            <a href="#">
+              <i class="d-block mx-auto fa fa-1x fa-pencil-square-o text-left pull-left"></i>
+              소비공유 게시판
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <i class="d-block mx-auto fa fa-1x fa-pencil-square-o text-left pull-left"></i>
+              지출공유 게시판
+            </a>
+          </li>
+      </ul>
+
+      <!--공백 및 밑줄-->
+      <ul><li><hr></li></ul>
+      
+      <ul align="center">
+        <li>
+          <h3>
+          <i class="d-block mx-auto fa fa-1x fa-calculator">가계부 입력</i>
+          </h3>
+        </li>
+      </ul>
+
+      {% for ActList in qs_li %}  
+        <ul>
+          <li align="center">
+            <a href="/{{ ActList.id }}">
+              <i class="d-block fa fa-1x fa-plus-circle text-left pull-left"></i>
+              {{ ActList.act_name }}
+            </a>
+          </li>
+        </ul>
+      {% endfor %}
+      
+      <!--공백 및 밑줄-->  
+      <ul><li><hr></li></ul>
+      
+  </nav>
+
+    <!--The Layer that will be layed over the content
+    so that the content is unclickable while menu is shown-->
+    <div id="contentLayer"></div>
+
+    <!--The content of the site-->
+    <div id="content">
+      <!--<form action="" method="post">-->
+      {% csrf_token %}
+      <div class="py-5  section">
+         <div class="container">
+           <div class="row">
+             <!--Left-->
+             <div class="col-md-6" align="center">
+               <h1 class="text-primary"><center>회원정보</center></h1>
+               <p class="lead">
+                 <table>
+                 <tr>
+                   <th>이메일</th>
+                   <td><label for="inputEmail3" class="col-sm-12 control-label">{{ user.email }}</label></td>
+                 </tr>
+                   <th>생년월일</th>
+                   <td><label for="inputText3" class="col-sm-12 control-label">{{ user.birth }}</label></td>
+                 </tr>
+                 <tr>
+                   <th>닉네임</th>
+                   <td><label for="inputText3" class="col-sm-12 control-label">{{ user.nickname }}</label></td>
+                 </tr>
+                 </table>
+               </p>
+               <button class="btn btn-outline-info my-2 my-sm-0" data-toggle="modal" data-target="#editModal" data-backdrop="false" type="button">정보수정</button> 
+               <button class="btn btn-outline-info my-2 my-sm-0" data-toggle="modal" data-target="#myModal" data-backdrop="false" type="button">비번변경</button>           
+               <button class="btn btn-outline-danger my-2 my-sm-0" type="button">회원탈퇴</button>
+              <hr>       
+                  
+               {% block content %} 
 
 
-            {% endblock %}
-          </div><!--End of Right-->
-     </div>
-   </div>
-<!--</form>-->
+                {% endblock %}
+              </div><!--End of Right-->
+         </div>
+       </div>
+    <!--</form>-->
 
 
 

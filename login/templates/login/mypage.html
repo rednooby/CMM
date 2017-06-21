@@ -14,10 +14,10 @@
  <p class="lead">
    <table>
      <tr>
-      {% for ActList in Managment %}
+      {% for ActList in qs_li %}
         <th>
         
-          <a href="{{ ActList.act_name }}/">
+          <a href="{{ ActList.id }}/">
             <h3>{{ ActList.act_name }}</h3>
           </a>
         </th>

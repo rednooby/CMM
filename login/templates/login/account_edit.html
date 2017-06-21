@@ -1,0 +1,96 @@
+{% extends "login/mypage_layout.html" %}
+
+{% block content %}
+<h1 class="text-primary">
+  <center>
+    
+  	  계좌 목록
+  	
+  </center>
+</h1>
+
+ <p class="lead">
+   <table>
+     <tr>
+      {% for ActList in qs_li %}
+        <th>
+        
+          <a href="/mypage/{{ ActList.id }}">
+            <h3>{{ ActList.act_name }}</h3>
+          </a>
+        </th>
+        <td><label for="inputText3" class="col-sm-12 control-label">{{ ActList.act_summary }}</label></td>          
+      </tr>
+      {% endfor %}
+   </table>
+ </p>
+<hr>
+</div><!--End of Left-->
+
+<div class="col-md-6" align="center">
+
+	<h1 class="text-primary"><center>계좌정보수정</center></h1>
+	<p class=""></p>
+	<form action="" method="post">
+	{% csrf_token %}
+	     <center>
+        <!--폼에 필드가 없을경우 에러메세지 출력-->
+        {% for error in form.non_field_errors %}
+          <div class="alert alert-danger">
+              {{ error }}
+          </div>
+        {% endfor %}
+        <div class="panel-heading">
+			<board><h5 class="panel-title" align="left">계좌번호</h5></board>
+		</div>
+		<div class="panel-body">
+	        <input type="text" class="form-control" id="id_act_num" name="act_num" value="{{ form.act_num.value }}">
+	          {% for error in form.act_num.errors %}
+	            <div class="alert alert-danger">
+	              {{ error }}
+	            </div>
+	          {% endfor %}
+	    </div>
+	    <br>
+        <div class="panel-heading">
+			<board><h5 class="panel-title" align="left">계좌이름</h5></board>
+		</div>
+		<div class="panel-body">
+	        <input type="text" class="form-control" required id="id_act_name" name="act_name" value="{{ form.act_name.value }}">
+	        {% for error in form.act_name.errors %}
+	        	<div class="alert alert-danger">
+	              {{ error }}
+	            </div>
+	          {% endfor %}
+          </div>
+          <br>
+          <div class="panel-heading">
+			<board><h5 class="panel-title" align="left">계좌메모</h5></board>
+		</div>
+		<div class="panel-body">
+          <input type="text" class="form-control" required id="id_act_summary" name="act_summary" value="{{ form.act_summary.value }}">
+          {% for error in form.act_summary.errors %}
+            <div class="alert alert-danger">
+              {{ error }}
+            </div>
+          {% endfor %}
+        </div>
+          <br>
+          <div class="panel-heading">
+			<board><h5 class="panel-title" align="left">계좌정보</h5></board>
+		</div>
+		<div class="panel-body">
+          <input type="text" class="form-control" id="id_act_info" name="act_info" value="{{ form.act_info.value }}">
+          {% for error in form.act_info.errors %}
+            <div class="alert alert-danger">
+              {{ error }}
+            </div>
+          {% endfor %}
+        </div>
+         <p class="help-block"></p>
+         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">완료</button>
+      </center>
+	</form>
+	<hr>
+</div>
+{% endblock %}

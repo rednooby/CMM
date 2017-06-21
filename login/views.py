@@ -109,33 +109,6 @@ def bankbook_new(request, id):
 	#set 정보: http://freeprog.tistory.com/55
 
 
-'''
-##계좌에 금액추가##	/id/$
-def bankbook_new(request, id):
-	if request.method == 'POST':
-		form = BankBookForm(request.POST)
-		if form.is_valid():
-			bankbook = form.save(commit=False)
-			bankbook.name = request.user.actlist_set.all().get(id=id)
-			
-			#bankbook.name = request.user.actlist_set.filter(act_name=act_name)
-			#안되는 이유=>쿼리셋은 다수의 모델필드를 DB에 쿼리하기 위한 객체. 그래서 직접 모델필드로 담을수 없음
-			#request.user.actlist_set.filter는 쿼리셋인데 외래키 필드에 지정하여 오류가 난것
-			bankbook.save()
-
-			return redirect('index')
-	else:
-		form = BankBookForm()
-
-	qs = ActList.objects.filter(act__email=request.user.email, id=id)
-	qs_li = ActList.objects.filter(act__email=request.user.email)
-	
-	#print(form)
-	return render(request, 'login/bankbook.html', {'form': form, 'qs':qs, 'qs_li':qs_li})
-	#_set의 사용: 어떤 model에서 자신을 foreign key로 가지고 있는 모델이 접근하기 위해 Manager를 이용할때 사용
-	#set 정보: http://freeprog.tistory.com/55
-'''
-
 ##회원가입##	/join/$
 def join(request):
 	print(request.user) #유저 로그에 남기기
@@ -167,16 +140,16 @@ def bankbook_list(request, act_name):
 
 
 @login_required
-##통장정보 출력##	/mypage/act_name/$
-def account_info(request, act_name):
-	qs = ActList.objects.filter(act__email=request.user.email, act_name=act_name)
+##통장정보 출력##	/mypage/id/$
+def account_view(request, id):
+	qs_view = ActList.objects.filter(id=id)
 	qs_li = ActList.objects.filter(act__email=request.user.email)
 
 	print()
 
 
-	return render(request, 'login/account_info.html',{
-		'qs': qs, 'qs_li': qs_li
+	return render(request, 'login/account_view.html',{
+		'qs_view': qs_view, 'qs_li': qs_li
 		})
 
 
@@ -194,38 +167,48 @@ def Managment(request):
 			#val = ActList(**self.cleaned_data)#검증 마친 데이터를 val로
 			#val.save()#결국은 저장
 
-			return redirect('Managment')
+			return redirect('/mypage/')
 			#return redirect(val)
 	else:
 		form = ActListForm()#GET으로 들어오면 Forms.py의 ActListForm을 출력
 		print(form)
 	##자신의 계좌만 필터링##	
-	qs = ActList.objects.filter(act__email=request.user.email)
+	qs_li = ActList.objects.filter(act__email=request.user.email)
 	#print(act) #쿼리셋 검증
 
-	return render(request, 'login/mypage.html', {'Managment': qs, 'form': form}) 
+	return render(request, 'login/mypage.html', {'qs_li': qs_li, 'form': form}) 
  
 
-##통장정보 수정 (아직 안된것 수정해야됨)##		/mypage/act_name/edit/$
-def account_edit(request, act_name):
-	act_list = get_object_or_404(ActList, act_name=act_name)
+##통장정보 수정##		/mypage/id/edit/$
+def account_edit(request, id):
+	act_list = get_object_or_404(ActList, id=id)
 
 	if request.method == 'POST':
 		form = ActListForm(request.POST, instance=act_list)
 		if form.is_valid():
-			act_list = form.save(commit=False)
-			act_list.act = request.user
 			act_list.save()
 			
-			return redirect('Managment')
-			#return redirect(val)
+			return redirect('/mypage/{}'.format(id))
 	else:
 		form = ActListForm(instance=act_list)
 		print(form)
-	##자신의 계좌만 필터링##	
-	qs = ActList.objects.filter(act__email=request.user.email)
-	#print(act) #쿼리셋 검증
-	return render(request, 'login/mypage.html', {'Managment': qs, 'form': form}) 
+
+	qs_li = ActList.objects.filter(act__email=request.user.email)
+	return render(request, 'login/account_edit.html', {'qs_li': qs_li, 'form': form}) 
+
+
+##통장 삭제##
+def account_delete(request, id):
+	act_list = get_object_or_404(ActList, id=id)
+
+	act_list = ActList.objects.get(id=id)
+	act_list.delete()
+
+	qs_view = ActList.objects.filter(id=id)
+	qs_li = ActList.objects.filter(act__email=request.user.email)
+
+
+	return redirect('/mypage/', {'qs_view':qs_view, 'qs_li':qs_li})
 
 
 def UserChangeForm(request):

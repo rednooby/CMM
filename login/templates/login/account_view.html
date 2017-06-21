@@ -15,7 +15,7 @@
       {% for ActList in qs_li %}
         <th>
         
-          <a href="/mypage/{{ ActList.act_name }}">
+          <a href="/mypage/{{ ActList.id }}">
             <h3>{{ ActList.act_name }}</h3>
           </a>
         </th>
@@ -33,7 +33,7 @@
 
 	<p class=""></p>
 		{{form.as_table}}
-		 {% for ActList in qs %}
+		 {% for ActList in qs_view %}
 		  <div class="lead">
 		  	<div class="panel panel">
 		      <div class="panel-heading">
@@ -66,9 +66,9 @@
 		    </div><!-- End of panel panel-->
 		   </div><!--End of lead-->
 		   <br>
-		   
-		   <a href="" class="btn btn-outline-info">정보수정</a>        
-           <button class="btn btn-outline-danger" type="button">계좌삭제</button>
+		   <a href="/mypage/edit/{{ActList.id}}" class="btn btn-outline-info">정보수정</a>
+           <a href="/mypage/delete/{{ActList.id}}" class="btn btn-outline-danger">계좌삭제</a>
 		   <hr>
 		  {% endfor %}
+		  
 {% endblock %}

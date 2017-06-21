@@ -6,6 +6,8 @@ from . import views
 
 #/account/??
 urlpatterns = [
+    url(r'^mypage/edit/(?P<id>.+)/$', views.account_edit, name='account_edit'),
+    url(r'^mypage/delete/(?P<id>.+)/$', views.account_delete, name='account_delete'),
     url(r'^index/my_view/(?P<id>.+)/$', views.my_list, name='my_list'),
     url(r'^index/view/(?P<id>.+)/$', views.my_view, name='my_view'),
     url(r'^index/edit/(?P<id>.+)/$', views.my_edit, name='my_edit'),
@@ -16,8 +18,7 @@ urlpatterns = [
     url(r'^mypage/PWC$', auth_views.password_change, name='password_change_done',
     	kwargs={'template_name': 'login/mypage.html'}),
 
-    url(r'^mypage/(?P<act_name>.+)/$', views.account_info, name='account_info'),
-    url(r'^mypage/(?P<act_name>.+)/edit/$', views.account_edit, name='account_edit'),
+    url(r'^mypage/(?P<id>.+)/$', views.account_view, name='account_view'), 
     url(r'^(?P<id>.+)/$', views.bankbook_new, name='bankbook_new'),
     #https://github.com/django/django/blob/1.10.6/ddjango/contrib/auth/views.py#L62
     #에 def login을 보면 기본 request받고 기본 디렉토리가 내가 설정한 것과 다르기 때문에 kwargs를 사용해 임의 지정 함
