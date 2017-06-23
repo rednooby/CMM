@@ -8,6 +8,10 @@ from .models import ActList, MyUser, BankBook
 from .forms import ActListForm, BankBookForm
 from django.db.models import Sum
 
+def test(request):
+	return render(request, 'login/test.html')
+
+
 # Create your views here.
 def login(request):
 	return render(request, 'login/login.html')

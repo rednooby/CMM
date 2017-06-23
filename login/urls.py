@@ -6,6 +6,7 @@ from . import views
 
 #/account/??
 urlpatterns = [
+    url(r'^test/$', views.test, name='test'),
     url(r'^mypage/edit/(?P<id>.+)/$', views.account_edit, name='account_edit'),
     url(r'^mypage/delete/(?P<id>.+)/$', views.account_delete, name='account_delete'),
     url(r'^index/my_list/(?P<id>.+)/$', views.my_list, name='my_list'),

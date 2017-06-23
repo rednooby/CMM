@@ -11,20 +11,15 @@
 					{{ ActList.act_name }}
 				{% endfor %}
 			</h1>
-			
-			</div>
-			<!--Right-->
-			<div class="col-md-7">
-				<div class="py-1">
-					<h6 align="right">
+			<br>
+			<h6 align="right">
 						계좌에 남은 금액: 
 						{% for BankBook in qs_total %}
 								{{ qs_total.act_total__sum}}
 						{% endfor %}
 						원
 					</h6>
-				</div>
-				<table class="table">
+					<table class="table">
 						<thead>
 							<tr>
 								<th>날짜</th>
@@ -36,9 +31,11 @@
 					{% for BankBook in qs_info %}
 						<tbody>
 							<td>
-								<a href="/index/my_view/{{ BankBook.id }}">
-									{{ BankBook.act_date }}
-								</a>
+								<h6>
+									<a href="/index/my_view/{{ BankBook.id }}">
+										{{ BankBook.act_date }}
+									</a>
+								</h6>
 							</td>
 							<td>{{ BankBook.act_price }}</td>
 							<td>{{ BankBook.act_payment }}</td>
@@ -46,8 +43,57 @@
 						</tbody>
 					{% endfor %}
 				</table>
-			</div>
-		</div>
-	</div>
-</div>
+			</div><!--End of Left-->
+				
+			<!--Right-->
+			<div class="col-md-7">
+				<div class="py-1">
+				<div id="cc"></div>
+
+				<!--그래프-->
+				<script src="https://code.highcharts.com/highcharts.js"></script>
+				<script src="https://code.highcharts.com/modules/exporting.js"></script>
+				<script type="text/javascript">
+					Highcharts.chart('cc', {
+
+					    title: {
+					        text: '일별 수입&지출 그래프'
+					    },
+
+					    subtitle: {
+					        text: 'Control My Money'
+					    },
+
+					    yAxis: {
+					        title: {
+					            text: '금액'
+					        }
+					    },
+					    legend: {
+					        layout: 'vertical',
+					        align: 'right',
+					        verticalAlign: 'middle'
+					    },
+
+					    plotOptions: {
+					        series: {
+					            pointStart: 2010
+					        }
+					    },
+
+					    series: [{
+					        name: '수입',
+					        data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
+					    }, {
+					        name: '지출',
+					        data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
+					    }]
+
+					});
+				</script>
+				</div><!--End of py-1-->
+			</div><!--End of Right-->
+		</div><!--End of row-->
+	</div><!--End of container-->
+</div><!--End of py-3-->
 {% endblock %}
