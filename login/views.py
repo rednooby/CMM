@@ -20,7 +20,7 @@ def index(request):
 	return render(request, 'login/index.html',{'qs_li': qs_li})
 
 
-##통장 사용정보 출력##	/index/my_view/id/$
+##통장 사용정보 출력##	/index/my_list/id/$
 def my_list(request, id): #ActList의 id
 	qs = ActList.objects.filter(act__email=request.user.email, id=id)
 	qs_info = BankBook.objects.filter(name_id=id) #가장 최근날짜 최상위로 필터링 추가하기
@@ -34,7 +34,7 @@ def my_list(request, id): #ActList의 id
 	return render(request, 'login/my_list.html', {'qs': qs, 'qs_info':qs_info, 'qs_li':qs_li, 'qs_total':qs_total})
 
 
-##통장 사용정보 출력##	/index/view/id/$
+##통장 사용정보 출력##	/index/my_view/id/$
 def my_view(request, id): #BankBook의 id
 	qs_li = ActList.objects.filter(act__email=request.user.email)
 	qs_info = BankBook.objects.filter(name=id) #가장 최근날짜 최상위로 필터링 추가하기
@@ -44,7 +44,7 @@ def my_view(request, id): #BankBook의 id
 	return render(request, 'login/my_view.html', {'qs_info':qs_info, 'qs_li':qs_li, 'qs_view':qs_view})
 
 
-##통장 사용정보 수정##	/index/edit/id/$
+##통장 사용정보 수정##	/index/my_edit/id/$
 def my_edit(request, id):
 	bankbook = get_object_or_404(BankBook, id=id)
 
