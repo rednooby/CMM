@@ -49,22 +49,19 @@
 			<div class="col-md-7">
 				<div class="py-1">
 				<h1 class="text-primary" align="center">	
-					일별 수입 지출 그래프
+					일별 수입 그래프
 				</h1>
 				<br>
 				<div id="chart"></div>
 				<script src="https://d3js.org/d3.v3.min.js"></script>   <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.js"></script>
 				<script type="text/javascript">
 				var chart = c3.generate({
+				    bindto: "#chart",
 				    data: {
 				        x: 'x',
 				//        xFormat: '%Y%m%d', // 'xFormat' can be used as custom format of 'x'
-				        columns: [
-				            ['x', '2011-01-01','2011-01-02','2011-01-03','2011-01-04','2011-01-05'],
+				        columns: []
 
-				            ['data1', 30, 200, 100, 400, 150, 250],
-				            ['data2', 130, 340, 200, 500, 250, 350]
-				        ]
 				    },
 				    axis: {
 				        x: {
@@ -75,14 +72,23 @@
 				        }
 				    }
 				});
-
 				setTimeout(function () {
 				    chart.load({
 				        columns: [
-				            ['data3', 400, 500, 450, 700, 600, 500]
+				            ['x', 
+				            {% for BankBook in qs_income%}
+				            '{{ BankBook.act_date|date:"Y-m-d" }}',
+				            {% endfor %}
+				            ],
+
+				            ['수입',
+				            {% for BankBook in qs_income %}
+				            '{{ BankBook.act_price }}',
+				            {% endfor %}
+				            ]
 				        ]
 				    });
-				}, 1000);
+				}, 100);
 				</script>
 				</div><!--End of py-1-->
 			</div><!--End of Right-->
@@ -90,3 +96,7 @@
 	</div><!--End of container-->
 </div><!--End of py-3-->
 {% endblock %}
+
+<!--
+
+-->
