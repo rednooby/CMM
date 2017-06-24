@@ -48,48 +48,41 @@
 			<!--Right-->
 			<div class="col-md-7">
 				<div class="py-1">
-				<div id="cc"></div>
-
-				<!--그래프-->
-				<script src="https://code.highcharts.com/highcharts.js"></script>
-				<script src="https://code.highcharts.com/modules/exporting.js"></script>
+				<h1 class="text-primary" align="center">	
+					일별 수입 지출 그래프
+				</h1>
+				<br>
+				<div id="chart"></div>
+				<script src="https://d3js.org/d3.v3.min.js"></script>   <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.js"></script>
 				<script type="text/javascript">
-					Highcharts.chart('cc', {
+				var chart = c3.generate({
+				    data: {
+				        x: 'x',
+				//        xFormat: '%Y%m%d', // 'xFormat' can be used as custom format of 'x'
+				        columns: [
+				            ['x', '2011-01-01','2011-01-02','2011-01-03','2011-01-04','2011-01-05'],
 
-					    title: {
-					        text: '일별 수입&지출 그래프'
-					    },
+				            ['data1', 30, 200, 100, 400, 150, 250],
+				            ['data2', 130, 340, 200, 500, 250, 350]
+				        ]
+				    },
+				    axis: {
+				        x: {
+				            type: 'timeseries',
+				            tick: {
+				                format: '%Y-%m-%d'
+				            }
+				        }
+				    }
+				});
 
-					    subtitle: {
-					        text: 'Control My Money'
-					    },
-
-					    yAxis: {
-					        title: {
-					            text: '금액'
-					        }
-					    },
-					    legend: {
-					        layout: 'vertical',
-					        align: 'right',
-					        verticalAlign: 'middle'
-					    },
-
-					    plotOptions: {
-					        series: {
-					            pointStart: 2010
-					        }
-					    },
-
-					    series: [{
-					        name: '수입',
-					        data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
-					    }, {
-					        name: '지출',
-					        data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
-					    }]
-
-					});
+				setTimeout(function () {
+				    chart.load({
+				        columns: [
+				            ['data3', 400, 500, 450, 700, 600, 500]
+				        ]
+				    });
+				}, 1000);
 				</script>
 				</div><!--End of py-1-->
 			</div><!--End of Right-->

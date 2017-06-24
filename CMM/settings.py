@@ -117,8 +117,30 @@ USE_TZ = True
 
 
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
-
+# 각 static 파일에 대한 URL
 STATIC_URL = '/static/'
+
+# FileSystemFinder를 위한 static 디렉토리 목록
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'CMM','static'),#프로젝트이름,static
+]
+#Static Files Finder
+#- 위에 있는 Template Loader와 유사함
+#- 다수 디렉토리 목록에서 지정 상대경로를 가지는 Static 파일을 찾음
+# 아래 두개로 나눌수 있이며,
+#- AppDirectoriesFinder: "앱/static"경로를 추가
+#- FileSystemFinder: settings.STATICFILES_DIRS=[]의 경로를 추가
+#위 Finder를 통해, Static파일이 있을 후보 디렉토리 리스트를 작성하며, 이것은 장고 서버 초기시작시에만 1회 작성
+# Template Loader과 비교함
+#- app_directories.Loader: "앱/templates"경로
+#- filesystem.Loader: settings.TEMPLATES에 DIRS=[]의 경로
+
+
+'''
+# 각 디렉토리 별로 나눠져 있는 static파일들을 manage.py collectstatic 명령을 통해, 아래 디렉토리 경로로 복사
+# 개발당시 의미없음. 실서비스 배포전에 static파일들을 모아서 배포서버에 복사해야함
+STATIC_ROOT = os.path.join(BASE_DIR, staticfiles')#여러파일을 모으기 위해 staticfiles로 표현, 서버키고 오버라이트 yes함
+'''
 
 #여기있는 값들을 템플릿으로 전달한다. 일일히 뷰를 왔다가는것 보다는 효율적임
 TEMPLATE_CONTEXT_PROCESSORS = (    

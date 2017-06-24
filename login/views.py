@@ -27,7 +27,8 @@ def index(request):
 ##통장 사용정보 출력##	/index/my_list/id/$
 def my_list(request, id): #ActList의 id
 	qs = ActList.objects.filter(act__email=request.user.email, id=id)
-	qs_info = BankBook.objects.filter(name_id=id) #가장 최근날짜 최상위로 필터링 추가하기
+	qs_info = BankBook.objects.filter(name_id=id).order_by('-act_date')
+	qs_graph = BankBook.objects.filter(name_id=id).order_by('act_date')
 	qs_li = ActList.objects.filter(act__email=request.user.email)
 	
 	qs_total = BankBook.objects.filter(name_id=id).aggregate(Sum('act_total'))
@@ -35,7 +36,7 @@ def my_list(request, id): #ActList의 id
 	
 
 	print(qs_total)
-	return render(request, 'login/my_list.html', {'qs': qs, 'qs_info':qs_info, 'qs_li':qs_li, 'qs_total':qs_total})
+	return render(request, 'login/my_list.html', {'qs': qs, 'qs_info':qs_info, 'qs_li':qs_li, 'qs_total':qs_total, 'qs_graph':qs_graph})
 
 
 ##통장 사용정보 출력##	/index/my_view/id/$
