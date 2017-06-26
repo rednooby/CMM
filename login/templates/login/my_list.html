@@ -3,31 +3,31 @@
 {% block content %}
 <div class="py-3">
 	<div class="container">
-		<div class="row">
-			<!--Left-->
-			<div class="col-md-5">
-			<h1 class="text-primary" align="center">	
-				{% for ActList in qs %}
-					{{ ActList.act_name }}
-				{% endfor %}
-			</h1>
-			<br>
-			<h6 align="right">
-						계좌에 남은 금액: 
-						{% for BankBook in qs_total %}
-								{{ qs_total.act_total__sum}}
-						{% endfor %}
-						원
-					</h6>
-					<table class="table">
-						<thead>
-							<tr>
-								<th>날짜</th>
-								<th>금액</th>
-								<th>카드/현금</th>
-								<th>수입/지출</th>
-							</tr>
-						</thead>
+		<div class="row form-control">
+			<div class="col-md-12">
+				<h1 class="text-primary" align="center">	
+					{% for ActList in qs %}
+						{{ ActList.act_name }} 사용내역
+					{% endfor %}
+				</h1>
+				<br>
+				<h6 align="right">
+					계좌에 남은 금액: 
+					{% for BankBook in qs_total %}
+						{{ qs_total.act_total__sum}}
+					{% endfor %}
+					원
+				</h6>
+
+				<table class="table">
+					<thead>
+						<tr>
+							<th>날짜</th>
+							<th>금액</th>
+							<th>카드/현금</th>
+							<th>수입/지출</th>
+						</tr>
+					</thead>
 					{% for BankBook in qs_info %}
 						<tbody>
 							<td>
@@ -43,58 +43,320 @@
 						</tbody>
 					{% endfor %}
 				</table>
-			</div><!--End of Left-->
-				
-			<!--Right-->
-			<div class="col-md-7">
-				<div class="py-1">
-				<h1 class="text-primary" align="center">	
-					일별 수입 그래프
-				</h1>
-				<br>
-				<div id="chart"></div>
-				<script src="https://d3js.org/d3.v3.min.js"></script>   <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.js"></script>
-				<script type="text/javascript">
-				var chart = c3.generate({
-				    bindto: "#chart",
-				    data: {
-				        x: 'x',
-				//        xFormat: '%Y%m%d', // 'xFormat' can be used as custom format of 'x'
-				        columns: []
-
-				    },
-				    axis: {
-				        x: {
-				            type: 'timeseries',
-				            tick: {
-				                format: '%Y-%m-%d'
-				            }
-				        }
-				    }
-				});
-				setTimeout(function () {
-				    chart.load({
-				        columns: [
-				            ['x', 
-				            {% for BankBook in qs_income%}
-				            '{{ BankBook.act_date|date:"Y-m-d" }}',
-				            {% endfor %}
-				            ],
-
-				            ['수입',
-				            {% for BankBook in qs_income %}
-				            '{{ BankBook.act_price }}',
-				            {% endfor %}
-				            ]
-				        ]
-				    });
-				}, 100);
-				</script>
-				</div><!--End of py-1-->
-			</div><!--End of Right-->
+			</div><!--End of col-md-12-->
 		</div><!--End of row-->
 	</div><!--End of container-->
 </div><!--End of py-3-->
+
+
+<!--수입파트-->
+<div class="container py-3">
+	<div class="row form-control" >
+		<!--Left-->
+		<div class="col-md-5">
+		<h1 class="text-primary" align="center">	
+			수입 목록
+		</h1>
+		<br>
+		<h6 align="right">
+			통장에 들어온 돈: 
+			{% for BankBook in qs_total_income %}
+				{{ qs_total_income.act_total__sum}}
+			{% endfor %}
+			원
+		</h6>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>날짜</th>
+							<th>금액</th>
+							<th>카드/현금</th>
+							<th>수입/지출</th>
+						</tr>
+					</thead>
+				{% for BankBook in qs_income %}
+					<tbody>
+						<td>
+							<h6>
+								<a href="/index/my_view/{{ BankBook.id }}">
+									{{ BankBook.act_date }}
+								</a>
+							</h6>
+						</td>
+						<td>{{ BankBook.act_price }}</td>
+						<td>{{ BankBook.act_payment }}</td>
+						<td>{{ BankBook.act_part }}</td>
+					</tbody>
+				{% endfor %}
+			</table>
+		</div><!--End of Left-->
+			
+		<!--Right-->
+		<div class="col-md-7">
+			<div class="py-1">
+				<h1 class="text-primary" align="center">	
+					수입 그래프
+				</h1>
+				<br>
+				<script>
+					var chart = AmCharts.makeChart("chartdiv1", {
+					    "type": "serial",
+					    "theme": "light",
+					    "marginRight": 40,
+					    "marginLeft": 40,
+					    "autoMarginOffset": 20,
+					    "mouseWheelZoomEnabled":true,
+					    "dataDateFormat": "YYYY-MM-DD",
+					    "valueAxes": [{
+					        "id": "v1",
+					        "axisAlpha": 0,
+					        "position": "left",
+					        "ignoreAxisWidth":true
+					    }],
+					    "balloon": {
+					        "borderThickness": 1,
+					        "shadowAlpha": 0
+					    },
+					    "graphs": [{
+					        "id": "g1",
+					        "balloon":{
+					          "drop":true,
+					          "adjustBorderColor":false,
+					          "color":"#ffffff"
+					        },
+					        "bullet": "round",
+					        "bulletBorderAlpha": 1,
+					        "bulletColor": "#FFFFFF",
+					        "bulletSize": 5,
+					        "hideBulletsCount": 50,
+					        "lineThickness": 2,
+					        "title": "red line",
+					        "useLineColorForBulletBorder": true,
+					        "valueField": "value",
+					        "balloonText": "<span style='font-size:18px;'>[[value]]</span>"
+					    }],
+					    "chartScrollbar": {
+					        "graph": "g1",
+					        "oppositeAxis":false,
+					        "offset":30,
+					        "scrollbarHeight": 80,
+					        "backgroundAlpha": 0,
+					        "selectedBackgroundAlpha": 0.1,
+					        "selectedBackgroundColor": "#888888",
+					        "graphFillAlpha": 0,
+					        "graphLineAlpha": 0.5,
+					        "selectedGraphFillAlpha": 0,
+					        "selectedGraphLineAlpha": 1,
+					        "autoGridCount":true,
+					        "color":"#AAAAAA"
+					    },
+					    "chartCursor": {
+					        "pan": true,
+					        "valueLineEnabled": true,
+					        "valueLineBalloonEnabled": true,
+					        "cursorAlpha":1,
+					        "cursorColor":"#258cbb",
+					        "limitToGraph":"g1",
+					        "valueLineAlpha":0.2,
+					        "valueZoomable":true
+					    },
+					    "valueScrollbar":{
+					      "oppositeAxis":false,
+					      "offset":50,
+					      "scrollbarHeight":10
+					    },
+					    "categoryField": "date",
+					    "categoryAxis": {
+					        "parseDates": true,
+					        "dashLength": 1,
+					        "minorGridEnabled": true
+					    },
+					    "export": {
+					        "enabled": true
+					    },
+
+					    "dataProvider": 
+					    [
+					    	{% for BankBook in qs_income %}
+						    	{
+						        	"date": "{{BankBook.act_date|date:"Y-m-d"}}",
+						        	"value": {{BankBook.act_price}}
+						        },
+					        {% endfor %}    
+					    ]
+					});
+
+					chart.addListener("rendered", zoomChart);
+
+					zoomChart();
+
+					function zoomChart() {
+					    chart.zoomToIndexes(chart.dataProvider.length - 40, chart.dataProvider.length - 1);
+					}
+				</script>
+				<div id="chartdiv1"></div>
+
+								
+			</div><!--End of py-1-->
+		</div><!--End of Right-->
+	</div><!--End of row-->
+</div><!--End of container-->
+
+
+
+<!--지출파트-->
+<div class="container py-3">
+	<div class="row form-control" >
+		<!--Left-->
+		<div class="col-md-5">
+		<h1 class="text-primary" align="center">	
+			지출 목록
+		</h1>
+		<br>
+		<h6 align="right">
+			사용한 돈: 
+			{% for BankBook in qs_total_expenses %}
+				{{ qs_total_expenses.act_total__sum}}
+			{% endfor %}
+			원
+		</h6>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>날짜</th>
+							<th>금액</th>
+							<th>카드/현금</th>
+							<th>수입/지출</th>
+						</tr>
+					</thead>
+				{% for BankBook in qs_expenses %}
+					<tbody>
+						<td>
+							<h6>
+								<a href="/index/my_view/{{ BankBook.id }}">
+									{{ BankBook.act_date }}
+								</a>
+							</h6>
+						</td>
+						<td>{{ BankBook.act_price }}</td>
+						<td>{{ BankBook.act_payment }}</td>
+						<td>{{ BankBook.act_part }}</td>
+					</tbody>
+				{% endfor %}
+			</table>
+		</div><!--End of Left-->
+			
+		<!--Right-->
+		<div class="col-md-7">
+			<div class="py-1">
+				<h1 class="text-primary" align="center">	
+					지출 그래프
+				</h1>
+				<br>
+				<script>
+					var chart = AmCharts.makeChart("chartdiv2", {
+					    "type": "serial",
+					    "theme": "light",
+					    "marginRight": 40,
+					    "marginLeft": 40,
+					    "autoMarginOffset": 20,
+					    "mouseWheelZoomEnabled":true,
+					    "dataDateFormat": "YYYY-MM-DD",
+					    "valueAxes": [{
+					        "id": "v1",
+					        "axisAlpha": 0,
+					        "position": "left",
+					        "ignoreAxisWidth":true
+					    }],
+					    "balloon": {
+					        "borderThickness": 1,
+					        "shadowAlpha": 0
+					    },
+					    "graphs": [{
+					        "id": "g1",
+					        "balloon":{
+					          "drop":true,
+					          "adjustBorderColor":false,
+					          "color":"#ffffff"
+					        },
+					        "bullet": "round",
+					        "bulletBorderAlpha": 1,
+					        "bulletColor": "#FFFFFF",
+					        "bulletSize": 5,
+					        "hideBulletsCount": 50,
+					        "lineThickness": 2,
+					        "title": "red line",
+					        "useLineColorForBulletBorder": true,
+					        "valueField": "value",
+					        "balloonText": "<span style='font-size:18px;'>[[value]]</span>"
+					    }],
+					    "chartScrollbar": {
+					        "graph": "g1",
+					        "oppositeAxis":false,
+					        "offset":30,
+					        "scrollbarHeight": 80,
+					        "backgroundAlpha": 0,
+					        "selectedBackgroundAlpha": 0.1,
+					        "selectedBackgroundColor": "#888888",
+					        "graphFillAlpha": 0,
+					        "graphLineAlpha": 0.5,
+					        "selectedGraphFillAlpha": 0,
+					        "selectedGraphLineAlpha": 1,
+					        "autoGridCount":true,
+					        "color":"#AAAAAA"
+					    },
+					    "chartCursor": {
+					        "pan": true,
+					        "valueLineEnabled": true,
+					        "valueLineBalloonEnabled": true,
+					        "cursorAlpha":1,
+					        "cursorColor":"#258cbb",
+					        "limitToGraph":"g1",
+					        "valueLineAlpha":0.2,
+					        "valueZoomable":true
+					    },
+					    "valueScrollbar":{
+					      "oppositeAxis":false,
+					      "offset":50,
+					      "scrollbarHeight":10
+					    },
+					    "categoryField": "date",
+					    "categoryAxis": {
+					        "parseDates": true,
+					        "dashLength": 1,
+					        "minorGridEnabled": true
+					    },
+					    "export": {
+					        "enabled": true
+					    },
+
+					    "dataProvider": 
+					    [
+					    	{% for BankBook in qs_expenses %}
+						    	{
+						        	"date": "{{BankBook.act_date|date:"Y-m-d"}}",
+						        	"value": {{BankBook.act_price}}
+						        },
+					        {% endfor %}    
+					    ]
+					});
+
+					chart.addListener("rendered", zoomChart);
+
+					zoomChart();
+
+					function zoomChart() {
+					    chart.zoomToIndexes(chart.dataProvider.length - 40, chart.dataProvider.length - 1);
+					}
+				</script>
+				<div id="chartdiv2"></div>
+
+								
+			</div><!--End of py-1-->
+		</div><!--End of Right-->
+	</div><!--End of row-->
+</div><!--End of container-->
+
 {% endblock %}
 
 <!--

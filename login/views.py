@@ -34,10 +34,12 @@ def my_list(request, id): #ActList의 id
 	qs_li = ActList.objects.filter(act__email=request.user.email)
 	
 	qs_total = BankBook.objects.filter(name_id=id).aggregate(Sum('act_total'))
+	qs_total_income = BankBook.objects.filter(name_id=id, act_part="수입").aggregate(Sum('act_total'))
+	qs_total_expenses = BankBook.objects.filter(name_id=id, act_part="지출").aggregate(Sum('act_total'))
 
-	print(qs_income)
+	print(qs_total_expenses)
 
-	return render(request, 'login/my_list.html', {'qs': qs, 'qs_info':qs_info, 'qs_li':qs_li, 'qs_total':qs_total, 'qs_income':qs_income, 'qs_expenses':qs_expenses, 'qs_graph':qs_graph})
+	return render(request, 'login/my_list.html', {'qs': qs, 'qs_info':qs_info, 'qs_li':qs_li, 'qs_total':qs_total, 'qs_income':qs_income, 'qs_expenses':qs_expenses, 'qs_graph':qs_graph, 'qs_total_income':qs_total_income, 'qs_total_expenses':qs_total_expenses})
 
 
 ##통장 사용정보 출력##	/index/my_view/id/$
