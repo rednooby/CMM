@@ -35,7 +35,37 @@
 			</div>
 
 			<div class="col-md-8">
-				꺾은선 넣을래
+				<script>
+					var chart = AmCharts.makeChart( "chartdiv_circle", {
+					  "type": "pie",
+					  "theme": "light",
+					  "titles": [ {
+					    "text": "통장별 사용분포도",
+					    "size": 16
+					  } ],
+					  "dataProvider": [ 
+						  {
+						  	{% for ActList in qs_li %}
+							    "country": "{{ActList.act_name}}",
+							    "visits": 7252
+						  	{%endfor%}
+						  },
+					  ],
+					  "valueField": "visits",
+					  "titleField": "country",
+					  "startEffect": "elastic",
+					  "startDuration": 2,
+					  "labelRadius": 15,
+					  "innerRadius": "50%",
+					  "depth3D": 10,
+					  "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
+					  "angle": 15,
+					  "export": {
+					    "enabled": true
+					  }
+					} );
+				</script>
+				<div id="chartdiv_circle"></div>
 			</div>
 		</div>
 	</div>
