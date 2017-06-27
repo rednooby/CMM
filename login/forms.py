@@ -107,7 +107,7 @@ class ActListForm(forms.ModelForm):
 class BankBookForm(forms.ModelForm):
     class Meta:
         model = BankBook
-        fields = ['act_date', 'act_price','act_payment','act_part']
+        fields = ['act_date', 'act_price','act_payment','act_part', 'act_content']
 
     def __init__(self, *args, **kwargs):
         super(BankBookForm,self).__init__(*args, **kwargs)

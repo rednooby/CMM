@@ -34,44 +34,54 @@
 			<div class="col-md-3">
 			</div>
 			<div class="col-md-6" align="center">
-			{% for BankBook in qs_view %}
-			  <div class="lead">
-			  	<div class="panel panel">
-			      <div class="panel-heading">
-			        <board><h5 class="panel-title" align="left">날짜</h5></board>
-			      </div>
-			      <div class="panel-body">
-			        <div class="form-control col-sm-12 input-lg" type="text" align="left">{{ BankBook.act_date }}</div>
-			      </div>
-			      <br>
-			      <div class="panel-heading">
-			        <h5 class="panel-title" align="left">금액</h5>
-			      </div>
-			      <div class="panel-body">
-			        <div class="form-control col-sm-12 input-lg" type="text" align="left">{{ BankBook.act_price }}</div>
-			      </div>
-			      <br>
-			      <div class="panel-heading">
-			        <h5 class="panel-title" align="left">카드/현금</h5>
-			      </div>
-			      <div class="panel-body">
-			        <div class="form-control col-sm-12 input-lg" type="text" align="left">{{ BankBook.act_payment }}</div>
-			      </div>
-			      <br>
-			      <div class="panel-heading">
-			        <h5 class="panel-title" align="left">수입/지출</h5>
-			      </div>
-			      <div class="panel-body">
-			        <div class="form-control col-sm-12 input-lg" type="text" align="left">{{ BankBook.act_part }}</div>
-			      </div>
-			    </div><!-- End of panel panel-->
-			   </div><!--End of lead-->
-			   <br>
-			   <center>
-			   <a href="/index/my_edit/{{BankBook.id}}" class="btn btn-outline-info">수정</a>
-			   <a href="/index/my_delete/{{BankBook.id}}" class="btn btn-outline-danger">삭제</a>     
-			   </center>
-			{% endfor %}
+				<form class="form-control">
+				<h1 class="text-primary"><center>계좌정보</center></h1><br>
+					{% for BankBook in qs_view %}
+					  <div class="lead">
+					  	<div class="panel panel">
+					      <div class="panel-heading">
+					        <board><h5 class="panel-title" align="left">날짜</h5></board>
+					      </div>
+					      <div class="panel-body">
+					        <div class="form-control col-sm-12 input-lg" type="text" align="left">{{ BankBook.act_date }}</div>
+					      </div>
+					      <br>
+					      <div class="panel-heading">
+					        <h5 class="panel-title" align="left">금액</h5>
+					      </div>
+					      <div class="panel-body">
+					        <div class="form-control col-sm-12 input-lg" type="text" align="left">{{ BankBook.act_price }}</div>
+					      </div>
+					      <br>
+					      <div class="panel-heading">
+					        <h5 class="panel-title" align="left">카드/현금</h5>
+					      </div>
+					      <div class="panel-body">
+					        <div class="form-control col-sm-12 input-lg" type="text" align="left">{{ BankBook.act_payment }}</div>
+					      </div>
+					      <br>
+					      <div class="panel-heading">
+					        <h5 class="panel-title" align="left">수입/지출</h5>
+					      </div>
+					      <div class="panel-body">
+					        <div class="form-control col-sm-12 input-lg" type="text" align="left">{{ BankBook.act_part }}</div>
+					      </div>
+					      <br>
+					      <div class="panel-heading">
+					        <h5 class="panel-title" align="left">내용</h5>
+					      </div>
+					      <div class="panel-body">
+					        <div class="form-control col-sm-12 input-lg" type="text" align="left">{{ BankBook.act_content }}</div>
+					      </div>
+					    </div><!-- End of panel panel-->
+					   </div><!--End of lead-->
+					   <br>
+					   <center>
+					   <a href="/index/my_edit/{{BankBook.id}}" class="btn btn-outline-info">수정</a>
+					   <a href="/index/my_delete/{{BankBook.id}}" class="btn btn-outline-danger">삭제</a>     
+					   </center>
+					{% endfor %}
+				</form>
 			</div>
 			<div class="col-md-3">
 				

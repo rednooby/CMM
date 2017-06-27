@@ -2,52 +2,67 @@
 
 {% block content %}
 
-
-<form action="" method="post">
-	{% csrf_token %}
-	     <center>
-        <!--폼에 필드가 없을경우 에러메세지 출력-->
-        {% for error in form.non_field_errors %}
-          <div class="alert alert-danger">
-              {{ error }}
-          </div>
-        {% endfor %}
-        <div class="col-sm-5">
-        <input type="text" class="form-control" id="id_act_date" name="act_date" value="{{ form.act_date.value }}">
-          {% for error in form.act_date.errors %}
+<div class="py-3">
+  <form action="" method="post">
+      {% csrf_token %}
+  	     <center>
+          <!--폼에 필드가 없을경우 에러메세지 출력-->
+          {% for error in form.non_field_errors %}
             <div class="alert alert-danger">
-              {{ error }}
+                {{ error }}
             </div>
           {% endfor %}
-          <input type="text" class="form-control" required id="id_act_price" name="act_price" value="{{ form.act_price.value }}">
-          {% for error in form.act_price.errors %}
-            <div class="alert alert-danger">
-              {{ error }}
-            </div>
-          {% endfor %}
+          <div class="col-sm-5 form-control" >
+          <h1 class="text-primary"><center>계좌정보</center></h1><br>
+          <input type="text" class="form-control" id="id_act_date" name="act_date" value="{{ form.act_date.value }}">
+            {% for error in form.act_date.errors %}
+              <div class="alert alert-danger">
+                {{ error }}
+              </div>
+            {% endfor %}
+            <input type="text" class="form-control" required id="id_act_price" name="act_price" value="{{ form.act_price.value }}">
+            {% for error in form.act_price.errors %}
+              <div class="alert alert-danger">
+                {{ error }}
+              </div>
+            {% endfor %}
 
-          <select class="form-control" id="id_act_payment" name="act_payment">
+            <select class="form-control" id="id_act_payment" name="act_payment">
 
-            <option>{{form.act_payment.value}}</option>
-            
-            {% if form.act_payment.value == "현금" %}
-	       		<option>카드</option>
-	        {% else %}
-	            <option>현금</option>
-            {% endif %}
-          </select>
-          <select class="form-control" id="id_act_part" name="act_part">
-            <option>{{form.act_part.value}}</option>
-            
-            {% if form.act_part.value == "수입" %}
-            	<option>지출</option>
-            {% else %}
-            	<option>수입</option>
-          	{% endif %}
-          </select>
-        </div>
-         <p class="help-block"></p>
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">완료</button>
-      </center>
-</form>
+              <option>{{form.act_payment.value}}</option>
+              
+              {% if form.act_payment.value == "현금" %}
+  	       		<option>카드</option>
+  	        {% else %}
+  	            <option>현금</option>
+              {% endif %}
+            </select>
+            <select class="form-control" id="id_act_part" name="act_part">
+              <option>{{form.act_part.value}}</option>
+              
+              {% if form.act_part.value == "수입" %}
+              	<option>지출</option>
+              {% else %}
+              	<option>수입</option>
+            	{% endif %}
+            </select>
+            <input list="id_act_content" name="act_content" class="form-control" value="{{form.act_content.value}}">
+            <datalist id="id_act_content" name="act_content">
+              <option>월급</option>
+              <option>적금</option>
+              <option>교통비</option>
+              <option>식비</option>
+              <option>여가비</option>
+            </datalist>
+            {% for error in form.act_price.errors %}
+              <div class="alert alert-danger">
+                {{ error }}
+              </div>
+            {% endfor %}
+          <p class="help-block"></p>
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">완료</button>
+          </center>
+          </div> 
+  </form>
+</div>
 {% endblock %}

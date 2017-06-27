@@ -40,6 +40,20 @@
             <option>수입</option>
             <option>지출</option>
           </select>
+
+          <input list="id_act_content" name="act_content"class="form-control" placeholder="메모(직접입력 가능)">
+          <datalist id="id_act_content" name="act_content">
+            <option>월급</option>
+            <option>적금</option>
+            <option>교통비</option>
+            <option>식비</option>
+            <option>여가비</option>
+          </datalist>
+          {% for error in form.act_content.errors %}
+            <div class="alert alert-danger">
+              {{ error }}
+            </div>
+          {% endfor %}
           <p class="help-block"></p><!--공백용-->
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">완료</button>
           <a href="/index" class="btn btn-outline-danger my-2">취소</a>
