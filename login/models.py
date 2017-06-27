@@ -168,6 +168,13 @@ class BankBook(models.Model):
         default=0,
         )
 
+    #코멘트
+    act_content = models.CharField(
+        verbose_name='소비내용',
+        max_length=50,
+        default=' '
+        )
+
     def __str__(self):
         return "{} / {} 의 {}".format(self.act_date, self.name, self.act_part)
 

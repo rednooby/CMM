@@ -20,7 +20,7 @@ def login(request):
 ##메인화면##	/index/$
 def index(request):
 	qs_li = ActList.objects.filter(act__email=request.user.email)
-
+	#qs_graph = BankBook.objects.filter(name_id=id).order_by('act_date')
 	return render(request, 'login/index.html',{'qs_li': qs_li})
 
 
