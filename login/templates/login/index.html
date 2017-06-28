@@ -4,7 +4,7 @@
 {% load static %}
 <!--상단 로고 및 CMM 출력-->
 <div class="py-3">
-	<div class="container form-control">
+	<div class="container">
 		<div class="row">
 			<form class="form-inline my-4 my-lg-0 form-form"><!--폼의 사이즈 고정 및 사진, 글씨 정렬-->
 				<div class="col-md-4">
@@ -12,6 +12,13 @@
 				</div>
 				<div class="col-md-4">
 					<h1 class="text-primary">CMM</h1>
+					<button class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown"> 통장 내역 </button>
+	                <div class="dropdown-menu">
+	                  {% for ActList in qs_li %}
+	                    <a class="dropdown-item" href="my_list/{{ ActList.id }}">{{ ActList.act_name }}</a>
+	                <div class="dropdown-divider"></div>
+	                  {% endfor %}
+	                </div>
 				</div>
 			</form>
 		</div>
@@ -20,53 +27,64 @@
 
 <!--통장 리스트와 그래프 출력-->
 <div class="py-3">
-	<div class="container form-control"">
+	<div class="container">
 		<div class="row">
-			<div class="col-md-4">
-				<div class="btn-group">
-	                <button class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown"> {{ user.nickname }}님의 통장목록 </button>
-	                <div class="dropdown-menu">
-	                  {% for ActList in qs_li %}
-	                    <a class="dropdown-item" href="my_list/{{ ActList.id }}">{{ ActList.act_name }}</a>
-	                <div class="dropdown-divider"></div>
-	                  {% endfor %}
-	                </div>
-	            </div>
-			</div>
+			<div class="container1 form-control">
+				<!-- Nav tabs -->
+				<ul class="nav nav-tabs" role="tablist">
+				  <li role="presentation" class="nav-link"><a href="#tab1" role="tab" data-toggle="tab">전체 수입 목록</a></li>
+				  <li role="presentation" class="nav-link"><a href="#tab2" role="tab" data-toggle="tab">전체 지출 목록</a></li>
+				</ul>
 
-			<div class="col-md-8">
-				<script>
-					var chart = AmCharts.makeChart( "chartdiv_circle", {
-					  "type": "pie",
-					  "theme": "light",
-					  "titles": [ {
-					    "text": "통장별 사용분포도",
-					    "size": 16
-					  } ],
-					  "dataProvider": [ 
-						  {
-						  	{% for ActList in qs_li %}
-							    "country": "{{ActList.act_name}}",
-							    "visits": 7252
-						  	{%endfor%}
-						  },
-					  ],
-					  "valueField": "visits",
-					  "titleField": "country",
-					  "startEffect": "elastic",
-					  "startDuration": 2,
-					  "labelRadius": 15,
-					  "innerRadius": "50%",
-					  "depth3D": 10,
-					  "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
-					  "angle": 15,
-					  "export": {
-					    "enabled": true
-					  }
-					} );
-				</script>
-				<div id="chartdiv_circle"></div>
+				<!-- Tab panes -->
+				<div class="tab-content">
+				  <div role="tabpanel" class="tab-pane" id="tab1">
+				  	<p>
+						<table class="table">
+							<thead>
+								<th>날짜</th>
+								<th>금액</th>
+								<th>통장</th>
+								<th>메모</th>
+							</thead>
+							{% for BankBook in qs_income_all %}
+								<tbody>
+									<td>{{ BankBook.act_date }}</td>
+									<td>{{ BankBook.act_price }}</td>
+									<td>{{ BankBook.name }}</td>
+									<td>{{ BankBook.act_content }}</td>
+								</tbody>
+							{% endfor %}
+						</table>
+				  	</p>
+				  </div>
+				  <div role="tabpanel" class="tab-pane" id="tab2">
+				  	<p>
+						<table class="table">
+							<thead>
+								<th>날짜</th>
+								<th>금액</th>
+								<th>통장</th>
+								<th>메모</th>
+							</thead>
+							{% for BankBook in qs_expenses_all %}
+								<tbody>
+									<td>{{ BankBook.act_date }}</td>
+									<td>{{ BankBook.act_price }}</td>
+									<td>{{ BankBook.name }}</td>
+									<td>{{ BankBook.act_content }}</td>
+								</tbody>
+							{% endfor %}
+						</table>
+				  	</p>
+				  </div>
+				</div>
 			</div>
+			<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+			<script src="/SRC2/sctab/jquery.scrolling-tabs.js"></script>
+			<script>
+			$('.nav-tabs').scrollingTabs();
+			</script>
 		</div>
 	</div>
 </div>
@@ -89,7 +107,19 @@
 					야야
 				</div>
 				<div class="col-md-4">
-				좀나와
+					<h1 class="text-primary">저축왕</h1>
+						<table class="table">
+							<thead>
+								<th>순위</th>
+								<th>닉네임</th>
+							</thead>
+							{% for BankBook in qs_li %}
+								<tbody>
+									<td>{{ +1 }}</td>
+									<td>{{BankBook.act_name}}</td>
+								</tbody>
+							{% endfor %}
+						</table>
 				</div>
 			</div>
 		</div>

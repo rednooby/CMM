@@ -20,8 +20,14 @@ def login(request):
 ##메인화면##	/index/$
 def index(request):
 	qs_li = ActList.objects.filter(act__email=request.user.email)
-	#qs_graph = BankBook.objects.filter(name_id=id).order_by('act_date')
-	return render(request, 'login/index.html',{'qs_li': qs_li})
+	qs_graph_up = BankBook.objects.all().order_by('act_total')[0]#가장큰 수입
+	qs_graph_down = BankBook.objects.all().order_by('-act_total')[0]#가장큰 지출
+	qs_income_all = BankBook.objects.filter(act_part='수입').order_by('-act_date')#수입 전체 출력
+	qs_expenses_all = BankBook.objects.filter(act_part='지출').order_by('-act_date')#지출 전체 출력
+
+	print(qs_graph_up)
+	print(qs_graph_down)
+	return render(request, 'login/index.html',{'qs_li': qs_li, 'qs_graph':qs_graph_up, 'qs_graph_down':qs_graph_down, 'qs_income_all': qs_income_all, 'qs_expenses_all': qs_expenses_all})
 
 
 ##통장 사용정보 출력##	/index/my_list/id/$
