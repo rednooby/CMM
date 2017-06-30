@@ -44,14 +44,12 @@
 							<thead>
 								<th>날짜</th>
 								<th>금액</th>
-								<th>통장</th>
 								<th>메모</th>
 							</thead>
 							{% for BankBook in qs_income_all %}
 								<tbody>
 									<td>{{ BankBook.act_date }}</td>
 									<td>{{ BankBook.act_price }}</td>
-									<td>{{ BankBook.name }}</td>
 									<td>{{ BankBook.act_content }}</td>
 								</tbody>
 							{% endfor %}

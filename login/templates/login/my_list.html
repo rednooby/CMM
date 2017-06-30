@@ -64,36 +64,78 @@
 					  <div role="tabpanel" class="tab-pane" id="tab1">
 					  	<p>
 							<script>
-								var chart = AmCharts.makeChart( "chartdiv_circle", {
+								var chart = AmCharts.makeChart("chartdiv", {
 								  "type": "pie",
-								  "theme": "light",
 								  "titles": [ {
-								    "text": "지출성향 그래프",
-								    "size": 16
+								  "text": "통장별 사용분포도",
+								  "size": 16
 								  } ],
-								  "dataProvider": [ 
-								  	{% for BankBook in qs_circle %}
-								    {
-								    "country": "{{BankBook.act_content}}",
-								    "visits": {{BankBook.act_price}}
-								  	},
-								  	{%endfor%}
-								  ],
-								  "valueField": "visits",
-								  "startEffect": "elastic",
-								  "startDuration": 2,
-								  "titleField": "country",
-								  "labelRadius": 15,
+								  "startDuration": 0,
+								   "theme": "light",
+								  "addClassNames": true,
+								  "legend":{
+								   	"position":"right",
+								    "marginRight":100,
+								    "autoMargins":false
+								  },
 								  "innerRadius": "30%",
-								  "depth3D": 10,
-								  "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
-								  "angle": 15,
+								  "defs": {
+								    "filter": [{
+								      "id": "shadow",
+								      "width": "200%",
+								      "height": "200%",
+								      "feOffset": {
+								        "result": "offOut",
+								        "in": "SourceAlpha",
+								        "dx": 0,
+								        "dy": 0
+								      },
+								      "feGaussianBlur": {
+								        "result": "blurOut",
+								        "in": "offOut",
+								        "stdDeviation": 5
+								      },
+								      "feBlend": {
+								        "in": "SourceGraphic",
+								        "in2": "blurOut",
+								        "mode": "normal"
+								      }
+								    }]
+								  },
+								  "dataProvider": [
+								  	{% for BankBook in qs_circle %}
+									  {
+									    "country": "{{BankBook.act_content}}",
+									    "litres": {{BankBook.act_price}}
+									  },
+									{% endfor %}
+								  
+								  ],
+								  "valueField": "litres",
+								  "titleField": "country",
 								  "export": {
 								    "enabled": true
 								  }
-								} );
-						</script>
-					<div id="chartdiv_circle"></div>
+								});
+
+								chart.addListener("init", handleInit);
+
+								chart.addListener("rollOverSlice", function(e) {
+								  handleRollOver(e);
+								});
+
+								function handleInit(){
+								  chart.legend.addListener("rollOverItem", handleRollOver);
+								}
+
+								function handleRollOver(e){
+								  var wedge = e.dataItem.wedge.node;
+								  wedge.parentNode.appendChild(wedge);
+								}
+							</script>
+
+							<!-- HTML -->
+							<div id="chartdiv"></div>	
 					  	</p>
 					  </div>
 					  <div role="tabpanel" class="tab-pane" id="tab2">
