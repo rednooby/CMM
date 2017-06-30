@@ -130,7 +130,7 @@ class ActList(models.Model):
         blank=True,
     )
     def __str__(self):
-       return self.act_name
+       return "{}".format(self.act)
 
     
 

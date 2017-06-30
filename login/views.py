@@ -8,6 +8,7 @@ from .models import ActList, MyUser, BankBook
 from .forms import ActListForm, BankBookForm
 from django.db.models import Sum
 
+
 def test(request):
 	return render(request, 'login/test.html')
 
@@ -22,18 +23,19 @@ def index(request):
 	qs_li = ActList.objects.filter(act__email=request.user.email)
 	qs_graph_up = BankBook.objects.all().order_by('act_total')[0]#가장큰 수입
 	qs_graph_down = BankBook.objects.all().order_by('-act_total')[0]#가장큰 지출
-	qs_income_all = BankBook.objects.filter(act_part='수입').order_by('-act_date')#수입 전체 출력
-	qs_expenses_all = BankBook.objects.filter(act_part='지출').order_by('-act_date')#지출 전체 출력
+	qs_income_all = BankBook.objects.filter(act_content='적금').order_by('-act_price')#저축 랭킹
+	qs_food_all = BankBook.objects.filter(act_content='식비').order_by('-act_price')#저축 랭킹
+	qs_expenses_all = BankBook.objects.filter(act_content='여가비').order_by('-act_price')#지출 전체 출력
 
-	print(qs_graph_up)
-	print(qs_graph_down)
-	return render(request, 'login/index.html',{'qs_li': qs_li, 'qs_graph':qs_graph_up, 'qs_graph_down':qs_graph_down, 'qs_income_all': qs_income_all, 'qs_expenses_all': qs_expenses_all})
+	return render(request, 'login/index.html',{'qs_li': qs_li, 'qs_graph':qs_graph_up, 'qs_graph_down':qs_graph_down, 'qs_income_all': qs_income_all, 'qs_expenses_all': qs_expenses_all, 'qs_food_all':qs_food_all})
 
 
 ##통장 사용정보 출력##	/index/my_list/id/$
 def my_list(request, id): #ActList의 id
 	qs = ActList.objects.filter(act__email=request.user.email, id=id)
+	
 	qs_info = BankBook.objects.filter(name_id=id).order_by('-act_date')
+
 	qs_graph = BankBook.objects.filter(name_id=id).order_by('act_date')
 	qs_income = BankBook.objects.filter(name_id=id, act_part="수입").order_by('act_date')#수입
 	qs_expenses = BankBook.objects.filter(name_id=id,act_part="지출").order_by('act_date')#지출
@@ -43,10 +45,11 @@ def my_list(request, id): #ActList의 id
 	qs_total_income = BankBook.objects.filter(name_id=id, act_part="수입").aggregate(Sum('act_total'))
 	qs_total_expenses = BankBook.objects.filter(name_id=id, act_part="지출").aggregate(Sum('act_total'))
 
-	print(qs_total_expenses)
+	qs_circle = BankBook.objects.filter(name_id=id,act_part="지출")
+	print(qs_circle)
 
-	return render(request, 'login/my_list.html', {'qs': qs, 'qs_info':qs_info, 'qs_li':qs_li, 'qs_total':qs_total, 'qs_income':qs_income, 'qs_expenses':qs_expenses, 'qs_graph':qs_graph, 'qs_total_income':qs_total_income, 'qs_total_expenses':qs_total_expenses})
-
+	return render(request, 'login/my_list.html', {'qs': qs, 'qs_info':qs_info, 'qs_li':qs_li, 'qs_total':qs_total, 'qs_income':qs_income, 'qs_expenses':qs_expenses, 'qs_graph':qs_graph, 'qs_total_income':qs_total_income, 'qs_total_expenses':qs_total_expenses, 'qs_circle':qs_circle})
+	return HttpResponse(template.render(context))
 
 ##통장 사용정보 출력##	/index/my_view/id/$
 def my_view(request, id): #BankBook의 id

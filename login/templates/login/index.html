@@ -103,20 +103,47 @@
 		<!--통장 공유 게시판-->
 		<div class="container">
 			<div class="row">
-				<div class="col-md-8">
-					야야
-				</div>
 				<div class="col-md-4">
-					<h1 class="text-primary">저축왕</h1>
+					<h1 class="text-primary">YOLO 순위</h1>
 						<table class="table">
 							<thead>
-								<th>순위</th>
-								<th>닉네임</th>
+								<th>No</th>
+								<th>ID</th>
 							</thead>
-							{% for BankBook in qs_li %}
+							{% for BankBook in qs_expenses_all %}
 								<tbody>
-									<td>{{ +1 }}</td>
-									<td>{{BankBook.act_name}}</td>
+									<td>{{ forloop.counter }}</td>
+									<td>{{BankBook.name}}</td>
+								</tbody>
+							{% endfor %}
+						</table>
+				</div>
+				<div class="col-md-4">
+					<h1 class="text-primary">식비 순위</h1>
+						<table class="table">
+							<thead>
+								<th>No</th>
+								<th>ID</th>
+							</thead>
+							{% for BankBook in qs_food_all %}
+								<tbody>
+									<td>{{ forloop.counter }}</td>
+									<td>{{BankBook.name}}</td>
+								</tbody>
+							{% endfor %}
+						</table>
+				</div>
+				<div class="col-md-4">
+					<h1 class="text-primary">저축 순위</h1>
+						<table class="table">
+							<thead>
+								<th>No</th>
+								<th>ID</th>
+							</thead>
+							{% for BankBook in qs_income_all %}
+								<tbody>
+									<td>{{ forloop.counter }}</td>
+									<td>{{BankBook.name}}</td>
 								</tbody>
 							{% endfor %}
 						</table>
