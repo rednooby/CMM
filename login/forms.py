@@ -1,5 +1,5 @@
 from django import forms
-from .models import MyUser, ActList, BankBook
+from .models import MyUser, ActList, BankBook, ActBoard
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
 
@@ -120,10 +120,16 @@ class BankBookForm(forms.ModelForm):
         self.fields['act_payment'].widget.attrs['placeholder'] = "카드/현금"
         self.fields['act_payment'].widget.attrs['class'] = "form-control"
         self.fields['act_part'].widget.attrs['placeholder'] = "수입/지출"
-        self.fields['act_part'].widget.attrs['class'] = "form-control"
+        self.fi:
+        elds['act_part'].widget.attrs['class'] = "form-control"
         '''
         
+class ActBoardForm(forms.ModelForm):
+    class Meta:
+        model = ActBoard
 
+    def __init__(self, *args, **kwargs):
+        super(ActBoardForm,self).__init__(*args, **kwargs)
 
 '''
 ###20170602 최초 BankBookForm

@@ -1,5 +1,39 @@
 {% extends 'login/layout.html' %}
 
 {% block content %}
+<div class="py-5">
+	<div class="container">
+		<div class="row form-control" align="center">
+			<div class="col-md-4">
+			</div>
+			<div class="col-md-4">
+				<h1 class="text-primary">게시판</h1>
+			</div>
+			<div class="col-md-4" align="right">
+			<a href="/board/write" class="btn btn-outline-info">글쓰기</a>
+			</div>
+
+			<table class="table">
+				<thead>
+					<th>번호</th>
+					<th>제목</th>
+					<th>글쓴이</th>
+					<th>시간</th>
+					<th>조회</th>
+				</thead>
+
+				{% for ActBoard in qs_board_list %}
+				<tbody>
+					<td>{{ forloop.counter }}</td>
+					<td>{{ ActBoard.board_title }}</td>
+					<td>{{ ActBoard.board_name }}</td>
+					<td>{{ ActBoard.board_time }}</td>
+					<td>{{ ActBoard.board_hit }}</td>
+				</tbody>
+				{% endfor %}
+			</table>
+		</div>
+	</div>	
+</div>
 
 {% endblock %}

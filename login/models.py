@@ -164,7 +164,6 @@ class BankBook(models.Model):
     #남은돈
     act_total = models.IntegerField(
         verbose_name='잔여금액',
-        max_length=15,
         default=0,
         )
 
@@ -179,7 +178,7 @@ class BankBook(models.Model):
         return "{} / {} 의 {}".format(self.act_date, self.name, self.act_part)
 
 
-class board(models.Model):
+class ActBoard(models.Model):
     board_name = models.ForeignKey(MyUser)
 
     #글제목
@@ -194,7 +193,20 @@ class board(models.Model):
         max_length=3000,
         )
 
+    #시간
+    board_time = models.DateTimeField(
+        verbose_name='작성시간',
+        max_length=20,
+        )
 
+    #조회
+    board_hit = models.IntegerField(
+        verbose_name='조회수',
+        default=0,
+        )
+
+    def __str__(self):
+        return self.board_title
 
 '''
 #선택은 choices 사용

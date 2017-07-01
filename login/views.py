@@ -4,7 +4,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 #from django.contrib.auth.forms import UserCreationForm
 
-from .models import ActList, MyUser, BankBook
+from .models import ActList, MyUser, BankBook, ActBoard
 from .forms import ActListForm, BankBookForm
 from django.db.models import Sum
 
@@ -26,12 +26,6 @@ def index(request):
 	#qs_income = BankBook.objects.filter(act_payment='수입').order_by('-act_price')#전체 수입 목록
 	#qs_expenses = BankBook.objects.filter(act_payment='지출').order_by('-act_price')#전체 지출 목록
 
-	bankbook.name = request.user.actlist_set.all().get(id=id)
-			#bankbook.name = request.user.actlist_set.filter(act_name=act_name)
-			#안되는 이유=>쿼리셋은 다수의 모델필드를 DB에 쿼리하기 위한 객체. 그래서 직접 모델필드로 담을수 없음
-			#request.user.actlist_set.filter는 쿼리셋인데 외래키 필드에 지정하여 오류가 난것
-
-
 	qs_income_all = BankBook.objects.filter(act_content='적금').order_by('-act_price')#저축 랭킹
 	qs_food_all = BankBook.objects.filter(act_content='식비').order_by('-act_price')#저축 랭킹
 	qs_expenses_all = BankBook.objects.filter(act_content='여가비').order_by('-act_price')#지출 전체 출력
@@ -41,8 +35,11 @@ def index(request):
 
 ##게시판 리스트 /board/list
 def board_list(request):
-	qs_li = ActList.objects.filter(act__email=request.user.email)#메뉴 통장 출력
-	return render(request, 'login/board_list.html', {'qs_li' : qs_li})
+	qs_li = ActList.objects.filter(act__email=request.user.email)#메뉴 통장 출력	return render(request, 'login/board_list.html', {'qs_li' : qs_li})
+	
+	qs_board_list = ActBoard.objects.all()
+
+	return render(request, 'login/board_list.html', {'qs_li':qs_li,'qs_board_list':qs_board_list})
 
 	
 ##게시판 글쓰기 /board/write
