@@ -42,7 +42,6 @@ def index(request):
 ##게시판 리스트 /board/list
 def board_list(request):
 	qs_li = ActList.objects.filter(act__email=request.user.email)#메뉴 통장 출력
-
 	return render(request, 'login/board_list.html', {'qs_li' : qs_li})
 
 	

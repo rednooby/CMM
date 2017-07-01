@@ -179,6 +179,22 @@ class BankBook(models.Model):
         return "{} / {} 의 {}".format(self.act_date, self.name, self.act_part)
 
 
+class board(models.Model):
+    board_name = models.ForeignKey(MyUser)
+
+    #글제목
+    board_title = models.CharField(
+        verbose_name='글제목',
+        max_length=40,
+        )
+
+    #글내용
+    board_content = models.CharField(
+        verbose_name='글내용',
+        max_length=3000,
+        )
+
+
 
 '''
 #선택은 choices 사용
