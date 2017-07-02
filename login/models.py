@@ -193,10 +193,16 @@ class ActBoard(models.Model):
         max_length=3000,
         )
 
-    #시간
-    board_time = models.DateTimeField(
+    #작성시간
+    create_time = models.DateTimeField(
         verbose_name='작성시간',
-        max_length=20,
+        auto_now_add=True
+        )
+
+    #업데이트 시간
+    update_time = models.DateTimeField(
+        verbose_name='작성시간',
+        auto_now=True
         )
 
     #조회

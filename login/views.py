@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 #from django.contrib.auth.forms import UserCreationForm
 
 from .models import ActList, MyUser, BankBook, ActBoard
-from .forms import ActListForm, BankBookForm
+from .forms import ActListForm, BankBookForm, ActBoardForm
 from django.db.models import Sum
 
 
@@ -44,8 +44,21 @@ def board_list(request):
 	
 ##게시판 글쓰기 /board/write
 def board_write(request):
+	if request.method == 'POST':
+		form = ActBoardForm(request.POST)
+		if form.is_valid():
+			post = form.save(commit=False)
+			post.board_name = request.user
+			post.save()
+		
+			return redirect('login:board_list')
+
+	else:
+		form = ActBoardForm()
+
+	print()
 	qs_li = ActList.objects.filter(act__email=request.user.email)
-	return render(request, 'login/board_write.html', {'qs_li':qs_li})
+	return render(request, 'login/board_write.html', {'form': form,'qs_li': qs_li})
 
 
 ##게시판 글읽기 /board/view/id
@@ -154,12 +167,12 @@ def bankbook_new(request, id):
 	else:
 		form = BankBookForm()
 
-	#qs = ActList.objects.filter(act__email=request.user.email, id=id)
+	qs = ActList.objects.filter(act__email=request.user.email, id=id)#통장이름입력 출력하기 위한 쿼리셋
 	qs_li = ActList.objects.filter(act__email=request.user.email)
 
 	
 	#print(form)
-	return render(request, 'login/bankbook.html', {'form': form, 'qs_li':qs_li})
+	return render(request, 'login/bankbook.html', {'form': form, 'qs_li':qs_li, 'qs':qs})
 	#_set의 사용: 어떤 model에서 자신을 foreign key로 가지고 있는 모델이 접근하기 위해 Manager를 이용할때 사용
 	#set 정보: http://freeprog.tistory.com/55
 

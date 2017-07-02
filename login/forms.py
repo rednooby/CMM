@@ -127,6 +127,7 @@ class BankBookForm(forms.ModelForm):
 class ActBoardForm(forms.ModelForm):
     class Meta:
         model = ActBoard
+        fields = ['board_title', 'board_content']
 
     def __init__(self, *args, **kwargs):
         super(ActBoardForm,self).__init__(*args, **kwargs)

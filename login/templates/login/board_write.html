@@ -1,7 +1,70 @@
 {% extends 'login/layout.html' %}
 
 {% block content %}
-
-	
+<div class="py-5">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-2">
+			</div>
+			<div class="col-sm-8">
+			<h1 class="text-primary">글쓰기</h1>
+				<form action="" method="post">
+				{% csrf_token %}
+					<table class="table">
+						    <!--폼에 필드가 없을경우 에러메세지 출력-->
+				            {% for error in form.non_field_errors %}
+				              <div class="alert alert-danger">
+				                  {{ error }}
+				              </div>
+				            {% endfor %}
+				        <tr>    
+				            <td>
+								<h3 class="text-primary">글제목</h3>
+						    </td>
+					        <td>
+						        <input type="text" class="form-control" id="id_board_title" name="board_title">
+						    </td>
+						    <td>
+						        {% for error in form.board_title.errors %}
+						          <div class="alert alert-danger">
+						            {{ error }}
+						          </div>
+						        {% endfor %}
+						    </td>
+					    </tr>
+					    <tr>
+					    	<td>
+					        	<h3 class="text-primary">작성자</h3>
+					        </td>
+					        <td>
+					        	<label class="form-control">{{ user.nickname }}</label>
+					    	</td>
+					    </tr>
+					    <tr>
+					    	<td>
+					        	<h3 class="text-primary">글내용</h3>
+					        </td>
+					        <td>
+					        	<textarea class="form-control col-sm-12" id="id_board_content" name="board_content" height="500px"></textarea>
+					        </td>
+					        <td>
+					        	{% for error in form.board_content.errors %}
+					          		<div class="alert alert-danger">
+					            		{{ error }}
+					          		</div>
+					        	{% endfor %}
+					        </td>     
+						</tr>
+					</table>
+				    		<p class="help-block"></p><!--공백용-->
+				        	<button class="btn btn-outline-success my-2 my-sm-0" type="submit">완료</button>
+				        	<a href="/index" class="btn btn-outline-danger my-2">취소</a>
+				</form>
+			</div><!--End of col-sm-8-->
+			<div class="col-sm-2">
+			</div>
+		</div><!--End of row-->
+	</div><!--End of container-->
+</div><!--End of py-5-->
 
 {% endblock %}
