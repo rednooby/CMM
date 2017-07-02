@@ -5,6 +5,21 @@
 	<div class="container">
 		<div class="row form-control" align="center">
 			<div class="col-md-4">
+				<br>
+				<div class="pagination">
+						<span class="step-links">
+							{% if contacts.has_previous %}
+								<a href="?page={{ contacts.previous_page_number }}">이전</a>
+							{% endif %}
+							 <span class="current">
+					            Page {{ contacts.number }} of {{ contacts.paginator.num_pages }}.
+					        </span>
+
+					        {% if contacts.has_next %}
+					            <a href="?page={{ contacts.next_page_number }}">다음</a>
+					        {% endif %}
+						</span>
+					</div>
 			</div>
 			<div class="col-md-4">
 				<h1 class="text-primary">게시판</h1>
@@ -22,16 +37,20 @@
 					<th>조회</th>
 				</thead>
 
-				{% for ActBoard in qs_board_list %}
+				{% for ActBoard in contacts %}
 				<tbody>
-					<td>{{ forloop.counter }}</td>
-					<td>{{ ActBoard.board_title }}</td>
-					<td>{{ ActBoard.board_name }}</td>
-					<td>{{ ActBoard.board_time }}</td>
+					<td>{{ ActBoard.id }}</td>
+					<td>
+						<a href="/board/view/{{ActBoard.id}}">
+							{{ ActBoard.board_title }}
+						</a>
+					</td>
+					<td>{{ ActBoard.board_nick }}</td>
+					<td>{{ ActBoard.create_time }}</td>
 					<td>{{ ActBoard.board_hit }}</td>
 				</tbody>
 				{% endfor %}
-			</table>
+			</table>	
 		</div>
 	</div>	
 </div>

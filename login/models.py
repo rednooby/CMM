@@ -187,6 +187,12 @@ class ActBoard(models.Model):
         max_length=40,
         )
 
+    #닉네임
+    board_nick = models.CharField(
+        verbose_name='닉네임',
+        max_length=40,
+        )
+
     #글내용
     board_content = models.CharField(
         verbose_name='글내용',

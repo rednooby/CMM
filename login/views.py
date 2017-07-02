@@ -8,6 +8,9 @@ from .models import ActList, MyUser, BankBook, ActBoard
 from .forms import ActListForm, BankBookForm, ActBoardForm
 from django.db.models import Sum
 
+#페이징
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 
 def test(request):
 	return render(request, 'login/test.html')
@@ -37,9 +40,19 @@ def index(request):
 def board_list(request):
 	qs_li = ActList.objects.filter(act__email=request.user.email)#메뉴 통장 출력	return render(request, 'login/board_list.html', {'qs_li' : qs_li})
 	
-	qs_board_list = ActBoard.objects.all()
+	qs_board_list = ActBoard.objects.all().order_by('-id')
 
-	return render(request, 'login/board_list.html', {'qs_li':qs_li,'qs_board_list':qs_board_list})
+	paginator = Paginator(qs_board_list, 5)
+	page = request.GET.get('page')
+
+	try:
+		contacts = paginator.page(page)
+	except PageNotAnInteger:
+		contacts = paginator.page(1)
+	except EmptyPage:
+		contacts = paginator.page(paginator.num_pages)
+
+	return render(request, 'login/board_list.html', {'contacts': contacts, 'qs_li':qs_li,'qs_board_list':qs_board_list})
 
 	
 ##게시판 글쓰기 /board/write
@@ -49,6 +62,7 @@ def board_write(request):
 		if form.is_valid():
 			post = form.save(commit=False)
 			post.board_name = request.user
+			post.board_nick = request.user.nickname
 			post.save()
 		
 			return redirect('login:board_list')
@@ -63,19 +77,40 @@ def board_write(request):
 
 ##게시판 글읽기 /board/view/id
 def board_view(request, id):
+	
 	qs_li = ActList.objects.filter(act__email=request.user.email)
-	return render(request, 'login/board_view.html',{'qs_li':qs_li})
+	qs_board_view = ActBoard.objects.filter(id=id)
+
+	return render(request, 'login/board_view.html',{'qs_li':qs_li, 'qs_board_view': qs_board_view})
 
 
 ##게시판 글수정 /board/edit/id
 def board_edit(request,id):
+	post = get_object_or_404(ActBoard, id=id)
+
+	if request.method == 'POST':
+			form = ActBoardForm(request.POST, instance=post)
+			if form.is_valid():
+				post.save()
+			
+				return redirect('/board/view/{}'.format(id))
+
+	else:
+		form = ActBoardForm(instance=post)
+
+
 	qs_li = ActList.objects.filter(act__email=request.user.email)
-	return render(request, 'login/board_edit.html',{'qs_li':qs_li})
+	return render(request, 'login/board_edit.html',{'form': form,'qs_li': qs_li})
 
 
 ##게사판 글삭제/voard/delete/id
 def board_delete(request, id):
-	return render(request, 'login/board_delete.html')
+	post = get_object_or_404(ActBoard, id=id)
+
+	post = ActBoard.objects.get(id=id)
+	post.delete()
+
+	return redirect('/board/list')
 
 
 

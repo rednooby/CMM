@@ -1,5 +1,66 @@
-{% extends login/layout.html %}
+{% extends 'login/layout.html' %}
 
-{% black content %}
-
+{% block content %}
+<div class="py-5">
+	<div class="container">
+		<div class="row">
+		<div class="col-sm-2">
+		</div>
+		<div class="col-sm-8">
+			<center>
+				<h1 class="text-primary">게시글 보기</h1>
+			</center>
+			<br>
+			<form>
+				<table class="table">
+					{% for ActBoard in qs_board_view %}
+						<tr>
+							<td width="150px">
+								<h3 class="text-primary">글제목</h3>
+							</td>
+							<td>
+								<label>{{ ActBoard.board_title }}</label>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<h4 class="text-primary">글쓴이</h4>
+							</td>
+							<td>
+								<label>{{ ActBoard.board_nick }}</label>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<h4 class="text-primary">시간</h4>
+							</td>
+							<td>
+								<label>{{ ActBoard.create_time }}</label>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<h4 class="text-primary">글내용</h4>
+							</td>
+							<td>
+								<label>{{ ActBoard.board_content }}</label>
+							</td>
+						</tr>
+				</table>
+				<hr>
+				<center>
+					<a href="/board/list/" class="btn btn-outline-success">목록</a>
+				{% if user == ActBoard.board_name %}
+					<a href="/board/edit/{{ActBoard.id}}" class="btn btn-outline-info">수정</a>
+					<a href="/board/delete/{{ActBoard.id}}" class="btn btn-outline-danger">삭제</a>
+				{% endif %}
+				</center>
+				{% endfor %}
+			</form>
+		</div>
+		<div class="col-sm-2">
+		</div>
+		</div><!--End of row-->
+	</div><!--End of container-->
+</div><!--End of py-5-->
 {% endblock %}
