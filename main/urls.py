@@ -6,6 +6,5 @@ from django.conf import settings
 #/index/??
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^logout/', auth_views.logout, name='logout', 
-    	kwargs={'next_page': settings.LOGIN_URL}),
+    url(r'^logout/', auth_views.logout, name='logout'),
 ]

@@ -46,8 +46,12 @@
             {{ form.password }}
             </fieldset>
             -->
-            <button type="submit" class="btn btn-primary">Sign up</button> 
+            <a class="btn btn-primary" href="{% url 'login:join' %}">Sign up</a> 
             <button type="submit" class="btn btn-primary">Sign in</button>
+            <br>
+            <a href="{% url 'login:search_email' %}">아이디 찾기</a>
+            <a href="{% url 'login:search_password' %}">비번 찾기</a>
+
           </form>
         </div>
       </div>

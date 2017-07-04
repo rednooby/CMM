@@ -33,6 +33,7 @@ class UserCreationForm(forms.ModelForm): #모델폼 사용
         self.fields['email'].widget.attrs['placeholder'] = "exampl@abc.com"
         self.fields['email'].widget.attrs['class'] = "form-control"
         self.fields['birth'].widget.attrs['class'] = "form-control"
+        self.fields['birth'].widget.attrs['placeholder'] = "yyyy-mm-dd"
         self.fields['birth'].widget.attrs['input type'] = "date"
 
     
@@ -223,3 +224,111 @@ class UserCreationForm(forms.ModelForm): #모델폼으로 불러옴
             user.save()
         return user
 '''
+class ChangePwForm(forms.Form):
+    new_password1 = forms.CharField(
+        widget=forms.PasswordInput(render_value=False)
+        )
+    new_password2 = forms.CharField(
+        label=(u'Verify Password'), 
+        widget = forms.PasswordInput(render_value=False)
+        )
+
+
+    def __init__(self, *args, **kwargs):
+        super(ChangePwForm, self).__init__(*args, **kwargs)
+
+        for field in self.fields:
+            self.fields[field].help_text=None
+            self.fields[field].label=''
+        self.fields['new_password1'].widget.attrs['placeholder'] = "password"
+        self.fields['new_password1'].widget.attrs['class'] = "form-control"
+        self.fields['new_password2'].widget.attrs['placeholder'] = "password check"
+        self.fields['new_password2'].widget.attrs['class'] = "form-control"
+
+
+class DeleteUserForm(forms.Form):
+    password = forms.CharField(
+        widget=forms.PasswordInput(render_value=False)
+        )
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super(DeleteUserForm, self).__init__(*args, **kwargs)
+
+        for field in self.fields:
+            self.fields[field].help_text=None
+            self.fields[field].label=''
+        self.fields['password'].widget.attrs['placeholder'] = "password"
+        self.fields['password'].widget.attrs['class'] = "form-control"
+
+    def clean(self):
+        password = self.cleaned_data['password']
+        user = MyUser.objects.get(email=self.user.email)
+        if user.check_password(password):
+            pass
+        else:
+            raise forms.ValidationError("입력하신 비밀번호와 현재 아이디의 비밀번호와 일치하지 않습니다. 다시 입력하세요.")
+            return password
+
+
+class FindUserNameForm(forms.Form):
+    nickname = forms.CharField(max_length=50)
+    birth = forms.DateField(widget=forms.TextInput)
+    
+    class Meta:
+        model = MyUser
+        fields = ('nickname','birth')
+
+    def __init__(self, *args, **kwargs):
+        super(FindUserNameForm, self).__init__(*args, **kwargs)
+
+        for field in self.fields:
+            self.fields[field].help_text=None
+            self.fields[field].label=''
+
+        self.fields['nickname'].widget.attrs['placeholder'] = "닉네임"
+        self.fields['nickname'].widget.attrs['class'] = "form-control"
+        self.fields['birth'].widget.attrs['class'] = "form-control"
+        self.fields['birth'].widget.attrs['placeholder'] = "yyyy-mm-dd"
+        self.fields['birth'].widget.attrs['input type'] = "date"
+
+    def clean(self):
+        nickname = self.cleaned_data['nickname']
+        birth = self.cleaned_data['birth']
+        data= MyUser.objects.filter(nickname=nickname, birth=birth).exists()
+        if MyUser.objects.filter(nickname=nickname, birth=birth).exists():
+            pass
+        else:
+            raise forms.ValidationError("입력하신 데이터로 조회한 결과 회원정보를 찾을 수 없습니다. 가입하는것을 추천합니다.")
+        return data
+
+
+class FindPasswordForm(forms.Form):
+    email = forms.EmailField(required=True)
+    birth = forms.DateField(widget=forms.TextInput)
+
+    class Meta:
+        model = MyUser
+        fields = ('email','birth')
+
+    def __init__(self, *args, **kwargs):
+        super(FindPasswordForm, self).__init__(*args, **kwargs)
+
+        for field in self.fields:
+            self.fields[field].help_text=None
+            self.fields[field].label=''
+        self.fields['email'].widget.attrs['placeholder'] = "email : example@abc.com"
+        self.fields['email'].widget.attrs['class'] = "form-control"
+        self.fields['birth'].widget.attrs['class'] = "form-control"
+        self.fields['birth'].widget.attrs['placeholder'] = "yyyy-mm-dd"
+        self.fields['birth'].widget.attrs['input type'] = "date"
+
+
+    def clean(self):
+        email = self.cleaned_data['email']
+        birth = self.cleaned_data['birth']
+        if MyUser.objects.filter(email=email, birth=birth).exists():
+            pass
+        else:
+            raise forms.ValidationError("입력하신 데이터로 조회한 결과 회원정보를 찾을 수 없습니다. 가입하는것을 추천합니다.")
+        return MyUser.objects.filter(email=email, birth=birth)

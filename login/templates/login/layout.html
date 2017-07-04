@@ -326,7 +326,7 @@ so that the content is unclickable while menu is shown
                     <i class="d-block mx-auto fa fa-3x fa-power-off text-success"></i>
                     </a>
                   {% else %}<!-- if user.is_active 요것은 유저가 로그인 상태일때-->
-                  <a href="{% url 'logout' %}">
+                  <a href="{% url 'login:logout' %}">
                     <i class="d-block mx-auto fa fa-1x fa-power-off text-danger">로그아웃</i>
                   </a>
                   {% endif %}
@@ -379,7 +379,7 @@ so that the content is unclickable while menu is shown
         {% for ActList in qs_li %}  
           <ul>
             <li align="center">
-              <a href="/{{ ActList.id }}">
+              <a href="/add/{{ ActList.id }}">
                 <i class="d-block fa fa-1x fa-plus-circle text-left pull-left"></i>
                 {{ ActList.act_name }}
               </a>

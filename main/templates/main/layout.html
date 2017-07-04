@@ -96,7 +96,7 @@
             <i class="d-block mx-auto fa fa-3x fa-power-off text-danger"></i>
             </a>
         {% else %}<!-- if user.is_active 요것은 유저가 로그인 상태일때-->
-            <a href="{% url 'logout' %}">
+            <a href="{% url 'main:logout' %}">
             <i class="d-block mx-auto fa fa-3x fa-power-off text-success"></i>
             </a>
         {% endif %} 

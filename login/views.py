@@ -5,12 +5,11 @@ from django.contrib.auth.decorators import login_required
 #from django.contrib.auth.forms import UserCreationForm
 
 from .models import ActList, MyUser, BankBook, ActBoard
-from .forms import ActListForm, BankBookForm, ActBoardForm
 from django.db.models import Sum
-
+from django.views.generic import ListView, DetailView, TemplateView
 #페이징
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
+from .forms import *
 
 def test(request):
 	return render(request, 'login/test.html')
@@ -219,27 +218,11 @@ def join(request):
 		form = UserCreationForm(request.POST)
 		if form.is_valid(): #유효성 검사 수행 여기서 forms.py의 def save로 가서 검사하는듯. 거기 주석하고 실행하면 여기서 에러남
 			form.save()
-			return redirect(settings.LOGIN_URL)
+			return redirect('login:login')
 	else:
 		form = UserCreationForm()
 
 	return render(request, 'login/join.html',{'form' : form})
-
-
-'''
-def bankbook_list(request, act_name):
-	qs = ActList.objects.filter(act__email=request.user.email, act_name=act_name)
-	qs_li = ActList.objects.filter(act__email=request.user.email)
-
-	print()
-
-
-	return render(request, 'account_info',{
-		'qs': qs, 'qs_li': qs_li
-		})
-'''
-
-
 
 
 @login_required
@@ -314,15 +297,99 @@ def account_delete(request, id):
 	return redirect('/mypage/', {'qs_view':qs_view, 'qs_li':qs_li})
 
 
-def UserChangeForm(request):
-	user = request.user
-	form = updateMemberForm(request.POST)
+##이메일 찾기##		/searchemail/
+class SearchEmail(TemplateView) :
+    template_name = 'login/search_email.html'
 
+
+# 사용자가 닉네임과 생년월일을 입력하고, myuser에 질의결과가 있으면 email 반환함. #
+def find_username(request):
 	if request.method == 'POST':
-		if form.is_valid():
+		form = FindUserNameForm(request.POST)
+		nickname= request.POST.get('nickname')
+		birth= request.POST.get('birth')
+		if form.is_valid() and MyUser.objects.filter(nickname=nickname,birth=birth).exists():
+			entry=MyUser.objects.filter(nickname=nickname)
+			return render(request, 'login/search_email.html', {'Useremail': entry})
+		else:
+			return render(request, 'login/search_email.html', {'form':form})
+	else:
+		form = FindUserNameForm(request.POST)
+		return render(request, 'login/search_email.html', {'form':form})
 
-			user.birth = request.POST['birth']
-			user.nickname = request.POST['nickname']
 
-			user.save()
-			return redirect(settings.UPDATE_URL)
+##비밀번호 찾기##	/searchpassword
+class SearchPassword(TemplateView) :
+    template_name = 'login/search_password.html'
+
+# 이메일주소와 생년월일을 사용자가 입력하고, myuser에 질의한 결과가 있으면, pasword 변경하는 폼이 보임.#
+def FindPassword(request):
+	if request.method == 'POST':
+		email= request.POST.get('email')
+		birth= request.POST.get('birth')
+		entry=MyUser.objects.filter(email=email, birth=birth)
+		form = FindPasswordForm(request.POST)
+		if form.is_valid() and entry.exists():
+			entry=MyUser.objects.filter(email=email)
+			return render(request, 'login/search_password.html', {'findpw': entry})
+		else:
+			return render(request, 'login/search_password.html', {'form':form})
+	else:
+		form = FindPasswordForm(request.POST)
+		return render(request, 'login/search_password.html', {'form':form})
+
+
+#비밀번호를 잊어벼렸을 경우 실행되는 view
+#두번의 패스워드를 사용자가 입력하고 일치하면, 패스워드가 변경되면서 바로 login페이지로 이동한다.
+def ForgetChangePw(request, email):
+	if request.method == 'POST':
+		form = ChangePwForm(request.POST)
+		new_password1= request.POST.get('new_password1')
+		new_password2= request.POST.get('new_password2')
+		if form.is_valid() and new_password1 == new_password2:
+			u = MyUser.objects.get(email__exact=email)
+			u.set_password(new_password1)
+			u.save()
+			return redirect('login:login')
+		else:
+			return render(request, 'login/search_password.html', {'form':form})
+	else:
+		form = ChangePwForm(request.POST)
+		return render(request, 'login/search_password.html', {})
+
+#회원정보 페이지에 있는 비번변경 버튼을 누를경우 동작하는 view
+def ChangePw(request):
+	if request.method == 'POST':
+		form = ChangePwForm(request.POST)
+		new_password1= request.POST.get('new_password1')
+		new_password2= request.POST.get('new_password2')
+		if form.is_valid() and new_password1 == new_password2:
+			u = MyUser.objects.get(email__exact=request.user.email)
+			u.set_password(new_password1)
+			u.save()
+			return render(request, 'login/changepw.html', {})
+		else:
+			return render(request, 'login/changepw.html', {'form':form})
+	else:
+		form = ChangePwForm(request.POST)
+		return render(request, 'login/changepw.html', {})
+
+
+##회원정보 삭제
+class DeleteConfirm(TemplateView) :
+    template_name = 'login/my_delete_identification.html'
+
+def delete_user(request):
+	if request.method == 'POST':
+		user = MyUser.objects.get(email=request.user.email)
+		password= request.POST.get('password')
+		form = DeleteUserForm(request.POST)
+		if user.check_password(password):
+			user.delete()
+			return render(request, 'login/Withdrawal.html', {})
+		else:
+			return render(request, 'login/my_delete_identification.html', {})
+	else:
+		form = DeleteUserForm(email=request.user.email)
+		return render(request, 'mypage/my_delete_identification.html', {})
+

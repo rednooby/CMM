@@ -160,7 +160,7 @@ UPDATE_URL = '/account/mypage'
 
 #기본 로그인 페이지 URL을 지정
 #login_required 장식자 등에 의해서 사용 (views에 정의할것이고 로그아웃으면 아래 주소로 자동 이동)
-LOGIN_URL = '/account' #로그인이 구현되어있는 경로 설정
+LOGIN_URL = '/' #로그인이 구현되어있는 경로 설정
 
 
 #로그인 완료 후에 next 인자가 지정되면 해당 URL로 페이지 이동하지만
