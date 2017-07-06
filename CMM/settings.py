@@ -123,7 +123,7 @@ STATIC_URL = '/static/'
 
 # FileSystemFinder를 위한 static 디렉토리 목록
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'CMM','static'),#프로젝트이름,static
+    os.path.join(BASE_DIR, 'static'),#프로젝트이름,static
 ]
 #Static Files Finder
 #- 위에 있는 Template Loader와 유사함
@@ -157,7 +157,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
     )
 
-UPDATE_URL = '/account/mypage'
+UPDATE_URL = '/mypage'
 
 #기본 로그인 페이지 URL을 지정
 #login_required 장식자 등에 의해서 사용 (views에 정의할것이고 로그아웃으면 아래 주소로 자동 이동)
@@ -180,9 +180,3 @@ LOGOUT_REDIRECT_URL = None
 #인증에 사용할 커스텀 User 모델 지정. '앱이름.모델명'
 AUTH_USER_MODEL = 'login.MyUser'
 
-
-##조회수
-HITCOUNT_KEEP_HIT_ACTIVE = {'minutes': 60}
-HITCOUNT_HITS_PER_IP_LIMIT = 0
-HITCOUNT_EXCLUDE_USER_GROUP = ()
-HITCOUNT_KEEP_HIT_IN_DATABASE = {'seconds': 10}

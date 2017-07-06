@@ -1,25 +1,26 @@
+{% extends 'login/layout.html' %}
 
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Withdrawal.html</title>
-</head>
-<body>
+{% block content %}
+
 <script type='text/javascript'>
 <!--
 setTimeout("location.href='/'",5000);
 //-->
 </script>
 
-
-
-<div class="section">       
-    <div class="title-area">
-        <h2>정상적으로 탈퇴퇴었습니다.</h2>
-        <p class="description">지금까지 이용해주셔서 감사합니다! 5초뒤에 홈으로 이동합니다.</p>
-           
-</div>
-</body>
-</html>
-
-
+	<div class="container">
+		<div class="row">
+			<div class="py-5"> 
+			<center>
+			    <div class="col-sm-12">
+				    <div class="title-area">
+				        <h2 class="text-primary">정상적으로 탈퇴퇴었습니다.</h2>
+				        <p class="description">그동안 이용해 주셔서 감사합니다.</p>
+				        <p class="description">5초뒤 로그인 페이지로 이동합니다.</p>      
+					</div>
+				</center>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

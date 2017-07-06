@@ -119,3 +119,67 @@
     </div>
   </div>
 </div>
+
+
+<!--2버튼-->
+<!--통장 리스트와 그래프 출력-->
+<div class="py-3">
+  <div class="container">
+    <div class="row">
+      <div class="container1 form-control">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+          <li role="presentation" class="nav-link"><a href="#tab1" role="tab" data-toggle="tab">전체 수입 목록</a></li>
+          <li role="presentation" class="nav-link"><a href="#tab2" role="tab" data-toggle="tab">전체 지출 목록</a></li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane" id="tab1">
+            <p>
+            <table class="table">
+              <thead>
+                <th>날짜</th>
+                <th>금액</th>
+                <th>메모</th>
+              </thead>
+              {% for BankBook in qs_income %}
+                <tbody>
+                  <td>{{ BankBook.act_date }}</td>
+                  <td>{{ BankBook.act_price }}</td>
+                  <td>{{ BankBook.act_content }}</td>
+                </tbody>
+              {% endfor %}
+            </table>
+            </p>
+          </div>
+          <div role="tabpanel" class="tab-pane" id="tab2">
+            <p>
+            <table class="table">
+              <thead>
+                <th>날짜</th>
+                <th>금액</th>
+                <th>통장</th>
+                <th>메모</th>
+              </thead>
+              {% for BankBook in qs_expenses %}
+                <tbody>
+                  <td>{{ BankBook.act_date }}</td>
+                  <td>{{ BankBook.act_price }}</td>
+                  <td>{{ BankBook.name }}</td>
+                  <td>{{ BankBook.act_content }}</td>
+                </tbody>
+              {% endfor %}
+            </table>
+            </p>
+          </div>
+        </div>
+      </div>
+      <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+      <script src="/SRC2/sctab/jquery.scrolling-tabs.js"></script>
+      <script>
+      $('.nav-tabs').scrollingTabs();
+      </script>
+    </div>
+  </div>
+</div>

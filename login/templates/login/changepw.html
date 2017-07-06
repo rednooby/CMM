@@ -10,44 +10,47 @@
 
 <div class="section">       
     <div class="title-area">
-        <p class="description">비밀번호를 두번 입력해주세요!</p>
-        <form method="post" action="{% url 'login:change_pw' %}"> 
-            {% csrf_token %}
+        <h1 class="text-primary">회원 정보 수정</h1>
+        <div class="py-3">
+            <form method="post" action="{% url 'login:change_pw' %}"> 
+                {% csrf_token %}
 
-            {% if form.errors %}
-            <div class="alert alert-warning">
-              <strong>Warning!</strong> {{form.errors}}
-            </div>
-            {% endif %}
-            <table>
-                <tr>
-                    <td>
-                        <div class="input-group">
-                            <span class="input-group-addon" id="basic-addon1">
-                                <i class="fa fa-lock" aria-hidden="true"></i>
-                            </span>
-                            <input type="password" name="new_password1" required="" id="id_new_password1" class="form-control" placeholder="new_password">
-                        </div>
-                    <td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="input-group">
-                            <span class="input-group-addon" id="basic-addon1">
-                                <i class="fa fa-lock" aria-hidden="true"></i>
-                            </span>
-                            <input type="password" name="new_password2" required="" id="id_new_password2" class="form-control" placeholder="new_password confirmation">
-                        </div>
-                    </td>
-                </tr>
-            </table>
+                
+                <table>
+                    <tr>
+                        <td>
+                            {% for error in form.errors %}
+                                <div class="alert alert-danger">
+                                  동일한 비밀번호를 입력해 주세요
+                                </div>
+                            {% endfor %}
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1">
+                                    <i class="fa fa-lock" aria-hidden="true"></i>
+                                </span>
+                                <input type="password" name="new_password1" required="" id="id_new_password1" class="form-control" placeholder="새 비밀번호">
+                            </div>
+                        <td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1">
+                                    <i class="fa fa-lock" aria-hidden="true"></i>
+                                </span>
+                                <input type="password" name="new_password2" required="" id="id_new_password2" class="form-control" placeholder="새 비밀번호 확인">
+                            </div>
+                        </td>
+                    </tr>
+                </table>
 
-            <div class="py-2">
-                <div class="submit-row col-xs-12">
-                    <input type="submit" class ="btn btn-danger btn-fill btn-md" value="Password Change"/>
+                <div class="py-2">
+                    <div class="submit-row col-xs-12">
+                        <input type="submit" class ="btn btn-danger btn-fill btn-md" value="Password Change"/>
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div><!--End of py-3-->
     </div>
 
 </div>

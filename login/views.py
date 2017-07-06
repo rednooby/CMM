@@ -24,16 +24,17 @@ def login(request):
 ##메인화면##	/index/$
 def index(request):
 	qs_li = ActList.objects.filter(act__email=request.user.email)
-	qs_graph_up = BankBook.objects.all().order_by('act_total')[0]#가장큰 수입
-	qs_graph_down = BankBook.objects.all().order_by('-act_total')[0]#가장큰 지출
+	#qs_graph_up = BankBook.objects.all().order_by('act_total')[0]#가장큰 수입
+	#qs_graph_down = BankBook.objects.all().order_by('-act_total')[0]#가장큰 지출
 	#qs_income = BankBook.objects.filter(act_payment='수입').order_by('-act_price')#전체 수입 목록
 	#qs_expenses = BankBook.objects.filter(act_payment='지출').order_by('-act_price')#전체 지출 목록
+	
+	qs_board_list = ActBoard.objects.all()[:5] 
 
-	qs_income_all = BankBook.objects.filter(act_content='적금').order_by('-act_price')#저축 랭킹
-	qs_food_all = BankBook.objects.filter(act_content='식비').order_by('-act_price')#저축 랭킹
-	qs_expenses_all = BankBook.objects.filter(act_content='여가비').order_by('-act_price')#지출 전체 출력
-
-	return render(request, 'login/index.html',{'qs_li': qs_li, 'qs_graph':qs_graph_up, 'qs_graph_down':qs_graph_down, 'qs_income_all': qs_income_all, 'qs_expenses_all': qs_expenses_all, 'qs_food_all':qs_food_all})
+	qs_income_rank = BankBook.objects.filter(act_content='적금').order_by('-act_price')[:5]#저축 랭킹
+	
+	return render(request, 'login/index.html',{'qs_li': qs_li, 
+		'qs_board_list':qs_board_list, 'qs_income_rank': qs_income_rank})
 
 
 ##게시판 리스트 /board/list
@@ -126,21 +127,67 @@ def board_delete(request, id):
 def my_list(request, id): #ActList의 id
 	qs = ActList.objects.filter(act__email=request.user.email, id=id)
 	
-	qs_info = BankBook.objects.filter(name_id=id).order_by('-act_date')
+	qs_li = ActList.objects.filter(act__email=request.user.email)#메뉴 통장 출력	return render(request, 'login/board_list.html', {'qs_li' : qs_li})
 
-	qs_graph = BankBook.objects.filter(name_id=id).order_by('act_date')
-	qs_income = BankBook.objects.filter(name_id=id, act_part="수입").order_by('act_date')#수입
-	qs_expenses = BankBook.objects.filter(name_id=id,act_part="지출").order_by('act_date')#지출
+	#통장별 수입지출 리스트와 페이지
+	qs_info = BankBook.objects.filter(name_id=id).order_by('-act_date')
+	paginator = Paginator(qs_info, 6)
+	page = request.GET.get('page')
+	try:
+		contacts = paginator.page(page)
+	except PageNotAnInteger:
+		contacts = paginator.page(1)
+	except EmptyPage:
+		contacts = paginator.page(paginator.num_pages)
+
+	#수입목록과 페이지
+	qs_income = BankBook.objects.filter(name_id=id, act_part="수입").order_by('-act_date')
+	qs_income_graph = BankBook.objects.filter(name_id=id, act_part="수입").order_by('act_date')#수입그래프용
+	paginator = Paginator(qs_income, 5)
+	page1 = request.GET.get('page1')
+	try:
+		contacts1 = paginator.page(page1)
+	except PageNotAnInteger:
+		contacts1 = paginator.page(1)
+	except EmptyPage:
+		contacts1 = paginator.page(paginator.num_pages)
+
+	#지출 목록과 페이지
+	qs_expenses = BankBook.objects.filter(name_id=id,act_part="지출").order_by('-act_date')#지출
+	qs_expenses_graph = BankBook.objects.filter(name_id=id,act_part="지출").order_by('-act_date')#지출그래프용
+	paginator = Paginator(qs_expenses, 5)
+	page2 = request.GET.get('page2')
+	try:
+		contacts2 = paginator.page(page2)
+	except PageNotAnInteger:
+		contacts2 = paginator.page(1)
+	except EmptyPage:
+		contacts2 = paginator.page(paginator.num_pages)
+
+
 	qs_li = ActList.objects.filter(act__email=request.user.email)
-	
 	qs_total = BankBook.objects.filter(name_id=id).aggregate(Sum('act_total'))
 	qs_total_income = BankBook.objects.filter(name_id=id, act_part="수입").aggregate(Sum('act_total'))
 	qs_total_expenses = BankBook.objects.filter(name_id=id, act_part="지출").aggregate(Sum('act_total'))
 
+	#지출현환 원그래프
+	result=[]#결과저장할 리스트
 	qs_circle = BankBook.objects.filter(name_id=id,act_part="지출")
+	for BankBook in qs_circle:
+		try:
+			result.append(round(qs_circle.act_price * 100 / result['qs_total_expenses'],1))
+		except: #하나도 없다면
+			result.append(0)
+	
+
+	qs_board_list = ActBoard.objects.all().order_by('-id')
 	print(qs_circle)
 
-	return render(request, 'login/my_list.html', {'qs': qs, 'qs_info':qs_info, 'qs_li':qs_li, 'qs_total':qs_total, 'qs_income':qs_income, 'qs_expenses':qs_expenses, 'qs_graph':qs_graph, 'qs_total_income':qs_total_income, 'qs_total_expenses':qs_total_expenses, 'qs_circle':qs_circle})
+	return render(request, 'login/my_list.html', {'qs': qs, 'qs_info':qs_info, 'qs_li':qs_li, 
+		'qs_total':qs_total, 'qs_income':qs_income, 'qs_expenses':qs_expenses, 'qs_income_graph':qs_income_graph, 'qs_expenses_graph':qs_expenses_graph,
+		'qs_total_income':qs_total_income, 'qs_total_expenses':qs_total_expenses, 'qs_circle':qs_circle,
+		'contacts':contacts, 'contacts1':contacts1,'contacts2':contacts2})
+
 	return HttpResponse(template.render(context))
 
 ##통장 사용정보 출력##	/index/my_view/id/$
@@ -326,12 +373,13 @@ def find_username(request):
 		return render(request, 'login/search_email.html', {'form':form})
 
 
-##비밀번호 찾기 폼 출력(템플릿)##	/searchpassword
+##비밀번호 찾기 폼 출력(템플릿)##	/searchpassword/
 class SearchPassword(TemplateView) :
     template_name = 'login/search_password.html'
 
 # 이메일주소와 생년월일을 사용자가 입력하고, myuser에 질의한 결과가 있으면, pasword 변경하는 폼이 보임.#
 # 폼의 데이터를 받아와서 처리
+#/findpassword/
 def FindPassword(request):
 	if request.method == 'POST':
 		email= request.POST.get('email')
@@ -350,6 +398,7 @@ def FindPassword(request):
 
 #비밀번호를 잊어벼렸을 경우 실행되는 view
 #두번의 패스워드를 사용자가 입력하고 일치하면, 패스워드가 변경되면서 바로 login페이지로 이동한다.
+#/forgetchangepw/email
 def ForgetChangePw(request, email):
 	if request.method == 'POST':
 		form = ChangePwForm(request.POST)
@@ -367,16 +416,18 @@ def ForgetChangePw(request, email):
 		return render(request, 'login/search_password.html', {})
 
 #회원정보 수정
+#/changepw/
 def ChangePw(request):
 	if request.method == 'POST':
 		form = ChangePwForm(request.POST)
 		new_password1= request.POST.get('new_password1')
 		new_password2= request.POST.get('new_password2')
-		if form.is_valid() and new_password1 == new_password2:
+
+		if form.is_valid():
 			u = MyUser.objects.get(email__exact=request.user.email)
 			u.set_password(new_password1)
 			u.save()
-			return render(request, 'login/changepw.html', {})
+			return render(request, 'login/my_change_check.html', {})
 		else:
 			return render(request, 'login/changepw.html', {'form':form})
 	else:
@@ -385,9 +436,11 @@ def ChangePw(request):
 
 
 ##회원정보 삭제
+#/user_delete_confirm/
 class DeleteConfirm(TemplateView) :
     template_name = 'login/my_delete_identification.html'
 
+#/user_delete/
 def delete_user(request):
 	if request.method == 'POST':
 		user = MyUser.objects.get(email=request.user.email)

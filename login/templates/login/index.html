@@ -3,86 +3,28 @@
 {% block content %}
 {% load static %}
 <!--상단 로고 및 CMM 출력-->
-<div class="py-3">
+<div class="py-1">
 	<div class="container">
 		<div class="row">
-			<form class="form-inline my-4 my-lg-0 form-form"><!--폼의 사이즈 고정 및 사진, 글씨 정렬-->
-				<div class="col-md-4">
-					<img src="{% static "logo.png" %}" class="rounded-circle img-fluid mx-auto d-block" />
+			<form class="form-inline my-4 my-lg-0"><!--폼의 사이즈 고정 및 사진, 글씨 정렬-->
+				<div class="col-md-6">
+					<center>
+						<img src="{% static "/img/logo.png" %}" class="rounded-circle img-fluid" />
+					</center>
 				</div>
-				<div class="col-md-4">
-					<h1 class="text-primary">CMM</h1>
-					<button class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown"> 통장 내역 </button>
-	                <div class="dropdown-menu">
-	                  {% for ActList in qs_li %}
-	                    <a class="dropdown-item" href="my_list/{{ ActList.id }}">{{ ActList.act_name }}</a>
-	                <div class="dropdown-divider"></div>
-	                  {% endfor %}
-	                </div>
+				<div class="col-md-6">
+					<center>
+						<h1 class="text-primary">통장관리</h1>
+						<button class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown"> 통장 내역 </button>
+		                <div class="dropdown-menu">
+		                  {% for ActList in qs_li %}
+		                    <a class="dropdown-item" href="my_list/{{ ActList.id }}">{{ ActList.act_name }}</a>
+		                <div class="dropdown-divider"></div>
+		                  {% endfor %}
+		                </div>
+		            </center>
 				</div>
 			</form>
-		</div>
-	</div>
-</div>
-
-<!--통장 리스트와 그래프 출력-->
-<div class="py-3">
-	<div class="container">
-		<div class="row">
-			<div class="container1 form-control">
-				<!-- Nav tabs -->
-				<ul class="nav nav-tabs" role="tablist">
-				  <li role="presentation" class="nav-link"><a href="#tab1" role="tab" data-toggle="tab">전체 수입 목록</a></li>
-				  <li role="presentation" class="nav-link"><a href="#tab2" role="tab" data-toggle="tab">전체 지출 목록</a></li>
-				</ul>
-
-				<!-- Tab panes -->
-				<div class="tab-content">
-				  <div role="tabpanel" class="tab-pane" id="tab1">
-				  	<p>
-						<table class="table">
-							<thead>
-								<th>날짜</th>
-								<th>금액</th>
-								<th>메모</th>
-							</thead>
-							{% for BankBook in qs_income_all %}
-								<tbody>
-									<td>{{ BankBook.act_date }}</td>
-									<td>{{ BankBook.act_price }}</td>
-									<td>{{ BankBook.act_content }}</td>
-								</tbody>
-							{% endfor %}
-						</table>
-				  	</p>
-				  </div>
-				  <div role="tabpanel" class="tab-pane" id="tab2">
-				  	<p>
-						<table class="table">
-							<thead>
-								<th>날짜</th>
-								<th>금액</th>
-								<th>통장</th>
-								<th>메모</th>
-							</thead>
-							{% for BankBook in qs_expenses_all %}
-								<tbody>
-									<td>{{ BankBook.act_date }}</td>
-									<td>{{ BankBook.act_price }}</td>
-									<td>{{ BankBook.name }}</td>
-									<td>{{ BankBook.act_content }}</td>
-								</tbody>
-							{% endfor %}
-						</table>
-				  	</p>
-				  </div>
-				</div>
-			</div>
-			<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-			<script src="/SRC2/sctab/jquery.scrolling-tabs.js"></script>
-			<script>
-			$('.nav-tabs').scrollingTabs();
-			</script>
 		</div>
 	</div>
 </div>
@@ -101,50 +43,45 @@
 		<!--통장 공유 게시판-->
 		<div class="container">
 			<div class="row">
-				<div class="col-md-4">
-					<h1 class="text-primary">여가비 순위</h1>
-						<table class="table">
-							<thead>
-								<th>No</th>
-								<th>ID</th>
-							</thead>
-							{% for BankBook in qs_expenses_all %}
-								<tbody>
-									<td>{{ forloop.counter }}</td>
-									<td>{{BankBook.name}}</td>
-								</tbody>
-							{% endfor %}
-						</table>
+				<div class="col-md-8">
+					<table class="table">
+					<center>
+						<h3 class="text-primary">
+							<a href="/board/list">자유게시판</a>
+						</h3>
+					</center>
+						<thead>
+							<th>No</th>
+							<th>제목</th>
+							<th>닉네임</th>
+						</thead>
+						{% for ActBoard in qs_board_list %}
+							<tbody>
+								<td>{{ forloop.revcounter }}</td>
+								<td>
+									<a href="/board/view/{{ActBoard.id}}">{{ ActBoard.board_title }}</a>
+								</td>
+								<td>{{ ActBoard.board_nick }}</td>
+							</tbody>
+						{% endfor %}
+					</table>
 				</div>
 				<div class="col-md-4">
-					<h1 class="text-primary">식비 순위</h1>
-						<table class="table">
-							<thead>
-								<th>No</th>
-								<th>ID</th>
-							</thead>
-							{% for BankBook in qs_food_all %}
-								<tbody>
-									<td>{{ forloop.counter }}</td>
-									<td>{{BankBook.name}}</td>
-								</tbody>
-							{% endfor %}
-						</table>
-				</div>
-				<div class="col-md-4">
-					<h1 class="text-primary">저축 순위</h1>
-						<table class="table">
-							<thead>
-								<th>No</th>
-								<th>ID</th>
-							</thead>
-							{% for BankBook in qs_income_all %}
-								<tbody>
-									<td>{{ forloop.counter }}</td>
-									<td>{{BankBook.name}}</td>
-								</tbody>
-							{% endfor %}
-						</table>
+					<table class="table">
+					<center>
+						<h3 class="text-primary">저축 순위</h3>
+					</center>	
+						<thead>
+							<th>No</th>
+							<th>ID</th>
+						</thead>
+						{% for BankBook in qs_income_rank %}
+							<tbody>
+								<td>{{ forloop.counter }}</td>
+								<td>{{BankBook.name}}</td>
+							</tbody>
+						{% endfor %}
+					</table>
 				</div>
 			</div>
 		</div>
