@@ -29,15 +29,16 @@ urlpatterns = [
     
     #비번변경
     url(r'^changepw/$', ChangePw, name='change_pw'),
-    url(r'^ForgetChangePw/(?P<email>.+)/$', ForgetChangePw, name='ForgetChangePw'),
 
     #이메일찾기
     url(r'^searchemail/$', SearchEmail.as_view(), name='search_email'),
     url(r'^findusername/$', find_username, name='find_username'),
 
     #비번찾기
-    url(r'^searchpassword/$', SearchPassword.as_view(), name='search_password'),
-    url(r'^findpassword/$', FindPassword, name='find_password'),
+    url(r'^searchpassword/$', SearchPassword.as_view(), name='search_password'), #폼 보여주는 템플릿
+    url(r'^findpassword/$', FindPassword, name='find_password'),#폼에서 데이터 받아와서 처리
+    url(r'^ForgetChangePw/(?P<email>.+)/$', ForgetChangePw, name='ForgetChangePw'),#조회결과가 있을시 서치
+
 
     url(r'^index/$', views.index, name='index'),
     url(r'^mypage/$', views.Managment, name='Managment'),

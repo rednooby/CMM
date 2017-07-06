@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>search_email.html</title>
+</head>
+<body>
+
+<div class="section">       
+    <div class="title-area">
+        <h2>아이디 찾기</h2>
+        <p class="description">가입 당시 입력했던 닉네임과 생년월일을 입력하세요!</p>
+            <form method="post" action="{% url 'login:find_username' %}"> 
+            {% csrf_token %}
+
+            {% if form.errors %}
+            <div class="alert alert-warning">
+              <strong>Warning!</strong> {{form.errors}}
+            </div>
+            {% endif %}
+
+                <div class="form-row col-xs-6">
+                    <input type="nickname" name="nickname" required="" placeholder="nickname" class="form-control" id="id_nickname">
+                </div>
+
+                <div class="form-row col-xs-6">
+                    <input type="birth" name="birth" required="" placeholder="birth yyyy-mm-dd" class="form-control" id="id_birth">
+                </div>
+            
+
+            <div class="submit-row">
+                <input type="submit" class ="btn btn-danger btn-fill btn-md" value="아이디 찾기"/>
+                <input type="hidden" name="next" value="{{ next }}" />
+            </div>
+
+            
+            <script type="text/javascript">document.getElementById("id_username").focus();
+            </script>
+        </form>
+
+    </div>
+
+</div>
+
+<center>
+        {% for form in Useremail %}
+
+            <h2> 당신의 아이디는 "{{ form.email }}". </h2>
+            <a href="{% url 'login:login' %}">로그인하러 가기</a>
+        {% endfor %} 
+
+</center>
+</body>
+</html>

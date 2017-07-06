@@ -11,6 +11,7 @@ from django.views.generic import ListView, DetailView, TemplateView
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import *
 
+
 def test(request):
 	return render(request, 'login/test.html')
 
@@ -80,6 +81,13 @@ def board_view(request, id):
 	qs_li = ActList.objects.filter(act__email=request.user.email)
 	qs_board_view = ActBoard.objects.filter(id=id)
 
+	#조회
+	hit = get_object_or_404(ActBoard, id=id)
+	hit = ActBoard.objects.get(id=id)
+	hit.board_hit += 1
+	hit.save()
+
+
 	return render(request, 'login/board_view.html',{'qs_li':qs_li, 'qs_board_view': qs_board_view})
 
 
@@ -139,7 +147,7 @@ def my_list(request, id): #ActList의 id
 def my_view(request, id): #BankBook의 id
 	qs_li = ActList.objects.filter(act__email=request.user.email)
 	qs_info = BankBook.objects.filter(name=id) #가장 최근날짜 최상위로 필터링 추가하기
-	qs_view = BankBook.objects.filter(id=id) 
+	qs_view = BankBook.objects.filter(id=id)
 
 	print(qs_info)
 	return render(request, 'login/my_view.html', {'qs_info':qs_info, 'qs_li':qs_li, 'qs_view':qs_view})
@@ -318,11 +326,12 @@ def find_username(request):
 		return render(request, 'login/search_email.html', {'form':form})
 
 
-##비밀번호 찾기##	/searchpassword
+##비밀번호 찾기 폼 출력(템플릿)##	/searchpassword
 class SearchPassword(TemplateView) :
     template_name = 'login/search_password.html'
 
 # 이메일주소와 생년월일을 사용자가 입력하고, myuser에 질의한 결과가 있으면, pasword 변경하는 폼이 보임.#
+# 폼의 데이터를 받아와서 처리
 def FindPassword(request):
 	if request.method == 'POST':
 		email= request.POST.get('email')
@@ -357,7 +366,7 @@ def ForgetChangePw(request, email):
 		form = ChangePwForm(request.POST)
 		return render(request, 'login/search_password.html', {})
 
-#회원정보 페이지에 있는 비번변경 버튼을 누를경우 동작하는 view
+#회원정보 수정
 def ChangePw(request):
 	if request.method == 'POST':
 		form = ChangePwForm(request.POST)

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'login',
     'main',
+    'hitcount',
 ]
 
 MIDDLEWARE = [
@@ -179,3 +180,9 @@ LOGOUT_REDIRECT_URL = None
 #인증에 사용할 커스텀 User 모델 지정. '앱이름.모델명'
 AUTH_USER_MODEL = 'login.MyUser'
 
+
+##조회수
+HITCOUNT_KEEP_HIT_ACTIVE = {'minutes': 60}
+HITCOUNT_HITS_PER_IP_LIMIT = 0
+HITCOUNT_EXCLUDE_USER_GROUP = ()
+HITCOUNT_KEEP_HIT_IN_DATABASE = {'seconds': 10}

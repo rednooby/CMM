@@ -4,6 +4,9 @@ from django.urls import reverse
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
+from hitcount.models import HitCount, HitCountMixin
+from django.contrib.contenttypes.fields import GenericRelation
+
 
 #user는 django.contrib.auth.middleware.AuthenticationMiddlewar에 의해 설정됨
 #https://github.com/django/django/blob/stable/1.10.x/django/contrib/auth/middleware.py#L16
@@ -208,14 +211,16 @@ class ActBoard(models.Model):
     #업데이트 시간
     update_time = models.DateTimeField(
         verbose_name='작성시간',
-        auto_now=True
+        auto_now=True,
+        )
+
+    board_hit = models.IntegerField(
+        verbose_name='조회',
+        default=0,
         )
 
     #조회
-    board_hit = models.IntegerField(
-        verbose_name='조회수',
-        default=0,
-        )
+    hit_count_generic = GenericRelation(HitCount, object_id_field='object_pk', related_query_name='hit_count_generic_relation')
 
     def __str__(self):
         return self.board_title

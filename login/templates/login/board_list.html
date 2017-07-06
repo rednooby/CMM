@@ -1,4 +1,5 @@
 {% extends 'login/layout.html' %}
+{% load hitcount_tags %}
 
 {% block content %}
 <div class="py-5">
@@ -39,7 +40,8 @@
 
 				{% for ActBoard in contacts %}
 				<tbody>
-					<td>{{ ActBoard.id }}</td>
+					<td>{{ forloop.revcounter }}</td>
+					<!--forloop.counter주소: https://docs.djangoproject.com/en/1.11/ref/templates/builtins/-->
 					<td>
 						<a href="/board/view/{{ActBoard.id}}">
 							{{ ActBoard.board_title }}
