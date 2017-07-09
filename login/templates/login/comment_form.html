@@ -1,0 +1,42 @@
+{% extends 'login/layout.html' %}
+
+{% block content %}
+<div class="py-5">
+	<div class="container">
+		<div class="row">
+		<div class="col-sm-2">
+		</div>
+		<div class="col-sm-8">
+			<center>
+				<h1 class="text-primary">댓글쓰기</h1>
+			</center>
+			<br>
+			<center>
+			<form action="" method="post">
+				<table>
+				{% csrf_token %}
+				<td>
+					{{ form.as_table }}
+				</td>
+				{% for error in form.board_content.errors %}
+				<div class="alert alert-danger">
+					{{ error }}
+				</div>
+				{% endfor %}
+				</table>
+				<hr>
+				<center>
+				<button type="submit" class="btn btn-outline-primary">작성</button>
+				<a href="/board/list" class="btn btn-outline-danger">취소</a>
+			</center>
+			</form>
+			</center>
+		</div>
+		<div class="col-sm-2">
+		</div>
+		</div><!--End of row-->
+	</div><!--End of container-->
+</div><!--End of py-5-->
+{% endblock %}
+						
+

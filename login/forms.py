@@ -1,5 +1,5 @@
 from django import forms
-from .models import MyUser, ActList, BankBook, ActBoard
+from .models import MyUser, ActList, BankBook, ActBoard, Comment
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
 
@@ -124,7 +124,7 @@ class BankBookForm(forms.ModelForm):
         self.fi:
         elds['act_part'].widget.attrs['class'] = "form-control"
         '''
-        
+##게시판 폼
 class ActBoardForm(forms.ModelForm):
     class Meta:
         model = ActBoard
@@ -132,6 +132,13 @@ class ActBoardForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(ActBoardForm,self).__init__(*args, **kwargs)
+
+
+##댓글 폼
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['message']
 
 
 class ChangePwForm(forms.Form):
@@ -253,3 +260,5 @@ class FindPasswordForm(forms.Form):
         else:
             raise forms.ValidationError("입력하신 데이터로 조회한 결과 회원정보를 찾을 수 없습니다. 가입하는것을 추천합니다.")
         return MyUser.objects.filter(email=email, birth=birth)
+
+

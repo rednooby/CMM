@@ -6,6 +6,7 @@ from .views import *
 
 
 urlpatterns = [
+    
     url(r'^test/$', views.test, name='test'),
     url(r'^board/list/$', views.board_list, name='board_list'),
     url(r'^board/write/$', views.board_write, name='board_write'),
@@ -13,6 +14,11 @@ urlpatterns = [
     url(r'^board/edit/(?P<id>.+)/$', views.board_edit, name='board_edit'),
     url(r'^board/delete/(?P<id>.+)/$', views.board_delete, name='board_delete'),
     
+    #댓글
+    url(r'^(?P<post_pk>\d+)/comment/write/$', views.comment_write, name='comment_write'),
+    url(r'^(?P<post_pk>\d+)/comment/(?P<pk>\d+)/edit/$', views.comment_edit, name='comment_edit'),
+    url(r'^(?P<post_pk>\d+)/comment/(?P<pk>\d+)/delete/$', views.comment_delete, name='comment_delete'),
+
     url(r'^mypage/edit/(?P<id>.+)/$', views.account_edit, name='account_edit'),
     url(r'^mypage/delete/(?P<id>.+)/$', views.account_delete, name='account_delete'),
     

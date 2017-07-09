@@ -1,12 +1,13 @@
 from django.db import models
-from django.urls import reverse
 #from .validators import number_validator
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
 from hitcount.models import HitCount, HitCountMixin
 from django.contrib.contenttypes.fields import GenericRelation
+from django.conf import settings
 
+from django.core.urlresolvers import reverse
 
 #user는 django.contrib.auth.middleware.AuthenticationMiddlewar에 의해 설정됨
 #https://github.com/django/django/blob/stable/1.10.x/django/contrib/auth/middleware.py#L16
@@ -225,34 +226,28 @@ class ActBoard(models.Model):
     def __str__(self):
         return self.board_title
 
-'''
-#선택은 choices 사용
-#https://nomade.kr/vod/django/27/ 참고 23:39
-class Account(models.Model):
-    actName = models.ForeignKey(ActList)
-    actDate = models.DateField(
-        verbose_name='날짜',
-        null=False,
+##댓글
+class Comment(models.Model):
+    #ActBoard : Comment = 1 : N
+    post = models.ForeignKey(ActBoard)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL)#로그인을 해야만 댓글남김
+    message = models.TextField(
+        verbose_name='댓글내용'
         )
-    actIncome = models.BooleanField(
-        verbose_name='수입'
-        default=False,
-        )
-    actConsumption = models.BooleanField(
-        verbose_name='지출'
-        default=False,
-        )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
-    actPrice = models.IntegerField(
-        verbose_name='금액',
-        max_length=10,
-        )
-    actCash = models.BooleanField(
-        verbose_name='현금'
-        default=False,
-        )
-    actCard = models.BooleanField(
-        verbose_name='카드'
-        default=False,
-        )    
-'''
+    class Meta:
+        ordering = ['-id'] #기본정렬 방식을 id의 역순으로
+
+    
+    #수정 url
+    def get_edit_url(self):
+        return reverse('login:comment_edit', args=[self.post.pk, self.pk])
+
+    #삭제 url
+    def get_delete_url(self):
+        return reverse('login:comment_delete', args=[self.post.pk, self.pk])
+
+    def get_absolute_url(self):
+        return reverse('login:board_view', args=[self.pk])

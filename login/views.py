@@ -4,7 +4,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 #from django.contrib.auth.forms import UserCreationForm
 
-from .models import ActList, MyUser, BankBook, ActBoard
+from .models import ActList, MyUser, BankBook, ActBoard, Comment
 from django.db.models import Sum
 from django.views.generic import ListView, DetailView, TemplateView
 #페이징
@@ -78,7 +78,8 @@ def board_write(request):
 
 ##게시판 글읽기 /board/view/id
 def board_view(request, id):
-	
+	post = get_object_or_404(ActBoard, id=id)
+
 	qs_li = ActList.objects.filter(act__email=request.user.email)
 	qs_board_view = ActBoard.objects.filter(id=id)
 
@@ -89,7 +90,7 @@ def board_view(request, id):
 	hit.save()
 
 
-	return render(request, 'login/board_view.html',{'qs_li':qs_li, 'qs_board_view': qs_board_view})
+	return render(request, 'login/board_view.html',{'qs_li':qs_li, 'qs_board_view': qs_board_view, 'post':post})
 
 
 ##게시판 글수정 /board/edit/id
@@ -111,7 +112,7 @@ def board_edit(request,id):
 	return render(request, 'login/board_edit.html',{'form': form,'qs_li': qs_li})
 
 
-##게사판 글삭제/voard/delete/id
+##게사판 글삭제/board/delete/id
 def board_delete(request, id):
 	post = get_object_or_404(ActBoard, id=id)
 
@@ -119,6 +120,69 @@ def board_delete(request, id):
 	post.delete()
 
 	return redirect('/board/list')
+
+
+##댓글추가
+@login_required
+def comment_write(request, post_pk):
+	qs_li = ActList.objects.filter(act__email=request.user.email)
+
+	post = get_object_or_404(ActBoard, pk=post_pk)
+	if request.method == 'POST':
+		form = CommentForm(request.POST)
+		if form.is_valid():
+			comment = form.save(commit=False)
+			comment.post = post
+			comment.author = request.user
+			comment.save()
+			return redirect('login:board_view', post.pk)
+	else:
+		form = CommentForm()
+	return render(request, 'login/comment_form.html', {'form':form, 'qs_li':qs_li})
+
+
+##댓글수정
+@login_required
+def comment_edit(request, post_pk, pk):
+	#post = get_object_or_404(ActBoard, pk=post_pk) #굳이 필요 없음
+	comment = get_object_or_404(Comment, pk=pk)
+
+	#사용자가 아닐경우
+	if comment.author != request.user:
+		return redirect('login:board_view', post_pk)
+
+	qs_li = ActList.objects.filter(act__email=request.user.email)
+
+	if request.method == 'POST':
+		form = CommentForm(request.POST, instance=comment)
+		if form.is_valid():
+			#comment = form.save(commit=False)
+			#comment.post = post
+			#comment.author = request.user
+			comment.save()
+			return redirect('login:board_view', comment.post.pk)
+	else:
+		form = CommentForm(instance=comment)
+	return render(request, 'login/comment_form.html', {'form':form, 'qs_li':qs_li})
+
+
+##댓글삭제
+@login_required
+def comment_delete(request, post_pk, pk):
+	#post = get_object_or_404(ActBoard, pk=post_pk) #굳이 필요 없음
+	comment = get_object_or_404(Comment, pk=pk)
+
+	#사용자가 아닐경우
+	if comment.author != request.user:
+		return redirect('login:board_view', post_pk)
+
+	if request.method == 'POST':
+		comment.delete()
+		return redirect('login:board_view', comment.post.pk)
+
+	return render(request, 'login/comment_confirm_delete.html',{
+		'comment':comment
+		})
 
 
 
@@ -170,9 +234,11 @@ def my_list(request, id): #ActList의 id
 	qs_total_income = BankBook.objects.filter(name_id=id, act_part="수입").aggregate(Sum('act_total'))
 	qs_total_expenses = BankBook.objects.filter(name_id=id, act_part="지출").aggregate(Sum('act_total'))
 
+
 	#지출현환 원그래프
 	result=[]#결과저장할 리스트
-	qs_circle = BankBook.objects.filter(name_id=id,act_part="지출")
+	
+	qs_circle = BankBook.objects.filter(name_id=id, act_part="지출")
 	for BankBook in qs_circle:
 		try:
 			result.append(round(qs_circle.act_price * 100 / result['qs_total_expenses'],1))
