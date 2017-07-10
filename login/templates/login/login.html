@@ -1,62 +1,110 @@
+{% load static %}
+
 <html>
 
 <head>
+
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
-  <link rel="stylesheet" href="https://pingendo.com/assets/bootstrap/bootstrap-4.0.0-alpha.6.css" type="text/css"> </head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+</head>
 <body>
-  <!--네비게이션 메뉴-->
-  <nav class="navbar navbar-expand-md navbar-light bg-faded">
-    <div class="container"> <i class="d-block fa fa-list fa-2x bg-faded"></i> <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span></button>
-      <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-        <ul class="navbar-nav ">
-          <li class="nav-item active"> <a class="nav-link" href="#">Home</a> </li>
-          <li class="nav-item"> <a class="nav-link" href="#">Link</a> </li>
-          <li class="nav-item"> <a class="nav-link disabled" href="#">Disabled</a> </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+<br>
+<br>
+  <div class="container">
+    <div class="row">
+      <div id="myCarousel" class="carousel slide" data-ride="carousel">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+          <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+          <li data-target="#myCarousel" data-slide-to="1"></li>
+          <li data-target="#myCarousel" data-slide-to="2"></li>
+        </ol>
 
-  <!--몸통부분-->
-  <div class="bg-faded py-5">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-4"><img src="https://pingendo.com/assets/photos/user_placeholder.png" class="rounded-circle img-fluid mx-auto d-block"></div>
-        <div class="col-md-4">
-          <h1 class=" pi-item">CMM Project</h1>
-          <p> <strong>Control My Money, Inc.</strong> <br>795 Folsom Ave, Suite 600 <br>San Francisco, CA 94107 <br> <abbr title="Phone">P:</abbr>(123) 456-7890 </p>
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner">
+          <div class="item active">
+            <img src="{% static "/img/main1.jpg" %}" alt="Los Angeles" style="width:40%; ">
+            <div class="carousel-caption">
+            <h1 class="text-primary"><strong>통장별로 관리하고</strong></h1>
+            <p class="text-primary"><strong></strong></p>
+          </div>
+          </div>
+
+          <div class="item">
+            <img src="{% static "/img/main2.jpg" %}" alt="Chicago" style="width:40%; ">
+            <div class="carousel-caption">
+            <h1 class="text-primary"><strong>보기쉬운 그래프와</strong></h1>
+            <p></p>
+          </div>
+          </div>
+        
+          <div class="item">
+            <img src="{% static "/img/main3.jpg" %}" alt="New york" style="width:40%; ">
+            <div class="carousel-caption">
+            <h1 class="text-primary"><strong>상담 까지!</strong></h1>
+            <p></p>
+          </div>
+          </div>
         </div>
-        <div class="col-md-4">
-          <h1 class="pi-item">LOGIN</h1>
-          <form action="" method="post">
-          {% csrf_token %}
-            <table>
-              {{form.as_table}}
-            </table>
-            <!--
-            <fieldset class="form-group"> <label for="exampleInputEmail1">ID</label> 
-            {{ form.email }}
-            </fieldset>
 
-            <fieldset class="form-group"> <label for="exampleInputEmail1">Password</label> 
-            {{ form.password }}
-            </fieldset>
-            -->
-            <a class="btn btn-primary" href="{% url 'login:join' %}">Sign up</a> 
-            <button type="submit" class="btn btn-primary">Sign in</button>
-            <br>
-            <a href="{% url 'login:search_email' %}">아이디 찾기</a>
-            <a href="{% url 'login:search_password' %}">비번 찾기</a>
-
-          </form>
-        </div>
+        <!-- Left and right controls -->
+        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+          <span class="glyphicon glyphicon-chevron-left"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#myCarousel" data-slide="next">
+          <span class="glyphicon glyphicon-chevron-right"></span>
+          <span class="sr-only">Next</span>
+        </a>
       </div>
     </div>
   </div>
+
+
+
+<!--몸통부분-->
+<div class="container">
+  <div class="row">
+  <hr>
+    <div class="col-md-4"><img src="{% static "/img/logoo.png" %}" width="200"></div>
+    <div class="col-md-4">
+      <h1 class=" pi-item">CMM Project</h1>
+      <p> <strong>Control My Money, Inc.</strong> <br>여러분의 새는돈을 지켜드립니다. <br>CMM은 무료 서비스입니다. <br> <abbr title="Phone">P:</abbr>(123) 456-7890 </p>
+    </div>
+    <div class="col-md-4">
+      <h1 class="pi-item">LOGIN</h1>
+      <form action="" method="post">
+      {% csrf_token %}
+        <table>
+          {{form.as_table}}
+        </table>
+        <!--
+        <fieldset class="form-group"> <label for="exampleInputEmail1">ID</label> 
+        {{ form.email }}
+        </fieldset>
+
+        <fieldset class="form-group"> <label for="exampleInputEmail1">Password</label> 
+        {{ form.password }}
+        </fieldset>
+        -->
+        <center>
+          <button type="submit" class="btn btn-primary">Sign in</button>
+          <a class="btn btn-primary" href="{% url 'login:join' %}">Sign up</a> 
+          <br>
+          <a href="{% url 'login:search_email' %}">아이디 찾기</a>
+          <a href="{% url 'login:search_password' %}">비번 찾기</a>
+        </center>
+      </form>
+    </div>
+
+  </div>
+  <hr>
+</div>
+
 
 </body>
 
