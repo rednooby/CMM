@@ -180,3 +180,6 @@ LOGOUT_REDIRECT_URL = None
 #인증에 사용할 커스텀 User 모델 지정. '앱이름.모델명'
 AUTH_USER_MODEL = 'login.MyUser'
 
+##게시판 이미지 올리기
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

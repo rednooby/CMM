@@ -1,5 +1,5 @@
 from django import forms
-from .models import MyUser, ActList, BankBook, ActBoard, Comment
+from .models import MyUser, ActList, BankBook, ActBoard, ActComment, Comment
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
 
@@ -134,7 +134,14 @@ class ActBoardForm(forms.ModelForm):
         super(ActBoardForm,self).__init__(*args, **kwargs)
 
 
-##댓글 폼
+##자유게시판 댓글 폼
+class ActCommentForm(forms.ModelForm):
+    class Meta:
+        model = ActComment
+        fields = ['act_message']
+
+
+##익명게시판 댓글 폼
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment

@@ -1,0 +1,54 @@
+{% extends 'login/layout.html' %}
+{% block extra_head %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+<style>
+	/* 업로드 이미지 스타일 */
+	.post_photo{
+		max-width: 100%;
+	}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="py-5">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						{{ post.title }}
+					</div><!--End of panel-heading-->
+					<div class="panel-body">
+						{% if post.photo %}
+							<img src="{{ post.photo.url }}" class="post_photo" />
+						{% endif %}
+						<hr/>
+
+						{{ post.content|linebreaks }}
+
+						<hr/>
+						<ul>
+						{% for comment in post.comment_set.all %}
+							<li>
+								{{ comment.message }}
+								by 익명
+								at {{ comment.created_at }}
+								{% if Comment.author == requst.user %}
+								<a href="{{ comment.get_edit_url }}">수정</a>
+								<a href="{{ comment.get_delete_url }}" class="text-danger">삭제</a>
+								{% endif %}
+							</li>
+						{% endfor %}
+						</ul>
+					</div><!--End of panel-body-->
+					<div class="panel-footer">
+					<a href="/post/list/" class="btn btn-outline-primary">목록으로</a>
+					<a href="{% url "login:comment_new" post.pk%}" class="btn btn-outline-primary" />댓글쓰기</a>
+					</div><!--End of panel-footer-->
+				</div><!--End of paenl panel-default-->
+			</div><!--End of col-sm-12-->
+		</div><!--End of row-->
+	</div><!--End of container-->
+</div><!--End of py-5-->
+{% endblock %}

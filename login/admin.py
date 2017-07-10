@@ -4,7 +4,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 #from django.contrib.auth import get_user_model
  
-from .models import MyUser, ActList, BankBook, ActBoard, Comment
+from .models import MyUser, ActList, BankBook, ActBoard, ActComment, Post, Comment
 from .forms import UserCreationForm, UserChangeForm, ActListForm
  
  
@@ -34,7 +34,14 @@ class UserAdmin(BaseUserAdmin):
     search_fields = ('email',)
     ordering = ('email',)
     filter_horizontal = ()
- 
+
+@admin.register(Post)
+class PostAdmin(admin.ModelAdmin):
+    list_display = ['id', 'title', 'is_public','created_at']
+    list_display_links = ['title']
+    list_editable = ['is_public']    
+
+
 # Now register the new UserAdmin...
 admin.site.register(MyUser, UserAdmin)
 # ... and, since we're not using Django's built-in permissions,
@@ -44,4 +51,6 @@ admin.site.unregister(Group)
 admin.site.register(ActList)
 admin.site.register(BankBook)
 admin.site.register(ActBoard)
+admin.site.register(ActComment)
 admin.site.register(Comment)
+

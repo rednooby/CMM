@@ -50,17 +50,17 @@
 				<hr>
 				<td><h4 class="text-primary">댓글</h4></td>
 				<ul>
-					{% if not post.comment_set.all %}
+					{% if not post.actcomment_set.all %}
 							아직 입력된 댓글이 없습니다
 					{% endif %}
-					{% for Comment in post.comment_set.all %}
+					{% for ActComment in post.actcomment_set.all %}
 						<li>
-							{{ Comment.message }}
-							<strong>by</strong> {{ Comment.author.nickname }}
-							<strong>at</strong> {{ Comment.created_at }}
-							{% if Comment.author == request.user %}
-								<a href="{{ Comment.get_edit_url }}">수정</a>
-								<a href="{{ Comment.get_delete_url }}" class="text-danger">삭제</a>
+							{{ ActComment.act_message }}
+							<strong>by</strong> {{ ActComment.act_author.nickname }}
+							<strong>at</strong> {{ ActComment.act_created_at }}
+							{% if ActComment.act_author == request.user %}
+								<a href="{{ ActComment.get_edit_url }}">수정</a>
+								<a href="{{ ActComment.get_delete_url }}" class="text-danger">삭제</a>
 							{% endif %}
 						</li>
 					{% endfor %}
@@ -69,7 +69,7 @@
 					<hr>
 						
 					<a href="/board/list/" class="btn btn-outline-success">목록</a>
-					<a href="/{{ActBoard.id}}/comment/write" class="btn btn-outline-primary">댓글쓰기</a>
+					<a href="/{{ActBoard.id}}/act_comment/write" class="btn btn-outline-primary">댓글쓰기</a>
 				{% if user == ActBoard.board_name %}
 					<a href="/board/edit/{{ActBoard.id}}" class="btn btn-outline-info">수정</a>
 					<a href="/board/delete/{{ActBoard.id}}" class="btn btn-outline-danger">삭제</a>

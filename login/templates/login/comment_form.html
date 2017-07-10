@@ -1,39 +1,36 @@
 {% extends 'login/layout.html' %}
 
+{% block extra_head %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+{% endblock %}
+
 {% block content %}
 <div class="py-5">
 	<div class="container">
 		<div class="row">
-		<div class="col-sm-2">
-		</div>
-		<div class="col-sm-8">
-			<center>
-				<h1 class="text-primary">댓글쓰기</h1>
-			</center>
-			<br>
-			<center>
-			<form action="" method="post">
-				<table>
-				{% csrf_token %}
-				<td>
-					{{ form.as_table }}
-				</td>
-				{% for error in form.board_content.errors %}
-				<div class="alert alert-danger">
-					{{ error }}
-				</div>
-				{% endfor %}
-				</table>
-				<hr>
-				<center>
-				<button type="submit" class="btn btn-outline-primary">작성</button>
-				<a href="/board/list" class="btn btn-outline-danger">취소</a>
-			</center>
-			</form>
-			</center>
-		</div>
-		<div class="col-sm-2">
-		</div>
+			<div class="col-sm-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<center>
+							<h2 class="text-primary">댓글쓰기</h2>
+						</center>
+					</div><!--End of panel-heading-->
+					<div class="panel-body">
+						<center>
+						<form action="" method="post">
+						{% csrf_token %}
+							<table>
+								{{ form.as_table }}
+							</table>
+							<input type="submit" value="완료" class="btn btn-outline-primary">
+							<a href="/post/list/" class="btn btn-outline-danger" />취소</a>
+						</form>
+						</center>
+					</div><!--End of panel-body-->
+					<div class="panel-footer">
+					<a href="/post/list/" class="btn btn-outline-primary">목록으로</a>
+					</div><!--End of panel-footer-->
+			</div><!--End of col-sm-12-->
 		</div><!--End of row-->
 	</div><!--End of container-->
 </div><!--End of py-5-->

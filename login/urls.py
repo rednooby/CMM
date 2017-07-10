@@ -1,5 +1,6 @@
 from django.conf import settings
-from django.conf.urls import url
+from django.conf.urls import url, include
+from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views #login하기위해
 from . import views
 from .views import *
@@ -17,11 +18,18 @@ urlpatterns = [
     url(r'^board/delete/(?P<id>.+)/$', views.board_delete, name='board_delete'),
     
     #자유게시판댓글
-    url(r'^(?P<post_pk>\d+)/comment/write/$', views.comment_write, name='comment_write'),
-    url(r'^(?P<post_pk>\d+)/comment/(?P<pk>\d+)/edit/$', views.comment_edit, name='comment_edit'),
-    url(r'^(?P<post_pk>\d+)/comment/(?P<pk>\d+)/delete/$', views.comment_delete, name='comment_delete'),
+    url(r'^(?P<post_pk>\d+)/act_comment/write/$', views.act_comment_write, name='act_comment_write'),
+    url(r'^(?P<post_pk>\d+)/act_comment/(?P<pk>\d+)/edit/$', views.act_comment_edit, name='act_comment_edit'),
+    url(r'^(?P<post_pk>\d+)/act_comment/(?P<pk>\d+)/delete/$', views.act_comment_delete, name='act_comment_delete'),
 
     #익명게시판
+    url(r'^post/list/$', views.post_list, name='post_list'),
+    url(r'^post/(?P<pk>\d+)/$', views.post_detail, name='post_detail'),
+
+    #익명게시판 댓글
+    url(r'^post/(?P<post_pk>\d+)/comment/new/$', views.comment_new, name='comment_new'),
+    url(r'^post/(?P<post_pk>\d+)/comment/(?P<pk>\d)/edit/$', views.comment_edit, name='comment_edit'),
+    url(r'^post/(?P<post_pk>\d+)/comment/(?P<pk>\d)/delete/$', views.comment_delete, name='comment_delete'),
 
     #통장관리
     url(r'^mypage/edit/(?P<id>.+)/$', views.account_edit, name='account_edit'),
@@ -65,3 +73,6 @@ urlpatterns = [
     url(r'^logout/', auth_views.logout, name='logout', 
         kwargs={'next_page': settings.LOGIN_URL}),
 ]
+
+#이미지 업로드
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

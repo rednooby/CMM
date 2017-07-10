@@ -4,7 +4,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 #from django.contrib.auth.forms import UserCreationForm
 
-from .models import ActList, MyUser, BankBook, ActBoard, Comment
+from .models import ActList, MyUser, BankBook, ActBoard, ActComment, Post, Comment
 from django.db.models import Sum
 from django.views.generic import ListView, DetailView, TemplateView
 #페이징
@@ -35,6 +35,85 @@ def index(request):
 	
 	return render(request, 'login/index.html',{'qs_li': qs_li, 
 		'qs_board_list':qs_board_list, 'qs_income_rank': qs_income_rank})
+
+##익명게시판	/post/list/
+def post_list(request):
+	qs_li = ActList.objects.filter(act__email=request.user.email)
+
+	post_list = Post.objects.all()
+	return render(request, 'login/post_list.html',{
+		'post_list': post_list, 'qs_li': qs_li,
+		})
+
+##익명게시판 글읽기	/post/pk/
+def post_detail(request, pk):
+	qs_li = ActList.objects.filter(act__email=request.user.email)
+
+	post = get_object_or_404(Post, pk=pk)
+	return render(request, 'login/post_detail.html', {
+		'post': post, 'qs_li': qs_li,
+		})
+
+
+##익명게시판 댓글추가	/post/post_pk/comment/new/
+@login_required
+def comment_new(request, post_pk):
+	post = get_object_or_404(Post, pk=post_pk)
+	qs_li = ActList.objects.filter(act__email=request.user.email)
+
+	if request.method == 'POST':
+		form = CommentForm(request.POST, request.FILES)
+		if form.is_valid():
+			comment = form.save(commit=False)
+			comment.post = post
+			comment.author = request.user
+			comment.save()
+			return redirect('login:post_detail', post.pk)
+	else:
+		form = CommentForm()
+
+	return render(request, 'login/comment_form.html', {
+		'form':form, 'qs_li': qs_li,
+		})
+
+
+##익명게시판 댓글추가	/post/post_pk/comment/pk/edit/
+@login_required
+def comment_edit(request, post_pk, pk):
+	post = get_object_or_404(Post, pk=post_pk)
+	comment = get_object_or_404(Comment, pk=pk)
+	
+	qs_li = ActList.objects.filter(act__email=request.user.email)
+
+	if request.method == 'POST':
+		form = CommentForm(request.POST, request.FILES, instance=comment)
+		if form.is_valid():
+			comment.save()
+			return redirect('login:post_detail', post.pk)
+	else:
+		form = CommentForm(instance=comment)
+
+	return render(request, 'login/comment_form.html', {
+		'form':form, 'qs_li': qs_li,
+		})
+
+
+##댓글삭제
+@login_required
+def comment_delete(request, post_pk, pk):
+	comment = get_object_or_404(Comment, pk=pk)
+
+	#사용자가 아닐경우
+	if comment.author != request.user:
+		return redirect('login:post_detail', post_pk)
+
+	if request.method == 'POST':
+		comment.delete()
+		return redirect('login:post_detail', comment.post.pk)
+
+	return render(request, 'login/comment_confirm_delete.html',{
+		'comment':comment
+		})
 
 
 ##게시판 리스트 /board/list
@@ -124,64 +203,64 @@ def board_delete(request, id):
 
 ##댓글추가
 @login_required
-def comment_write(request, post_pk):
+def act_comment_write(request, post_pk):
 	qs_li = ActList.objects.filter(act__email=request.user.email)
 
 	post = get_object_or_404(ActBoard, pk=post_pk)
 	if request.method == 'POST':
-		form = CommentForm(request.POST)
+		form = ActCommentForm(request.POST)
 		if form.is_valid():
-			comment = form.save(commit=False)
-			comment.post = post
-			comment.author = request.user
-			comment.save()
+			actcomment = form.save(commit=False)
+			actcomment.act_post = post
+			actcomment.act_author = request.user
+			actcomment.save()
 			return redirect('login:board_view', post.pk)
 	else:
-		form = CommentForm()
-	return render(request, 'login/comment_form.html', {'form':form, 'qs_li':qs_li})
+		form = ActCommentForm()
+	return render(request, 'login/act_comment_form.html', {'form':form, 'qs_li':qs_li})
 
 
 ##댓글수정
 @login_required
-def comment_edit(request, post_pk, pk):
+def act_comment_edit(request, post_pk, pk):
 	#post = get_object_or_404(ActBoard, pk=post_pk) #굳이 필요 없음
-	comment = get_object_or_404(Comment, pk=pk)
+	actcomment = get_object_or_404(ActComment, pk=pk)
 
 	#사용자가 아닐경우
-	if comment.author != request.user:
+	if actcomment.act_author != request.user:
 		return redirect('login:board_view', post_pk)
 
 	qs_li = ActList.objects.filter(act__email=request.user.email)
 
 	if request.method == 'POST':
-		form = CommentForm(request.POST, instance=comment)
+		form = ActCommentForm(request.POST, instance=actcomment)
 		if form.is_valid():
-			#comment = form.save(commit=False)
-			#comment.post = post
-			#comment.author = request.user
-			comment.save()
-			return redirect('login:board_view', comment.post.pk)
+			#actcomment = form.save(commit=False)
+			#actcomment.post = post
+			#actcomment.author = request.user
+			actcomment.save()
+			return redirect('login:board_view', actcomment.act_post.pk)
 	else:
-		form = CommentForm(instance=comment)
-	return render(request, 'login/comment_form.html', {'form':form, 'qs_li':qs_li})
+		form = ActCommentForm(instance=actcomment)
+	return render(request, 'login/act_comment_form.html', {'form':form, 'qs_li':qs_li})
 
 
 ##댓글삭제
 @login_required
-def comment_delete(request, post_pk, pk):
+def act_comment_delete(request, post_pk, pk):
 	#post = get_object_or_404(ActBoard, pk=post_pk) #굳이 필요 없음
-	comment = get_object_or_404(Comment, pk=pk)
+	actcomment = get_object_or_404(ActComment, pk=pk)
 
 	#사용자가 아닐경우
-	if comment.author != request.user:
+	if actcomment.act_author != request.user:
 		return redirect('login:board_view', post_pk)
 
 	if request.method == 'POST':
-		comment.delete()
-		return redirect('login:board_view', comment.post.pk)
+		actcomment.delete()
+		return redirect('login:board_view', actcomment.act_post.pk)
 
-	return render(request, 'login/comment_confirm_delete.html',{
-		'comment':comment
+	return render(request, 'login/act_comment_confirm_delete.html',{
+		'actcomment':actcomment
 		})
 
 
@@ -236,7 +315,7 @@ def my_list(request, id): #ActList의 id
 
 
 	#지출현환 원그래프
-	
+	'''
 	qs_circle_acc = BankBook.objects.filter(name_id=id, act_part="지출", act_content="적금").aggregate(Sum('act_price'))
 	qs_circle_bus = BankBook.objects.filter(name_id=id, act_part="지출", act_content="교통비").aggregate(Sum('act_price'))
 	qs_circle_food = BankBook.objects.filter(name_id=id, act_part="지출", act_content="식비").aggregate(Sum('act_price'))
@@ -246,9 +325,8 @@ def my_list(request, id): #ActList의 id
 	qs_circle_con = BankBook.objects.filter(name_id=id, act_part="지출", act_content="경조사").aggregate(Sum('act_price'))
 	qs_circle_my = BankBook.objects.filter(name_id=id, act_part="지출", act_content="자기계발").aggregate(Sum('act_price'))
 	qs_circle_share = BankBook.objects.filter(name_id=id, act_part="지출", act_content="공금").aggregate(Sum('act_price'))
-	
-	print(qs_circle_acc_name)
-
+	'''
+	'''
 	return render(request, 'login/my_list.html', {'qs': qs, 'qs_info':qs_info, 'qs_li':qs_li, 
 		'qs_total':qs_total, 'qs_income':qs_income, 'qs_expenses':qs_expenses, 'qs_income_graph':qs_income_graph, 'qs_expenses_graph':qs_expenses_graph,
 		'qs_total_income':qs_total_income, 'qs_total_expenses':qs_total_expenses,
@@ -257,6 +335,12 @@ def my_list(request, id): #ActList의 id
 		'qs_circle_life': qs_circle_life, 'qs_circle_medical': qs_circle_medical, 'qs_circle_con':qs_circle_con,
 		'qs_circle_my': qs_circle_my, 'qs_circle_share':qs_circle_share,
 		})
+	'''
+	return render(request, 'login/my_list.html', {'qs': qs, 'qs_info':qs_info, 'qs_li':qs_li, 
+	'qs_total':qs_total, 'qs_income':qs_income, 'qs_expenses':qs_expenses, 'qs_income_graph':qs_income_graph, 'qs_expenses_graph':qs_expenses_graph,
+	'qs_total_income':qs_total_income, 'qs_total_expenses':qs_total_expenses,
+	'contacts':contacts, 'contacts1':contacts1,'contacts2':contacts2,
+	})
 
 	return HttpResponse(template.render(context))
 

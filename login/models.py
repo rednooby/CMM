@@ -182,6 +182,7 @@ class BankBook(models.Model):
         return "{} / {} 의 {}".format(self.act_date, self.name, self.act_part)
 
 
+##자유게시판
 class ActBoard(models.Model):
     board_name = models.ForeignKey(MyUser)
 
@@ -226,21 +227,56 @@ class ActBoard(models.Model):
     def __str__(self):
         return self.board_title
 
-##댓글
-class Comment(models.Model):
-    #ActBoard : Comment = 1 : N
-    post = models.ForeignKey(ActBoard)
-    author = models.ForeignKey(settings.AUTH_USER_MODEL)#로그인을 해야만 댓글남김
-    message = models.TextField(
+##자유게시판 댓글
+class ActComment(models.Model):
+    #ActBoard : ActComment = 1 : N
+    act_post = models.ForeignKey(ActBoard)
+    act_author = models.ForeignKey(settings.AUTH_USER_MODEL)#로그인을 해야만 댓글남김
+    act_message = models.TextField(
         verbose_name='댓글내용'
         )
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    act_created_at = models.DateTimeField(auto_now_add=True)
+    act_updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ['-id'] #기본정렬 방식을 id의 역순으로
 
     
+    #수정 url
+    def get_edit_url(self):
+        return reverse('login:act_comment_edit', args=[self.act_post.pk, self.pk])
+
+    #삭제 url
+    def get_delete_url(self):
+        return reverse('login:act_comment_delete', args=[self.act_post.pk, self.pk])
+
+    def get_absolute_url(self):
+        return reverse('login:board_view', args=[self.pk])
+
+
+##익명게시판
+class Post(models.Model):
+    title = models.CharField(max_length=100)
+    content = models.TextField()
+    photo = models.ImageField()
+    is_public = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
+
+##익명게시판 댓글
+class Comment(models.Model):
+    post = models.ForeignKey(Post)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['id']
+
     #수정 url
     def get_edit_url(self):
         return reverse('login:comment_edit', args=[self.post.pk, self.pk])

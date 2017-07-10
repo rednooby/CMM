@@ -1,98 +1,55 @@
 {% extends 'login/layout.html' %}
 
 {% block content %}
-
-<!--상단 로고 및 CMM 출력-->
-<div class="container">
-	<div class="row">
-		<form class="form-inline my-4 my-lg-0"><!--폼의 사이즈 고정 및 사진, 글씨 정렬-->
+<div class="py-5">
+	<div class="container">
+		<div class="row form-control" align="center">
 			<div class="col-md-4">
-				<img src="https://pingendo.com/assets/photos/user_placeholder.png" class="rounded-circle img-fluid mx-auto d-block">
+				<br>
+				<div class="pagination">
+					<span class="step-links">
+						{% if contacts.has_previous %}
+							<a href="?page={{ contacts.previous_page_number }}">이전</a>
+						{% endif %}
+						 <span class="current">
+				            Page {{ contacts.number }} of {{ contacts.paginator.num_pages }}.
+				        </span>
+
+				        {% if contacts.has_next %}
+				            <a href="?page={{ contacts.next_page_number }}">다음</a>
+				        {% endif %}
+					</span>
+				</div>
 			</div>
 			<div class="col-md-4">
-				<h1 class="text-primary">CMM</h1>
+				<h1 class="text-primary">자유게시판</h1>
 			</div>
-		</form>
-	</div>
+			<div class="col-md-4" align="right">
+			<a href="" class="btn btn-outline-info">글쓰기</a>
+			</div>
+
+			<table class="table">
+				<thead>
+					<th>번호</th>
+					<th>제목</th>
+					<th>시간</th>
+				</thead>
+
+				{% for Post in post_list %}
+				<tbody>
+					<td>{{ forloop.revcounter }}</td>
+					<!--forloop.counter주소: https://docs.djangoproject.com/en/1.11/ref/templates/builtins/-->
+					<td>
+						<a href="/post/{{ Post.id }}">
+							{{ Post.title }}
+						</a>
+					</td>
+					<td>{{ Post.created_at }}</td>
+				</tbody>
+				{% endfor %}
+			</table>	
+		</div>
+	</div>	
 </div>
-
-<br>
-
-<!--통장 리스트와 그래프 출력-->
-<div class="container">
-	<div class="row">
-		<div class="col-md-6">
-			6이당
-		</div>
-		<div class="col-md-3">
-			원그래프 넣을래
-		</div>
-		<div class="col-md-3">
-			꺾은선 넣을래
-		</div>
-	</div>
-</div>
-
-<br>
-<hr>
-
-<!--검색-->
-<nav class="navbar navbar-expand-md">
-    <div class="container"> 
-    <div class="col-md-3">
-      <h3 class="text-primary">통장공유</h3>
-    </div>
-		<div class="container" align="center"> 
-		    <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-		    	<div class="collapse navbar-collapse">
-			        <ul class="navbar-nav mr-auto">
-			          	<form class="form-inline my-2 my-lg-0">
-			            	<input type="text" class="form-control">
-							<button class="btn btn-outline-info">검색</button>
-				            <li class="nav-item">
-				              <a class="nav-link" href="#"><!--버튼간격 유지-->
-				                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">나의 통장만 보기</button>
-				              </a>
-				            </li>
-			          	</form>
-			        </ul>
-		      	</div><!--End of navbar-nav.....-->
-
-		      	<form class="form-inline my-2 my-lg-0">
-				<button class="btn btn-outline-danger my-2 my-sm-0" type="submit">통장 공유</button>
-				</form>
-
-		    </div><!--End of collapse navbar-collapse justify-content-end-->
-		</div><!--End of container-->
-	 </div><!--End of container-->
-</nav>
-
-<!--통장 공유 게시판-->
-<div class="container">
-	<div class="row">
-		<div class="col-md-8">
-			리스트
-		</div>
-		<div class="col-md-4">
-			랭킹
-		</div>
-	</div>
-</div>
-
-<!--<div class="container">
-	<div class="row">
-		<div class="col-md-4">
-			자랑통장 나올것
-		</div>
-		<div class="col-md-4">
-			ㅎㅎ
-		</div>
-		<div class="col-md-4">
-			ㅠㅎㅎ
-		</div>
-	</div>
-</div>
--->
-
 
 {% endblock %}
