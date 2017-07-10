@@ -236,23 +236,27 @@ def my_list(request, id): #ActList의 id
 
 
 	#지출현환 원그래프
-	result=[]#결과저장할 리스트
 	
-	qs_circle = BankBook.objects.filter(name_id=id, act_part="지출")
-	for BankBook in qs_circle:
-		try:
-			result.append(round(qs_circle.act_price * 100 / result['qs_total_expenses'],1))
-		except: #하나도 없다면
-			result.append(0)
+	qs_circle_acc = BankBook.objects.filter(name_id=id, act_part="지출", act_content="적금").aggregate(Sum('act_price'))
+	qs_circle_bus = BankBook.objects.filter(name_id=id, act_part="지출", act_content="교통비").aggregate(Sum('act_price'))
+	qs_circle_food = BankBook.objects.filter(name_id=id, act_part="지출", act_content="식비").aggregate(Sum('act_price'))
+	qs_circle_etc = BankBook.objects.filter(name_id=id, act_part="지출", act_content="기타").aggregate(Sum('act_price'))
+	qs_circle_life = BankBook.objects.filter(name_id=id, act_part="지출", act_content="생활비").aggregate(Sum('act_price'))
+	qs_circle_medical = BankBook.objects.filter(name_id=id, act_part="지출", act_content="의료비").aggregate(Sum('act_price'))
+	qs_circle_con = BankBook.objects.filter(name_id=id, act_part="지출", act_content="경조사").aggregate(Sum('act_price'))
+	qs_circle_my = BankBook.objects.filter(name_id=id, act_part="지출", act_content="자기계발").aggregate(Sum('act_price'))
+	qs_circle_share = BankBook.objects.filter(name_id=id, act_part="지출", act_content="공금").aggregate(Sum('act_price'))
 	
-
-	qs_board_list = ActBoard.objects.all().order_by('-id')
-	print(qs_circle)
+	print(qs_circle_acc_name)
 
 	return render(request, 'login/my_list.html', {'qs': qs, 'qs_info':qs_info, 'qs_li':qs_li, 
 		'qs_total':qs_total, 'qs_income':qs_income, 'qs_expenses':qs_expenses, 'qs_income_graph':qs_income_graph, 'qs_expenses_graph':qs_expenses_graph,
-		'qs_total_income':qs_total_income, 'qs_total_expenses':qs_total_expenses, 'qs_circle':qs_circle,
-		'contacts':contacts, 'contacts1':contacts1,'contacts2':contacts2})
+		'qs_total_income':qs_total_income, 'qs_total_expenses':qs_total_expenses,
+		'contacts':contacts, 'contacts1':contacts1,'contacts2':contacts2,
+		'qs_circle_acc': qs_circle_acc, 'qs_circle_bus': qs_circle_bus, 'qs_circle_food': qs_circle_food, 'qs_circle_etc': qs_circle_etc,
+		'qs_circle_life': qs_circle_life, 'qs_circle_medical': qs_circle_medical, 'qs_circle_con':qs_circle_con,
+		'qs_circle_my': qs_circle_my, 'qs_circle_share':qs_circle_share,
+		})
 
 	return HttpResponse(template.render(context))
 

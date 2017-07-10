@@ -1,30 +1,37 @@
 {% extends 'login/layout.html' %}
-
 {% block content %}
 {% load static %}
 <!--상단 로고 및 CMM 출력-->
-<div class="py-1">
-	<div class="container">
+
+
+<div class="py-3">
+	<div class="container form-control">
 		<div class="row">
-			<form class="form-inline my-4 my-lg-0"><!--폼의 사이즈 고정 및 사진, 글씨 정렬-->
-				<div class="col-md-6">
+				<div class="col-md-4">
 					<center>
-						<img src="{% static "/img/logo.png" %}" class="rounded-circle img-fluid" />
-					</center>
-				</div>
-				<div class="col-md-6">
-					<center>
-						<h1 class="text-primary">통장관리</h1>
-						<button class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown"> 통장 내역 </button>
+						<h1>
+						<button class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown"> 통장관리 </button>
 		                <div class="dropdown-menu">
 		                  {% for ActList in qs_li %}
 		                    <a class="dropdown-item" href="my_list/{{ ActList.id }}">{{ ActList.act_name }}</a>
-		                <div class="dropdown-divider"></div>
+		                	<div class="dropdown-divider"></div>
 		                  {% endfor %}
-		                </div>
+		                	</div>
+		                </h1>
+					</center>
+				</div>
+				<div class="col-md-4">
+					<center>
+						<h1 class="text-primary"><img src="{% static "/img/logoo.png" %}" width="150px" height="70px"></h1>
 		            </center>
 				</div>
-			</form>
+				<div class="col-md-4">
+					<div class="py-3">
+						<h4>
+							사람들과 함께하는 소셜 가계부
+						</h4>
+					</div>
+				</div>
 		</div>
 	</div>
 </div>

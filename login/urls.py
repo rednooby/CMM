@@ -8,25 +8,30 @@ from .views import *
 urlpatterns = [
     
     url(r'^test/$', views.test, name='test'),
+
+    #자유게시판
     url(r'^board/list/$', views.board_list, name='board_list'),
     url(r'^board/write/$', views.board_write, name='board_write'),
     url(r'^board/view/(?P<id>.+)/$', views.board_view, name='board_view'),
     url(r'^board/edit/(?P<id>.+)/$', views.board_edit, name='board_edit'),
     url(r'^board/delete/(?P<id>.+)/$', views.board_delete, name='board_delete'),
     
-    #댓글
+    #자유게시판댓글
     url(r'^(?P<post_pk>\d+)/comment/write/$', views.comment_write, name='comment_write'),
     url(r'^(?P<post_pk>\d+)/comment/(?P<pk>\d+)/edit/$', views.comment_edit, name='comment_edit'),
     url(r'^(?P<post_pk>\d+)/comment/(?P<pk>\d+)/delete/$', views.comment_delete, name='comment_delete'),
 
+    #익명게시판
+
+    #통장관리
     url(r'^mypage/edit/(?P<id>.+)/$', views.account_edit, name='account_edit'),
-    url(r'^mypage/delete/(?P<id>.+)/$', views.account_delete, name='account_delete'),
-    
+    url(r'^mypage/delete/(?P<id>.+)/$', views.account_delete, name='account_delete'),    
     url(r'^index/my_list/(?P<id>.+)/$', views.my_list, name='my_list'),
     url(r'^index/my_view/(?P<id>.+)/$', views.my_view, name='my_view'),
     url(r'^index/my_edit/(?P<id>.+)/$', views.my_edit, name='my_edit'),
     url(r'^index/my_delete/(?P<id>.+)/$', views.my_delete, name='my_delete'),
 
+    #회원가입
     url(r'^join/$', views.join, name='join'),
 
     #탈퇴
@@ -45,7 +50,7 @@ urlpatterns = [
     url(r'^findpassword/$', FindPassword, name='find_password'),#폼에서 데이터 받아와서 처리
     url(r'^ForgetChangePw/(?P<email>.+)/$', ForgetChangePw, name='ForgetChangePw'),#조회결과가 있을시 서치
 
-
+    #회원관리
     url(r'^index/$', views.index, name='index'),
     url(r'^mypage/$', views.Managment, name='Managment'),
     url(r'^mypage/PWC$', auth_views.password_change, name='password_change_done',

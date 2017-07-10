@@ -62,7 +62,8 @@
 		</div><!--End of row-->
 	</div><!--End of container-->
 </div><!--End of py-3-->
-{% if qs_circle %}
+
+{# if qs_circle #}
 <div class="py-3">
 	<div class="container">
 		<div class="row form-control">
@@ -117,12 +118,31 @@
 								    }]
 								  },
 								  "dataProvider": [
-								  	{% for BankBook in qs_circle %}
-									  {
-									    "country": "{{BankBook.act_content}}",
-									    "litres": {{BankBook.act_price.count}}
-									  },
-									{% endfor %}
+										{% for BankBook in qs_circle_acc %}
+										{
+										  "country": "적금",
+										  "litres": {{qs_circle_acc.act_price__sum}}
+										},
+										{% endfor %}
+
+										{% for BankBook in qs_circle_bus %}
+										{
+										  "country": "교통비",
+										  "litres": {{qs_circle_bus.act_price__sum}}
+										},
+										{% endfor %}
+
+										{% for BankBook in qs_circle_food %}
+										{
+										  "country": "식비",
+										  "litres": {{qs_circle_food.act_price__sum}}
+										},
+										{% endfor %}
+
+
+
+
+									
 								  
 								  ],
 								  "valueField": "litres",
@@ -166,7 +186,7 @@
 				</script>
 		</div>
 </div>
-{% endif %}
+{# endif #}
 
 {% if qs_income  %}
 <!--수입파트-->
