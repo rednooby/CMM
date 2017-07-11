@@ -1,5 +1,5 @@
 from django import forms
-from .models import MyUser, ActList, BankBook, ActBoard, ActComment, Comment
+from .models import MyUser, ActList, BankBook, ActBoard, ActComment, Comment, Post
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
 
@@ -147,6 +147,16 @@ class CommentForm(forms.ModelForm):
         model = Comment
         fields = ['message']
 
+##익명게시판 폼
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['title', 'content', 'photo']
+'''
+    def __init__(self, *args, **kwargs):
+        super(PostForm, self).__init__(*args, **kwargs)
+        self.fields['file'].required = False
+'''
 
 class ChangePwForm(forms.Form):
     new_password1 = forms.CharField(

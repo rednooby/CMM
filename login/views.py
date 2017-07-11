@@ -29,12 +29,17 @@ def index(request):
 	#qs_income = BankBook.objects.filter(act_payment='수입').order_by('-act_price')#전체 수입 목록
 	#qs_expenses = BankBook.objects.filter(act_payment='지출').order_by('-act_price')#전체 지출 목록
 	
-	qs_board_list = ActBoard.objects.all()[:5] 
+	qs_board_list = ActBoard.objects.all()[:5]#자유게시판 최신
+	qs_post_list = Post.objects.all()[:5]#익명게시판 최신
+	#qs_my_post_list = Post.objects.filter(author__email=request.user.email)[:5]#내가쓴 익명 게시글
+#'qs_my_post_list': qs_my_post_list,
 
 	qs_income_rank = BankBook.objects.filter(act_content='적금').order_by('-act_price')[:5]#저축 랭킹
 	
 	return render(request, 'login/index.html',{'qs_li': qs_li, 
-		'qs_board_list':qs_board_list, 'qs_income_rank': qs_income_rank})
+		'qs_board_list':qs_board_list, 'qs_income_rank': qs_income_rank,
+		'qs_post_list': qs_post_list, 
+		})
 
 ##익명게시판	/post/list/
 def post_list(request):
@@ -54,6 +59,22 @@ def post_detail(request, pk):
 		'post': post, 'qs_li': qs_li,
 		})
 
+
+##익명게시판 글쓰기	/post/new/
+def post_new(request):
+	qs_li = ActList.objects.filter(act__email=request.user.email)
+
+	if request.method =='POST':
+		form = PostForm(request.POST, request.FILES)
+		if form.is_valid():
+			form.save()
+			return redirect('login:post_list')
+	else:
+		form = PostForm()
+
+	return render(request, 'login/post_new.html', {
+		'qs_li': qs_li, 'form': form,
+		})
 
 ##익명게시판 댓글추가	/post/post_pk/comment/new/
 @login_required

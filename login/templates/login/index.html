@@ -95,6 +95,36 @@
 	</div>
 </div>
 
+<div class="py-3">
+	<div class="container form-control">
+		<div class="row">
+			<div class="col-md-6">
+				<table class="table">
+					<thead>
+						<th>No</th>
+						<th>제목</th>
+						<th>댓글수</th>
+					</thead>
+					{% for Post in qs_post_list %}
+						<tbody>
+							<td>{{ Post.pk }}</td>
+							<td>{{ Post.title }}</td>
+							<td></td>
+						</tbody>
+					{% endfor %}
+				</table>
+			</div>
+			<div class="col-md-6">
+				<table class="table">
+					{% for Post in qs_my_post_list %}
+
+					{% endfor %}
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
 
 
 <!--<div class="container">
