@@ -100,6 +100,9 @@
 		<div class="row">
 			<div class="col-md-6">
 				<table class="table">
+				<center>
+					<h1 class="text-primary">익명상담</h1>
+				</center>
 					<thead>
 						<th>No</th>
 						<th>제목</th>
@@ -108,17 +111,38 @@
 					{% for Post in qs_post_list %}
 						<tbody>
 							<td>{{ Post.pk }}</td>
-							<td>{{ Post.title }}</td>
-							<td></td>
+							<td>
+								<a href="/post/{{Post.id}}">
+									{{ Post.title }}
+								</a>
+							</td>
+							<td>{{ Post.count }}</td>
 						</tbody>
 					{% endfor %}
 				</table>
 			</div>
 			<div class="col-md-6">
 				<table class="table">
+				<center>
+					<h1 class="text-primary">내가쓴 글</h1>
+				</center>
+					<thead>
+						<th>No</th>
+						<th>제목</th>
+						<th>댓글수</th>
+					</thead>
 					{% for Post in qs_my_post_list %}
-
+						<tbody>
+							<td>{{ Post.pk }}</td>
+							<td>
+								<a href="/post/{{Post.id}}">
+									{{ Post.title }}
+								</a>
+							</td>
+							<td>{{ Post.count }}</td>
 					{% endfor %}
+						</tbody>
+					
 				</table>
 			</div>
 		</div>

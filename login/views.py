@@ -45,9 +45,20 @@ def index(request):
 def post_list(request):
 	qs_li = ActList.objects.filter(act__email=request.user.email)
 
-	post_list = Post.objects.all()
+	post_list = Post.objects.all()#게시판 리스트
+
+	paginator = Paginator(post_list, 10)
+	page = request.GET.get('page')
+
+	try:
+		contacts = paginator.page(page)
+	except PageNotAnInteger:
+		contacts = paginator.page(1)
+	except EmptyPage:
+		contacts = paginator.page(paginator.num_pages)
+
 	return render(request, 'login/post_list.html',{
-		'post_list': post_list, 'qs_li': qs_li,
+		'post_list': post_list, 'qs_li': qs_li, 'contacts': contacts,
 		})
 
 ##익명게시판 글읽기	/post/pk/
@@ -127,6 +138,7 @@ def comment_new(request, post_pk):
 			comment = form.save(commit=False)
 			comment.post = post
 			comment.author = request.user
+			comment.count += 1
 			comment.save()
 			return redirect('login:post_detail', post.pk)
 	else:
@@ -273,6 +285,7 @@ def act_comment_write(request, post_pk):
 			actcomment = form.save(commit=False)
 			actcomment.act_post = post
 			actcomment.act_author = request.user
+			actcomment.act_count += 1
 			actcomment.save()
 			return redirect('login:board_view', post.pk)
 	else:
@@ -357,7 +370,7 @@ def my_list(request, id): #ActList의 id
 
 	#지출 목록과 페이지
 	qs_expenses = BankBook.objects.filter(name_id=id,act_part="지출").order_by('-act_date')#지출
-	qs_expenses_graph = BankBook.objects.filter(name_id=id,act_part="지출").order_by('-act_date')#지출그래프용
+	qs_expenses_graph = BankBook.objects.filter(name_id=id,act_part="지출").order_by('act_date')#지출그래프용
 	paginator = Paginator(qs_expenses, 5)
 	page2 = request.GET.get('page2')
 	try:

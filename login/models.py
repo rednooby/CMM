@@ -237,6 +237,7 @@ class ActComment(models.Model):
         )
     act_created_at = models.DateTimeField(auto_now_add=True)
     act_updated_at = models.DateTimeField(auto_now=True)
+    act_count = models.IntegerField(default=0)
 
     class Meta:
         ordering = ['-id'] #기본정렬 방식을 id의 역순으로
@@ -278,9 +279,13 @@ class Comment(models.Model):
     message = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    count = models.IntegerField(default=0)
 
     class Meta:
         ordering = ['-id']
+
+    def __str__(self):
+        return self.message
 
     #수정 url
     def get_edit_url(self):

@@ -29,7 +29,7 @@
 
 						<hr/>
 						
-						{% if Comment.author == requst.user %}
+						{% if Post.writer == requst.user %}
 							<a href="/post/{{ post.pk }}/edit">수정</a>
 							<a href="/post/{{ post.pk }}/delete" class="text-danger">삭제</a>
 						{% endif %}
@@ -40,8 +40,8 @@
 								by 익명
 								at {{ comment.created_at }}
 								{% if Comment.author == requst.user %}
-								<a href="{{ comment.get_edit_url }}">수정</a>
-								<a href="{{ comment.get_delete_url }}" class="text-danger">삭제</a>
+									<a href="{{ comment.get_edit_url }}">수정</a>
+									<a href="{{ comment.get_delete_url }}" class="text-danger">삭제</a>
 								{% endif %}
 							</li>
 						{% endfor %}

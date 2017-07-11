@@ -24,8 +24,9 @@
 						<tr>
 							<th>날짜</th>
 							<th>금액</th>
-							<th>카드/현금</th>
-							<th>수입/지출</th>
+							<th>내용</th>
+							<th>구분</th>
+							<th>구분</th>
 						</tr>
 					</thead>
 					{% for BankBook in contacts %}
@@ -379,7 +380,7 @@
 							        	"date": "{{BankBook.act_date|date:"Y-m-d"}}",
 							        	"value": {{BankBook.act_price}}
 							        },
-						        {% endfor %}    
+						        {% endfor %}
 						    ]
 						});
 

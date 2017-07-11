@@ -35,9 +35,9 @@
 					<th>시간</th>
 				</thead>
 
-				{% for Post in post_list %}
+				{% for Post in contacts %}
 				<tbody>
-					<td>{{ forloop.revcounter }}</td>
+					<td>{{ Post.id }}</td>
 					<!--forloop.counter주소: https://docs.djangoproject.com/en/1.11/ref/templates/builtins/-->
 					<td>
 						<a href="/post/{{ Post.id }}">
