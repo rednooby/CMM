@@ -31,14 +31,14 @@ def index(request):
 	
 	qs_board_list = ActBoard.objects.all()[:5]#자유게시판 최신
 	qs_post_list = Post.objects.all()[:5]#익명게시판 최신
-	#qs_my_post_list = Post.objects.filter(author__email=request.user.email)[:5]#내가쓴 익명 게시글
-#'qs_my_post_list': qs_my_post_list,
+	qs_my_post_list = Post.objects.filter(writer=request.user.email)[:5]#내가쓴 익명 게시글
+	
 
 	qs_income_rank = BankBook.objects.filter(act_content='적금').order_by('-act_price')[:5]#저축 랭킹
 	
 	return render(request, 'login/index.html',{'qs_li': qs_li, 
 		'qs_board_list':qs_board_list, 'qs_income_rank': qs_income_rank,
-		'qs_post_list': qs_post_list, 
+		'qs_post_list': qs_post_list, 'qs_my_post_list': qs_my_post_list,
 		})
 
 ##익명게시판	/post/list/
@@ -61,13 +61,16 @@ def post_detail(request, pk):
 
 
 ##익명게시판 글쓰기	/post/new/
+@login_required
 def post_new(request):
 	qs_li = ActList.objects.filter(act__email=request.user.email)
 
 	if request.method =='POST':
 		form = PostForm(request.POST, request.FILES)
 		if form.is_valid():
-			form.save()
+			post = form.save(commit=False)
+			post.writer = request.user
+			post.save()
 			return redirect('login:post_list')
 	else:
 		form = PostForm()
@@ -75,6 +78,42 @@ def post_new(request):
 	return render(request, 'login/post_new.html', {
 		'qs_li': qs_li, 'form': form,
 		})
+
+
+##익명게시판 글수정	/post/new/
+@login_required
+def post_edit(request, pk):
+	qs_li = ActList.objects.filter(act__email=request.user.email)
+	
+	post = get_object_or_404(Post, pk=pk)
+
+	if request.method =='POST':
+		form = PostForm(request.POST, request.FILES, instance=post)
+		if form.is_valid():
+			post.save()
+			return redirect('login:post_detail', pk)
+	else:
+		form = PostForm(instance=post)
+	print(form)
+	return render(request, 'login/post_edit.html', {
+		'qs_li': qs_li, 'form': form,
+		})
+
+
+##익명게시판 글삭제
+@login_required
+def post_delete(request, pk):
+	post = get_object_or_404(Post, pk=pk)
+
+
+	if request.method == 'POST':
+		post.delete()
+		return redirect('login:post_detail', pk)
+
+	return render(request, 'login/post_delete.html',{
+		'post':post
+		})
+
 
 ##익명게시판 댓글추가	/post/post_pk/comment/new/
 @login_required

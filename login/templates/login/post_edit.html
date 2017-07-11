@@ -1,0 +1,46 @@
+{% extends 'login/layout.html' %}
+{% block extra_head %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+<style>
+	/* 업로드 이미지 스타일 */
+	.post_photo{
+		max-width: 100%;
+	}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="py-5">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="panel panel-default">
+					<form action="" method="post">
+					{% csrf_token %}
+						<div class="panel-heading">
+							<input type="text" class="form-control" required id="id_title" name="title" value="{{ form.title.value }}">
+						</div><!--End of panel-heading-->
+						<div class="panel-body">
+							{% if post.photo %}
+								<img src="{{ post.photo.url }}" class="post_photo" />
+							{% endif %}
+							<hr/>
+
+							<textarea class="form-control col-sm-12" rows="10" id="id_content" name="content" height="500px">{{ form.content.value }}</textarea>
+
+							<hr/>
+							
+
+						</div><!--End of panel-body-->
+						<div class="panel-footer">
+						<input type="submit" class="btn btn-outline-primary" /></button>
+						<a href="/post/list/" class="btn btn-outline-danger">돌아가기</a>
+						</div><!--End of panel-footer-->
+					</form>
+				</div><!--End of paenl panel-default-->
+			</div><!--End of col-sm-12-->
+		</div><!--End of row-->
+	</div><!--End of container-->
+</div><!--End of py-5-->
+{% endblock %}

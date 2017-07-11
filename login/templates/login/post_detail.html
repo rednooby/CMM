@@ -28,6 +28,11 @@
 						{{ post.content|linebreaks }}
 
 						<hr/>
+						
+						{% if Comment.author == requst.user %}
+							<a href="/post/{{ post.pk }}/edit">수정</a>
+							<a href="/post/{{ post.pk }}/delete" class="text-danger">삭제</a>
+						{% endif %}
 						<ul>
 						{% for comment in post.comment_set.all %}
 							<li>

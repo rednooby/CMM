@@ -1,0 +1,22 @@
+{% extends 'login/layout.html' %}
+{% block content %}
+<div class="py-5">
+	<div class="container">
+		<div class="row">
+		<div class="col-sm-3">
+		</div>
+		<div class="col-sm-6">
+			<form action="" method="post">
+				{% csrf_token %}
+				<center>
+					<h1 class="text-primary">정말 삭제 하시겠습니까?</h1>
+					<hr>
+					<input type="submit" value="삭제하겠습니다." class="btn btn-outline-danger" />	
+				</center>
+			</form>
+		</div>
+		<div class="col-sm-3">
+		</div>
+	</div>
+</div>
+{% endblock %}

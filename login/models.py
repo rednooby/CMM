@@ -256,16 +256,20 @@ class ActComment(models.Model):
 
 ##익명게시판
 class Post(models.Model):
-    writer = models.ForeignKey(MyUser)
     title = models.CharField(max_length=100)
     content = models.TextField()
     photo = models.ImageField(blank=True)
     is_public = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    writer = models.TextField()
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        ordering = ['-id']
+
 
 ##익명게시판 댓글
 class Comment(models.Model):
